@@ -1,0 +1,10 @@
+.ag-theme-material .ag-row-selected {
+  background-color: #eee!important;
+}
+.ag-theme-material .ag-cell-focus {
+  border: none !important;
+}
+.nav-grid .md-icon-button i {
+  color: #212121;
+  font-size: 25px;
+}

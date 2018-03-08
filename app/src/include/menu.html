@@ -1,0 +1,117 @@
+<div ng-controller="headerSrv" >
+
+    <div class="navbar navbar-inverse navbar-static-top color-menu" ng-if="hasAnyPermission(['ROLE_ADMIN','ROLE_USER'])">
+
+        <div class="container-fluid">
+
+            <!-- Menu hamburger Inicio -->
+            <div class="navbar-header navbar-header-style">
+                <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#exemplo-navbar-collapse" aria-expanded="false">
+
+                    <span class="sr-only">Navegacao</span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+
+                </button>
+
+                <!-- Título Direita do menu target="_blank"-->
+                <a class="navbar-brand" href="#/">Home
+                    <i class="fa fa-home" aria-hidden="true"></i>
+                </a>
+            </div>
+            <!-- Menu hamburger Fim -->
+
+            <div class="collapse navbar-collapse" id="exemplo-navbar-collapse">
+
+                <!-- Links Inicio -->
+                <ul class="nav navbar-nav navbar-left navbar-header-style">
+
+                    <!-- Menu dropdown Inicio -->
+                    <li class="dropdown">
+                        <a class="dropdown-toggle" data-toggle="dropdown">Relatorios
+                            <b class="caret"></b>
+                        </a>
+                        <ul class="dropdown-menu">
+                            <li>
+                                <a href="#">Sub-Link 1</a>
+                            </li>
+                            <li>
+                                <a href="#">Sub-Link 2</a>
+                            </li>
+                            <li class="divider"></li>
+                            <li>
+                                <a href="#">Sub-Link 3</a>
+                            </li>
+                            <li>
+                                <a href="#">Sub-Link 4</a>
+                            </li>
+                            <li class="divider"></li>
+                        </ul>
+                    </li>
+                    <!-- Menu dropdown Fim -->
+
+                    <li ng-show="hasAnyPermission(['ROLE_ADMIN'])">
+                        <a href="#/usuario">Usuários
+                            <i class="fa fa-users" aria-hidden="true"></i>
+                        </a>
+                    </li>
+
+                    <li>
+                        <a href="#/agenda">Agendamento
+                            <i class="fa fa-calendar-plus-o" aria-hidden="true"></i>
+                        </a>
+                    </li>
+
+                    <li ng-show="hasAnyPermission(['ROLE_ADMIN'])">
+                        <a href="#/animal">Animais</a>
+                    </li>
+
+                    <li>
+                        <a href="#/dogLove">DogLove</i>
+                        </a>
+                    </li>
+
+                    <li>
+                        <a href="#/amigopet">AmigoPet</i>
+                        </a>
+                    </li>
+
+                    <li ng-show="hasAnyPermission(['ROLE_ADMIN'])">
+                        <a href="#/servico">Serviços</a>
+                    </li>
+
+                    <li ng-show="hasAnyPermission(['ROLE_ADMIN'])">
+                        <a href="#/raca">Raças</a>
+                    </li>
+
+                    <li ng-show="hasAnyPermission(['ROLE_ADMIN'])">
+                        <a style="cursor: pointer" ng-click="reportClientePet()">Clientes Pet</a>
+                    </li>
+
+                    <li ng-show="hasAnyPermission(['ROLE_ADMIN'])">
+                        <a style="cursor: pointer" ng-click="reportBreed()">Raças pet</a>
+                    </li>
+
+                </ul>
+
+                <ul class="nav navbar-nav navbar-right navbar-header-style">
+                    <li>
+                        <a href="#/perfil">
+                            <i class="fa fa-user" aria-hidden="true"></i> Meu Perfil
+                        </a>
+                    </li>
+
+                    <li ng-show="authDetails.authenticated">
+                        <a ng-click="logout()">
+                            <i class="fa fa-sign-out" aria-hidden="true"></i> Sair
+                        </a>
+                    </li>
+                </ul>
+
+                <!-- Links Inicio -->
+            </div>
+        </div>
+    </div>
+    <div dir-carregando></div>
+</div>

@@ -1,0 +1,67 @@
+{
+  "name": "dog-system",
+  "version": "1.0.0",
+  "description": "Projeto de conclusão de curso TCC - Una Uberlândia",
+  "main": "app/src/index.js",
+  "dependencies": {
+    "ag-grid": "16.0.1",
+    "angular": "1.6.9",
+    "angular-animate": "^1.6.9",
+    "angular-aria": "^1.6.9",
+    "angular-base64-upload": "0.1.23",
+    "angular-cookies": "1.5.3",
+    "angular-crypto": "0.0.3",
+    "angular-input-masks": "4.1.0",
+    "angular-material": "^1.1.7",
+    "angular-messages": "1.4.0",
+    "angular-route": "1.5.3",
+    "angular-sanitize": "1.5.0",
+    "angular-ui-bootstrap": "2.5.6",
+    "bootstrap": "3.3.7",
+    "checklist-model": "0.11.0",
+    "crypto-js": "^3.1.9-1",
+    "font-awesome": "4.7.0",
+    "jquery": "3.2.1",
+    "moment": "2.21.0",
+    "ngstorage": "0.3.10"
+  },
+  "devDependencies": {
+    "browser-sync": "^2.23.6",
+    "csslint-stylish": "0.0.6",
+    "gulp": "3.9.1",
+    "gulp-clean": "0.4.0",
+    "gulp-concat": "2.6.1",
+    "gulp-connect": "^5.5.0",
+    "gulp-csslint": "^1.0.1",
+    "gulp-html-replace": "1.6.2",
+    "gulp-imagemin": "4.1.0",
+    "gulp-inject": "4.3.1",
+    "gulp-jshint": "^1.11.2",
+    "gulp-less": "^4.0.0",
+    "gulp-ngdocs": "^0.3.0",
+    "gulp-uglify": "3.0.0",
+    "jshint-stylish": "^2.2.1",
+    "less": "^3.0.1"
+  },
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://gitlab.com/Leoosaid/projeto-faculdade.git"
+  },
+  "keywords": [
+    "add"
+  ],
+  "author": "Leonardo Mendes",
+  "email": "leonardomdeoli@gmail.com",
+  "url": "https://www.linkedin.com/in/leonardomdeoli/",
+  "license": "MIT",
+  "engines": {
+    "node": ">= 0.10"
+  },
+  "bugs": {
+    "url": "https://gitlab.com/Leoosaid/projeto-faculdade/issues"
+  },
+  "homepage": "https://gitlab.com/Leoosaid/projeto-faculdade#README"
+}

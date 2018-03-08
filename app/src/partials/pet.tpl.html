@@ -1,0 +1,215 @@
+<div layout="row" flex>
+    <div ng-show="ctrl.facePanel == 1" layout="column" layout-align="space-between stretch" style="background:#EDEDEE" flex>
+
+        <section class="nav-grid" layout="row" layout-sm="column" layout-wrap>
+
+            <md-button class="md-icon-button" ng-click="ctrl.setFacePanel(0)" tooltip-placement="right-bottom" uib-tooltip="Modo Grade">
+                <i class="fa fa-th" aria-label="Modo Grade"></i>
+            </md-button>
+
+            <md-button class="md-icon-button" form="petForm" tooltip-placement="right-bottom" 
+                       uib-tooltip="Limpar" type="reset">
+                <i class="fa fa-eraser" aria-label="Limpar"></i>
+            </md-button>
+           
+            <md-button class="md-icon-button" form="petForm" type="submit"
+                       tooltip-placement="right-bottom" uib-tooltip="Salvar">
+                <i class="fa fa-floppy-o" aria-label="Salvar"></i>
+            </md-button>
+
+        </section>
+        
+        <div class="panel panel-default" flex>
+            <div class="panel-body">
+            <form id="petForm" name="petForm" ng-submit="ctrl.enviar(petForm.$valid)" novalidate>
+                    <input type="text" name="idUser" ng-model="ctrl.pet.user.id" ng-hide="true">
+                    <div class="row">
+                        <div class="col-md-3 col-sm-7 col-xs-12">
+                            <div class="form-group">
+                                <p><label>Permissões</label></p>
+
+                                <div class="checkbox-inline">
+                                    <input id="dogLove" type="checkbox" ng-model="ctrl.pet.usadogLove">
+                                    <label for="dogLove">Habilita o uso do DogLove</label>
+                                    <i class="fa fa-question-circle" aria-hidden="true" uib-tooltip="DogLove e uma opção criada
+                                                        para seu animal, encontrar um parceiro para cruza."></i>
+                                </div>
+                            </div>
+                            
+                            <div class="form-group" ng-class="{ 'has-error': ctrl.isProInvalido}">
+                                <label for="user" class="control-label">Propriétario
+                                    <span class="text-danger">*</span>
+                                </label>
+                                <div class="input-group">
+                                    <input type="text" name="user" ng-keydown="ctrl.eventKeyPro($event)" ng-model="ctrl.pet.user.name" class="form-control input-md"
+                                        placeholder="Pesquise pelo propriétario" required />
+                                    <span class="input-group-addon" name="searchuser" ng-click="ctrl.openPopup('user',ctrl.pet.user.name)">
+                                        <i class="fa fa-search"></i>
+                                    </span>
+                                </div>
+                                <div class="help-block" ng-if="ctrl.isProInvalido">
+                                    <span>Pesquise por um próprietário</span>
+                                </div>
+                            </div>
+                        </div>
+                       
+                        <div class="row">
+                            <div class="col-md-3 col-sm-6 col-xs-12">
+                                <div class="form-group" ng-class="{ 'has-error': (petForm.$submitted || petForm.name.$touched) && petForm.name.$invalid}">
+                                    <label for="name" class="control-label">Nome
+                                        <span class="text-danger">*</span>
+                                    </label>
+                                    <div class="input-group">
+                                        <span class="input-group-addon">
+                                            <i class="fa fa-paw"></i>
+                                        </span>
+                                        <input type="text" name="name" class="form-control" ng-model="ctrl.pet.name" placeholder="Informe o nome no animal" ng-maxlength="120"
+                                            required>
+                                    </div>
+                                    <div class="help-block" ng-messages="petForm.name.$error" ng-if="(petForm.$submitted || petForm.name.$touched)">
+                                        <div ng-messages-include="src/include/messages.html"></div>
+                                    </div>
+                                </div>
+
+                                <div class="form-group" ng-class="{ 'has-error': (petForm.$submitted || petForm.tipoAnimal.$touched) && petForm.tipoAnimal.$invalid}">
+                                    <label for="porte" class="control-label">Tipo
+                                        <span class="text-danger">*</span>
+                                    </label>
+                                    <div class="input-group">
+                                        <span class="input-group-addon">
+                                            <i class="fa fa-outdent"></i>
+                                        </span>
+                                        <select class="form-control" ng-change="ctrl.modifyTipoAnimal()" name="tipoAnimal" ng-model="ctrl.pet.tipoAnimal" ng-options="o as o for o in ctrl.tipoAnimais.options"
+                                            required></select>
+                                    </div>
+                                    <div class="help-block" ng-messages="petForm.tipoAnimal.$error" ng-if="petForm.$submitted || petForm.tipoAnimal.$touched">
+                                        <div ng-messages-include="src/include/messages.html"></div>
+                                    </div>
+                                </div>
+
+                                <input type="text" ng-model="ctrl.pet.breed.id" ng-hide="true">
+                                <div class="form-group" ng-class="{ 'has-error': ctrl.isBreedInvalido}">
+                                    <label for="breed" class="control-label">Raça
+                                        <span class="text-danger">*</span>
+                                    </label>
+                                    <div class="input-group">
+                                        <input type="text" ng-keydown="ctrl.eventKeyBreed($event)" ng-disabled="ctrl.pet.tipoAnimal == undefined" class="form-control input-md"
+                                            placeholder="Pesquise a raça do animal" name="breed" ng-model="ctrl.pet.breed.name"
+                                            required>
+                                        <span class="input-group-addon" name="searchuser" ng-click="ctrl.openPopup('breed',ctrl.pet.breed.name,ctrl.pet.tipoAnimal)">
+                                            <i class="fa fa-search"></i>
+                                        </span>
+                                    </div>
+                                    <div class="help-block" ng-if="ctrl.isBreedInvalido">
+                                        <span>Pesquise por uma Raça</span>
+                                    </div>
+                                </div>
+
+                                <div class="form-group" ng-class="{ 'has-error': petForm.$submitted && petForm.dateBirth.$touched && petForm.dateBirth.$invalid}">
+                                    <label for="dateBirth" class="control-label">Data de Nascimento</label>
+                                    <div class="input-group">
+                                        <input type="text" class="form-control" name="dateBirth" ng-model="ctrl.pet.dateBirth" is-open="popup.opened" datepicker-options="dateOptions"
+                                            close-text="Fechar" current-text="Hoje" clear-text="Limpar" ng-required="true" uib-datepicker-popup="dd/MM/yyyy"
+                                        />
+                                        <span class="input-group-btn">
+                                            <button type="button" class="btn btn-default" ng-click="open()">
+                                                <i class="fa fa-calendar"></i>
+                                            </button>
+                                        </span>
+                                    </div>
+                                    <div class="help-block" ng-messages="petForm.dateBirth.$error" ng-if="petForm.$submitted && petForm.dateBirth.$touched && petForm.dateBirth.$invalid">
+                                        <span>Data no formato inválido</span>
+                                    </div>
+                                </div>
+
+                                <div class="form-group" ng-class="{ 'has-error': (petForm.$submitted || petForm.sex.$touched) && petForm.sex.$invalid}">
+                                    <p>
+                                        <label for="sex" class="control-label">Sexo
+                                            <span class="text-danger">*</span>
+                                        </label>
+                                    </p>
+                                    <label class="radio-inline" ng-repeat="sex in ctrl.sexs" id="{{sex}}">
+                                        <input type="radio" name="sex" ng-model="ctrl.pet.sex" value="{{sex}}" required>{{sex | formatSex}}
+                                    </label>
+                                    <div class="help-block" ng-messages="petForm.sex.$error" ng-if="petForm.$submitted || petForm.sex.$touched">
+                                        <div ng-messages-include="src/include/messages.html"></div>
+                                    </div>
+                                </div>
+
+                                <div class="form-group" ng-if="petForm.sex.$modelValue == 'femea'">
+                                    <label for="dateBirth" class="control-label">Data do último cio</label>
+                                    <div class="input-group">
+                                        <input type="text" class="form-control" name="fertilePeriod" ng-model="ctrl.pet.fertilePeriod" is-open="popup1.opened" datepicker-options="dateOptions"
+                                            close-text="Fechar" current-text="Hoje" clear-text="Limpar" ng-required="true" uib-datepicker-popup="dd/MM/yyyy"
+                                        />
+                                        <span class="input-group-btn">
+                                            <button type="button" class="btn btn-default" ng-click="open1()">
+                                                <i class="fa fa-calendar"></i>
+                                            </button>
+                                        </span>
+                                    </div>
+                                </div>
+                                <div class="form-group" ng-class="{ 'has-error': (petForm.$submitted || petForm.porte.$touched) && petForm.porte.$invalid}">
+                                    <label for="porte" class="control-label">Porte
+                                        <span class="text-danger">*</span>
+                                    </label>
+                                    <div class="input-group">
+                                        <span class="input-group-addon">
+                                            <i class="fa fa-outdent"></i>
+                                        </span>
+                                        <select class="form-control" name="porte" ng-model="ctrl.pet.size" ng-options="o as o for o in ctrl.sizes.options" required></select>
+                                    </div>
+                                    <div class="help-block" ng-messages="petForm.porte.$error" ng-if="petForm.$submitted || petForm.porte.$touched">
+                                        <div ng-messages-include="src/include/messages.html"></div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="col-md-3 col-sm-6 col-xs-12">
+                                <img class="img-responsive img-circle" ng-src="{{'data:' + ctrl.pet.image.filetype + ';base64,' + ctrl.pet.image.base64}}"
+                                    alt="Imagem do animal">
+
+                                <div class="form-group">
+                                    <label for="image" class="control-label">Selecione uma Imagem:</label>
+                                    <input type="file" ng-change="ctrl.touched()" ng-model="ctrl.pet.image" parser="ctrl.resizeImage" name="inputFile" base-sixty-four-input>
+                                </div>
+                            </div>
+
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <div ng-show="ctrl.facePanel == 0" layout="column" layout-align="space-between stretch" style="background:#EDEDEE" flex>
+
+        <section class="nav-grid" layout="row" layout-sm="column" layout-wrap>
+            <md-button class="md-icon-button" ng-click="ctrl.edit()" tooltip-placement="right-bottom" uib-tooltip="Modo Formulário">
+                <i class="fa fa-table" aria-label="Modo formulário"></i>
+            </md-button>
+
+            <md-button class="md-icon-button" ng-click="ctrl.add()" tooltip-placement="right-bottom" uib-tooltip="Adicionar">
+                <i class="fa fa-plus" aria-label="Adicionar"></i>
+            </md-button>
+
+            <md-button class="md-icon-button" ng-click="ctrl.edit()" tooltip-placement="right-bottom" uib-tooltip="Editar">
+                <i class="fa fa-pencil" aria-label="Editar"></i>
+            </md-button>
+
+            <md-button class="md-icon-button" ng-click="ctrl.remover()" tooltip-placement="right-bottom" uib-tooltip="Remover">
+                <i class="fa fa-trash-o" aria-label="Remover"></i>
+            </md-button>
+
+            <md-button class="md-icon-button" ng-click="ctrl.recarregar()" tooltip-placement="right-bottom" uib-tooltip="Recarregar">
+                <i class="fa fa-refresh" aria-label="Recarregar"></i>
+            </md-button>
+
+            <md-button class="md-icon-button" ng-click="ctrl.agendar()" tooltip-placement="right-bottom" uib-tooltip="Agendar Serviço">
+                <i class="fa fa-calendar" aria-label="Agendar"></i>
+            </md-button>
+        </section>
+
+        <ag-grid grid-options="ctrl.gridOptions" flex></ag-grid>
+    </div>
+</div>

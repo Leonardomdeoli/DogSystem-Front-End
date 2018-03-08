@@ -1,0 +1,23 @@
+<div class="modal-header">
+    <h3 class="modal-title text-center">Dados do doador</h3>
+</div>
+<div class="modal-body">
+    <div class="col-md-12">
+        <div class="col-md-5">
+            <p class="text-left" style="font-weight: bold">Dados do próprietario</p>
+            <p class="text-left">{{$ctrl.user.name}}</p>
+            <p class="text-left">{{$ctrl.user.phone}}</p>
+            <p class="text-left">{{$ctrl.user.email}}</p>
+        </div>
+        <div class="col-md-4">
+            <p class="text-left" style="font-weight: bold">Dados do Animal</p>
+            <p class="text-left">{{$ctrl.pet.name}}</p>
+            <p class="text-left">{{$ctrl.pet.sex}}</p>
+            <p class="text-left">{{$ctrl.pet.size}}</p>
+        </div>
+        <div class="col-md-3">
+            <img class="img-responsive" style="margin: auto" ng-src="{{'data:' + $ctrl.filetype + ';base64,' + $ctrl.base64}}" alt="Imagem do animal">
+        </div>
+    </div>
+    <button class="btn btn-primary" type="button" ng-click="$ctrl.ok()">Fechar</button>
+</div>

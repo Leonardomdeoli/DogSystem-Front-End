@@ -1,0 +1,152 @@
+.sombra {
+  box-shadow: 0 2px 6.65px 0.35px #000000;
+}
+.hover-a {
+  opacity: 1;
+  text-decoration: none;
+  background: none;
+}
+.focus-a {
+  opacity: 1;
+  outline: -webkit-focus-ring-color auto 5px;
+  text-decoration: none;
+  background-color: #337ab7;
+  border-color: #2e6da4;
+  -moz-box-shadow: inset 0 0 20px #000;
+  -webkit-box-shadow: inset 0 0 20px #000;
+  box-shadow: inset 0 0 20px #000;
+}
+.color-menu {
+  background: linear-gradient(top, #474747, #292929);
+  background: -moz-linear-gradient(top, #474747, #292929);
+  background: -o-linear-gradient(top, #474747, #292929);
+  background: -webkit-gradient(linear, left top, left bottom, from(#474747), to(#292929));
+  background: -webkit-linear-gradient(top, #474747, #292929);
+  background: -ms-linear-gradient(top, #474747 0%, #292929 100%);
+}
+.image-replacement {
+  text-indent: -9999px;
+  overflow: hidden;
+  background-repeat: no-repeat;
+}
+.container-pet {
+  overflow: hidden;
+  top: 50px;
+  left: 0px;
+  right: 0px;
+  bottom: 0px;
+  padding: 2px;
+  overflow-y: auto;
+}
+.navbar {
+  margin-bottom: 0;
+}
+.progress {
+  margin-bottom: 0;
+}
+.color-menu .container-fluid .navbar-header .dropdown a,
+.color-menu .container-fluid .collapse .dropdown a,
+.color-menu .container-fluid .navbar-header .dropdown a:hover,
+.color-menu .container-fluid .collapse .dropdown a:hover {
+  color: #fff;
+}
+.color-menu .container-fluid .navbar-header .dropdown-menu a,
+.color-menu .container-fluid .collapse .dropdown-menu a {
+  color: #000;
+}
+.color-menu .container-fluid .navbar-header .dropdown-menu a:hover,
+.color-menu .container-fluid .collapse .dropdown-menu a:hover {
+  opacity: 1;
+  outline: -webkit-focus-ring-color auto 5px;
+  text-decoration: none;
+  background-color: #337ab7;
+  border-color: #2e6da4;
+  -moz-box-shadow: inset 0 0 20px #000;
+  -webkit-box-shadow: inset 0 0 20px #000;
+  box-shadow: inset 0 0 20px #000;
+}
+.color-menu .container-fluid .navbar-header a,
+.color-menu .container-fluid .collapse a {
+  color: #fff;
+  font-family: Arial, sans-serif;
+  font-size: small;
+  opacity: 0.8;
+  -moz-box-shadow: none;
+  -webkit-box-shadow: none;
+  box-shadow: none;
+  font-weight: bold;
+}
+.color-menu .container-fluid .navbar-header a:hover,
+.color-menu .container-fluid .collapse a:hover {
+  opacity: 1;
+  text-decoration: none;
+  background: none;
+}
+.color-menu .container-fluid .navbar-header a:focus,
+.color-menu .container-fluid .collapse a:focus {
+  opacity: 1;
+  outline: -webkit-focus-ring-color auto 5px;
+  text-decoration: none;
+  background-color: #337ab7;
+  border-color: #2e6da4;
+  -moz-box-shadow: inset 0 0 20px #000;
+  -webkit-box-shadow: inset 0 0 20px #000;
+  box-shadow: inset 0 0 20px #000;
+}
+.fa-folder {
+  color: darkorange;
+}
+.fa-file-pdf-o {
+  color: red;
+}
+.fa-file-excel-o {
+  color: green;
+}
+.fa-file-audio-o {
+  color: blue;
+}
+.filename {
+  padding: 5px;
+  color: black;
+  font-size: 16px;
+}
+body {
+  background: #eee !important;
+}
+.wrapper {
+  margin-top: 80px;
+  margin-bottom: 80px;
+}
+.form-signin {
+  max-width: 380px;
+  padding: 15px 35px 45px;
+  margin: 0 auto;
+  background-color: #fff;
+  border: 1px solid rgba(0, 0, 0, 0.1);
+}
+.form-signin .form-signin-heading,
+.form-signin .checkbox {
+  margin-bottom: 30px;
+}
+.form-signin .checkbox {
+  font-weight: normal;
+}
+.form-signin .form-control {
+  position: relative;
+  font-size: 16px;
+  height: auto;
+  padding: 10px;
+}
+.form-signin .form-control:focus {
+  z-index: 2;
+}
+.form-signin input[type="text"] {
+  margin-bottom: -1px;
+  border-bottom-left-radius: 0;
+  border-bottom-right-radius: 0;
+}
+.form-signin input[type="password"] {
+  margin-bottom: 20px;
+  border-top-left-radius: 0;
+  border-top-right-radius: 0;
+}

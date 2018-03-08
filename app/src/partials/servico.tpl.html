@@ -1,0 +1,136 @@
+<div layout="row" flex>
+    <article class="col-md-12 maincontent" ng-if="ctrl.showAddEditService">
+        <header class="page-header">
+            <h1 class="page-title text-center">Cadastro de Serviços</h1>
+            <button class="btn btn-primary" type="button" ng-click="ctrl.listService(1)" uib-tooltip="Voltar a lista de Serviços">
+                <i class="fa fa-reply" aria-hidden="true"></i>
+            </button>
+        </header>
+        <div class="col-md-10 col-md-offset-1 ">
+            <div class="panel panel-default">
+                <div class="panel-body">
+                    <div class="col-md-10 col-md-offset-1 ">
+                        <h3 class="thin"><i class="fa fa-address-card-o" aria-hidden="true"></i> Dados do Serviços</h3>
+                        <hr>
+                        <form name="form" ng-submit="ctrl.enviar(form.$valid)">
+                            <div class="row">
+                                <div class="col-md-8 col-sm-7 col-xs-12">
+                                    <div class="form-group" ng-class="{ 'has-error': form.description.$touched && form.description.$invalid}">
+                                        <label for="description" class="control-label">Descrição<span class="text-danger">*</span></label>
+                                        <div class="input-group">
+                                            <span class="input-group-addon"><i class="fa fa-user"></i></span>
+                                            <input type="text" name="description" class="form-control" ng-model="ctrl.service.name" ng-minlength="3" placeholder="Informe a descrição do serviço"
+                                                ng-maxlength="100" ng-pattern="ctrl.rgxLetras" required>
+                                        </div>
+                                        <div class="help-block" ng-messages="form.description.$error" ng-if="form.description.$touched">
+                                            <div ng-messages-include="src/include/messages.html"></div>
+                                            <span ng-message="pattern">O campo nome não pode conter números</span>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-md-8 col-sm-7 col-xs-12">
+                                    <div class="form-group" ng-class="{ 'has-error': (form.$submitted || form.porte.$touched) && form.porte.$invalid}">
+                                        <label for="porte" class="control-label">Porte<span class="text-danger">*</span></label>
+                                        <div class="input-group">
+                                            <span class="input-group-addon"><i class="fa fa-outdent"></i></span>
+                                            <select class="form-control" name="porte" ng-model="ctrl.service.size" ng-options="o as o for o in ctrl.sizes.options" required></select>
+                                        </div>
+                                        <div class="help-block" ng-messages="form.porte.$error" ng-if="form.$submitted || form.porte.$touched">
+                                            <div ng-messages-include="src/include/messages.html"></div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-md-8 col-sm-7 col-xs-12">
+                                    <div class="form-group">
+                                        <label for="price" class="control-label">Preço</label>
+                                        <div class="input-group">
+                                            <span class="input-group-addon"><i class="fa fa-money"></i></span>
+                                            <input type="text" name="price" class="form-control" ng-model="ctrl.service.price" placeholder="Informe o valor do serviço"
+                                                ui-money-mask>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-md-12">
+                                    <div class="form-group">
+                                        <button class="btn btn-danger" type="reset">
+                                            <i class="fa fa-eraser" aria-hidden="true"></i> Limpar
+                                        </button>
+                                        <button style="margin-left: 5px" class="btn btn-success" type="submit">
+                                            <i class="fa fa-floppy-o" aria-hidden="true"></i> Salvar
+                                        </button>
+                                    </div>
+                                </div>
+                            </div>
+                            <input type="text" ng-model="ctrl.service.id" ng-hide="true">
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </article>
+    <article class="col-md-12 maincontent" ng-if="ctrl.showList">
+        <header class="page-header">
+            <h1 class="page-title text-center">Lista de Serviços</h1>
+            <button class="btn btn-primary" type="button" ng-click="ctrl.newService()" uib-tooltip="Adicionar um novo serviço">
+                <i class="fa fa-plus" aria-hidden="true"></i>
+            </button>
+        </header>
+        <div class="input-group margin-bottom-sm">
+            <span class="input-group-addon"><i class="fa fa-filter"></i></span>
+            <input type="text" class="form-control" placeholder="Filtro de Serviços" ng-model="criteria">
+        </div>
+        <div class="table-responsive text-center">
+            <table class="table table-striped">
+                <thead>
+                    <tr>
+                        <th ng-click="ctrl.sort('id')">Código
+                            <i ng-class="{'fa fa-sort-asc':ctrl.reverse,'fa fa-sort-desc':!ctrl.reverse}" aria-hidden="true" ng-show="ctrl.sortKey=='id'"></i>
+                            <i class="fa fa-sort" aria-hidden="true" ng-show="ctrl.sortKey !='id'"></i>
+                        </th>
+                        <th ng-click="ctrl.sort('name')">Descição
+                            <i ng-class="{'fa fa-sort-asc':ctrl.reverse,'fa fa-sort-desc':!ctrl.reverse}" aria-hidden="true" ng-show="ctrl.sortKey=='name'"></i>
+                            <i class="fa fa-sort" aria-hidden="true" ng-show="ctrl.sortKey !='name'"></i>
+                        </th>
+                        <th ng-click="ctrl.sort('size')">Porte
+                            <i ng-class="{'fa fa-sort-asc':ctrl.reverse,'fa fa-sort-desc':!ctrl.reverse}" aria-hidden="true" ng-show="ctrl.sortKey=='size'"></i>
+                            <i class="fa fa-sort" aria-hidden="true" ng-show="ctrl.sortKey !='size'"></i>
+                        </th>
+                        <th ng-click="ctrl.sort('price')">Preço
+                            <i ng-class="{'fa fa-sort-asc':ctrl.reverse,'fa fa-sort-desc':!ctrl.reverse}" aria-hidden="true" ng-show="ctrl.sortKey=='price'"></i>
+                            <i class="fa fa-sort" aria-hidden="true" ng-show="ctrl.sortKey !='price'"></i>
+                        </th>
+                        <th>Editar</th>
+                        <th>Apagar</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr ng-repeat="service in ctrl.services|orderBy:sortKey:ctrl.reverse|filter:criteria as results" ng-dblclick="ctrl.editservice(service)">
+                        <th scope="row" ng-bind="service.id" style="text-align: center"></th>
+                        <td ng-bind="service.name"></td>
+                        <td ng-bind="service.size"></td>
+                        <td>R$ {{ctrl.formatNumber(service.price)}}</td>
+                        <td><button class="btn btn-primary" type="button" uib-tooltip="Editar" tooltip-placement="left-top" ng-click="ctrl.editservice(service)">
+                            <span type="button">
+                                <i class="fa fa-pencil" aria-hidden="true"></i>
+                            </span>
+                        </button>
+                        </td>
+                        <td><button class="btn btn-danger" type="button" uib-tooltip="Apagar" tooltip-placement="left-top" ng-click="ctrl.deleteservice(service)">
+                            <span type="button">
+                                <i class="fa fa-trash-o" aria-hidden="true"></i>
+                            </span>
+                        </button>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+            <ul uib-pagination total-items="ctrl.totalItems" ng-model="ctrl.currentPage" ng-change="ctrl.pageChanged()" max-size="ctrl.maxSize"
+                items-per-page="ctrl.numPerPage" class="pagination-sm" boundary-link-numbers="true" previous-text="Anterior"
+                next-text="Próximo" ng-if="ctrl.totalItems > ctrl.numPerPage">
+            </ul>
+            <h5 class="text-center" ng-if="results.length < 1"> Nenhum Serviço encontrado...</h5>
+        </div>
+    </article>
+</div>

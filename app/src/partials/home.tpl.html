@@ -1,0 +1,38 @@
+<div layout="row" flex>
+    <article class="col-md-12 maincontent" ng-if="ctrl.isAdmin">
+        <header class="page-header">
+            <h1 class="page-title text-center" ng-bind="ctrl.titulo"></h1>
+        </header>
+        <div class="table-responsive text-center">
+            <table class="table table-striped">
+                <thead>
+                    <tr>
+                        <th>#</th>
+                        <th>Nome pet</th>
+                        <th>Porte</th>
+                        <th>Serviço</th>
+                        <th>Preço</th>
+                        <th>Data</th>
+                        <th>Hora</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr ng-repeat="agenda in ctrl.agendas | filter:criteria as results">
+                        <th scope="row" ng-bind="$index + 1" class="text-center"></th>
+                        <td ng-bind="agenda.pet.name"></td>
+                        <td ng-bind="agenda.pet.size"></td>
+                        <td ng-bind="agenda.service.name"></td>
+                        <td>R$ {{ctrl.formatNumber(agenda.service.price)}}</td>
+                        <td>{{ctrl.formateDate(agenda.schedulingDate)}}</td>
+                        <td ng-bind="agenda.time"></td>
+                    </tr>
+                </tbody>
+            </table>
+            <ul uib-pagination total-items="ctrl.totalItems" ng-model="ctrl.currentPage" ng-change="ctrl.pageChanged()" max-size="ctrl.maxSize"
+                items-per-page="ctrl.numPerPage" class="pagination-sm" boundary-link-numbers="true" previous-text="Anterior"
+                next-text="Próximo" ng-if="ctrl.totalItems > ctrl.numPerPage">
+            </ul>
+            <h5 class="text-center" ng-if="results.length < 1"> Nenhum agendamento encontrado...</h5>
+        </div>
+    </article>
+</div>

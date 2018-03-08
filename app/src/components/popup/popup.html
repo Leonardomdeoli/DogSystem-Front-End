@@ -1,0 +1,13 @@
+<div class="modal-header">
+    <div class="col-md-12">
+        <h3 class="modal-title text-center">SELECIONE {{ctrl.title}}</h3>
+    </div>
+</div>
+<div class="modal-body" style="height: 430px;">
+    <ag-grid grid-options="ctrl.gridOptions" style="height: 415px;" flex>
+    </ag-grid>
+</div>
+<div class="modal-footer">
+    <button class="btn btn-primary" type="button" ng-click="ctrl.aplicar()">Aplicar</button>
+    <button class="btn btn-danger" type="button" ng-click="ctrl.sair()">Sair</button>
+</div>
