@@ -39,11 +39,6 @@ angular.module('dog-system')
             controller: 'DogloveCtrl as ctrl'
         });
 
-        $routeProvider.when('/relatorios', {
-            templateUrl: path + 'report.tpl.html',
-            controller: 'ReportCtrl as ctrl'
-        });
-
         $routeProvider.when('/animal', {
             templateUrl: path + 'pet.tpl.html',
             controller: 'PetCtrl as ctrl'

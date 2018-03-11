@@ -5,6 +5,7 @@ angular.module('dog-system')
 
             self.aplicar = aplicar;
             self.sair = sair;
+            self.cellClicked = cellClicked;
 
             init();
             function init() {
@@ -12,10 +13,15 @@ angular.module('dog-system')
 
                 self.gridOptions = {
                     columnDefs: data.columnDefs,
-                    paginationPageSize: 5
+                    paginationPageSize: 4
                 };
 
                 recarregar();
+            }
+
+            function cellClicked(event) {
+                self.selecionado = event.data.name;
+                self.selecionado = "teste";
             }
 
             function recarregar() {

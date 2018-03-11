@@ -8,7 +8,8 @@ angular.module('dog-system')
         ddo.scope = {
             gridOptions: '=',
             rowSelected: '&?',
-            rowDoubleClicked:'&?'
+            rowDoubleClicked:'&?',
+            cellClicked:'&?'
         };
 
         ddo.controller = 'AgGridController';

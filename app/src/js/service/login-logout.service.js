@@ -1,14 +1,32 @@
-'use strict';
+/**
+ * @author Leonardo Mendes 24-02-2018
+ */
 
 angular.module('dog-system')
   .service('LoginLogoutSrv', ['$http', '$cookies', '$rootScope', '$location', '$localStorage', 'MessageUtils', 'ServicePathConstants',
     function ($http, $cookies, $rootScope, $location, $localStorage, MessageUtils, ServicePathConstants) {
 
-      var serviceFactory = {};
+      var urlEmail = ServicePathConstants.PUBLIC_PATH + '/email-send';
       var urlLogin = ServicePathConstants.PUBLIC_PATH + '/login';
       var urlLogout = ServicePathConstants.PUBLIC_PATH + '/logout';
+      var serviceFactory = {
+        login: login,
+        logout: logout,
+        verifyAuth: verifyAuth,
+        forgotPassword: forgotPassword
+      };
 
-      serviceFactory.login = function (email, password) {
+      function forgotPassword(email) {
+        var requestParams = {
+          method: 'GET',
+          url: urlEmail + '/?email=' + email,
+          headers: {'Content-Type': 'application/json'}
+        };
+
+        return $http(requestParams);
+      }
+
+      function login(email, password) {
         var requestParams = {
           method: 'GET',
           url: urlLogin,
@@ -33,12 +51,16 @@ angular.module('dog-system')
           },
           function failure(response) {
             $rootScope.authDetails = { name: '', authenticated: false, permissions: [], user: '' };
-            MessageUtils.error('O e-mail ou a senha que você digitou não correspondem aos nossos registros.');
+            if (response.status == 401) {
+              MessageUtils.error('O e-mail ou a senha que você digitou não correspondem aos nossos registros, favor verifique.');
+            } else {
+              MessageUtils.error('Ocorreu um erro ao conectar ao nossos servidores, verifique sua conexão.');
+            }
           }
         );
-      };
+      }
 
-      serviceFactory.logout = function () {
+      function logout() {
         var requestParams = {
           method: 'POST',
           url: urlLogout,
@@ -50,13 +72,13 @@ angular.module('dog-system')
           $rootScope.authDetails = { name: '', authenticated: false, permissions: [], id: '' };
           $location.path("/login");
         });
-      };
+      }
 
-      serviceFactory.verifyAuth = function () {
+      function verifyAuth() {
         if ($localStorage.authDetails) {
           $rootScope.authDetails = $localStorage.authDetails;
         }
-      };
+      }
 
       return serviceFactory;
     }]);

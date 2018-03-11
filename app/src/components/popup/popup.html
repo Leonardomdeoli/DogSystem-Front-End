@@ -4,10 +4,9 @@
     </div>
 </div>
 <div class="modal-body" style="height: 430px;">
-    <ag-grid grid-options="ctrl.gridOptions" style="height: 415px;" flex>
-    </ag-grid>
+    <ag-grid grid-options="ctrl.gridOptions" cell-clicked="ctrl.cellClicked(event)" style="height: 415px;" flex></ag-grid>
 </div>
 <div class="modal-footer">
-    <button class="btn btn-primary" type="button" ng-click="ctrl.aplicar()">Aplicar</button>
-    <button class="btn btn-danger" type="button" ng-click="ctrl.sair()">Sair</button>
+    <button class="btn btn-primary" type="button" ng-click="ctrl.aplicar()" style="width: 100px;">Aplicar</button>
+    <button class="btn btn-danger" type="button" ng-click="ctrl.sair()" style="width: 100px;">Sair</button>
 </div>

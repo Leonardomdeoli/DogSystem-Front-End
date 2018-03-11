@@ -1,8 +1,62 @@
-<div class="wrapper">
-	<form class="form-signin" ng-submit="login(email, password)">
-		<h3 class="form-signin-heading">Efetue login DogSystem</h3>
-		<input type="text" ng-model="email" name="email" placeholder="Endereço de Email" class="form-control" required autofocus>
-		<input type="password" ng-model="password" name="password" placeholder="Senha" class="form-control" required>
-		<button class="btn btn-lg btn-primary btn-block" type="submit">Entrar</button>
-	</form>
+<section id="login">
+	<div class="container">
+		<div class="row">
+			<div class="col-xs-12">
+				<div class="form-wrap">
+					<h1>Efetue o login com sua conta de e-mail</h1>
+					<form role="form" ng-submit="ctrl.login(email, password)">
+						<div class="form-group">
+							<label for="email" class="sr-only">Email</label>
+							<input type="email" ng-model="email" name="email" id="email" class="form-control" placeholder="alguem@example.com" required
+							 autofocus>
+						</div>
+						<div class="form-group">
+							<label for="key" class="sr-only">Senha</label>
+							<input type="password" name="key" id="key" ng-model="password" class="form-control" placeholder="senha" required>
+						</div>
+						<div class="checkbox">
+							<span class="character-checkbox" ng-click="ctrl.showPassword()"></span>
+							<span class="label">ver senha</span>
+						</div>
+						<input type="submit" id="btn-login" class="btn btn-custom btn-lg btn-block" value="Entrar">
+					</form>
+					<a class="forget" data-toggle="modal" data-target=".forget-modal">Esqueci minha senha?</a>
+					<hr>
+				</div>
+			</div>
+			<!-- /.col-xs-12 -->
+		</div>
+		<!-- /.row -->
+	</div>
+	<!-- /.container -->
+</section>
+
+<div class="modal fade forget-modal" tabindex="-1" role="dialog" aria-labelledby="myForgetModalLabel" aria-hidden="true">
+	<div class="modal-dialog modal-md">
+		<div class="modal-content">
+			<div class="modal-header">
+				<button type="button" class="close" data-dismiss="modal">
+					<span aria-hidden="true">&times;</span>
+					<span class="sr-only">Fechar</span>
+				</button>
+				<h4 class="modal-title">Recuperação de senha	<img src="img/ajax-loader.gif" ng-show="ctrl.mostar"></h4>
+			</div>
+			<div class="modal-body">
+				<form id="loginForm" name="loginForm" role="form" ng-submit="ctrl.forgotPassword(recoverEmail)">
+					<p>Digite seu e-mail</p>
+					<input type="email" ng-model="recoverEmail" 
+						   name="recoverEmail" id="recoverEmail" class="form-control" 
+						   placeholder="alguem@example.com" required autofocus>
+					<p class="text-muted" ng-bind="ctrl.textInfo"></p>
+				</form>
+			</div>
+			<div class="modal-footer">
+				<button type="button" class="btn btn-default" data-dismiss="modal">Cancelar</button>
+				<button class="btn btn-custom" form="loginForm" type="submit">Recuperar</button>
+			</div>
+		</div>
+		<!-- /.modal-content -->
+	</div>
+	<!-- /.modal-dialog -->
 </div>
+<!-- /.modal -->

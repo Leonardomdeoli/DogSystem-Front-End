@@ -63,10 +63,12 @@ angular.module('dog-system')
             function getPet() {
                 self.pets = [];
                 ServiceProxy.find(_petUrl, function (data) {
-                    self.gridOptions.api.setRowData(data);
-                    var rowData = self.gridOptions.api.getRowNode(0);
-                    if (rowData) {
+                    if (data.length > 0) {
+                        self.gridOptions.api.setRowData(data);
+                        var rowData = self.gridOptions.api.getRowNode(0);
                         rowData.setSelected(true);
+                    } else {
+                        self.gridOptions.api.setRowData(undefined);
                     }
                 });
             }
@@ -237,13 +239,13 @@ angular.module('dog-system')
             function agendar() {
                 var selected = self.gridOptions.api.getSelectedRows();
                 self.pet = selected[0];
-                
+
                 if (angular.isUndefined(self.pet)) {
                     MessageUtils.alert('Selecione um animal para efetuar o agendamento');
                     return;
                 }
 
-                $location.path('/agenda/' +  base64.encode(self.pet.id.toString()));
+                $location.path('/agenda/' + base64.encode(self.pet.id.toString()));
             }
 
             self.enviar = function (condicao) {

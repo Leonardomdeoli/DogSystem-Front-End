@@ -1,4 +1,4 @@
-<div ng-controller="headerSrv" >
+<div ng-controller="headerSrv">
 
     <div class="navbar navbar-inverse navbar-static-top color-menu" ng-if="hasAnyPermission(['ROLE_ADMIN','ROLE_USER'])">
 
@@ -33,20 +33,14 @@
                             <b class="caret"></b>
                         </a>
                         <ul class="dropdown-menu">
-                            <li>
-                                <a href="#">Sub-Link 1</a>
+                            <li ng-show="hasAnyPermission(['ROLE_ADMIN'])">
+                                <a style="cursor: pointer" ng-click="reportClientePet()">Clientes</a>
                             </li>
-                            <li>
-                                <a href="#">Sub-Link 2</a>
+
+                            <li ng-show="hasAnyPermission(['ROLE_ADMIN'])">
+                                <a style="cursor: pointer" ng-click="reportBreed()">Raça</a>
                             </li>
-                            <li class="divider"></li>
-                            <li>
-                                <a href="#">Sub-Link 3</a>
-                            </li>
-                            <li>
-                                <a href="#">Sub-Link 4</a>
-                            </li>
-                            <li class="divider"></li>
+
                         </ul>
                     </li>
                     <!-- Menu dropdown Fim -->
@@ -84,15 +78,6 @@
                     <li ng-show="hasAnyPermission(['ROLE_ADMIN'])">
                         <a href="#/raca">Raças</a>
                     </li>
-
-                    <li ng-show="hasAnyPermission(['ROLE_ADMIN'])">
-                        <a style="cursor: pointer" ng-click="reportClientePet()">Clientes Pet</a>
-                    </li>
-
-                    <li ng-show="hasAnyPermission(['ROLE_ADMIN'])">
-                        <a style="cursor: pointer" ng-click="reportBreed()">Raças pet</a>
-                    </li>
-
                 </ul>
 
                 <ul class="nav navbar-nav navbar-right navbar-header-style">

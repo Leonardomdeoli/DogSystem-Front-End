@@ -2,8 +2,6 @@
  * @author Leonardo Mendes 24-02-2018
  */
 
-'use strict';
-
 agGrid.initialiseAgGridWithAngular1(angular);
 
 var dependencias = [

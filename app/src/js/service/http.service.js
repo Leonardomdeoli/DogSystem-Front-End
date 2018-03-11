@@ -26,17 +26,17 @@ angular.module('dog-system')
 
             if (404 == error.status) {
 
-              $location.path("/404"); $location.path("/404");
+              $location.path("/404");
 
             } else if (500 == error.status) {
 
-              MessageUtils.error('Erro interno do servidor Erro, interno: Ocorreu um erro no servidor.');
+              MessageUtils.error('Erro interno no servidor, favor comunicar a administração do sistema.');
 
             } else if (409 == error.status) {
 
-              MessageUtils.error('Conflito, Erro interno: Houve um conflito na requisição.');
+              MessageUtils.error('Conflito, Erro interno: Houve um conflito na requisição, favor comunicar a administração do sistema.');
 
-            } else if ('@401@403@-1@'.indexOf('@' + error.status + '@')) {
+            } else if ('@401@403@-1@'.indexOf('@' + error.status + '@') > -1) {
 
               MessageUtils.error('Sua sessão expirou. efetue seu login novamente.')
                 .then(function () {

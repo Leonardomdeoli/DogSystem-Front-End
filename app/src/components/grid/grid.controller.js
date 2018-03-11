@@ -69,6 +69,12 @@ angular.module('dog-system')
                     }
                 }
 
+                if (angular.isFunction($scope.cellClicked)) {
+                    $scope.gridOptions.onCellClicked = function (event) {
+                        $scope.cellClicked({ event: event });
+                    }
+                }
+
                 $scope.gridOptions.localeText = {
 
                     // for filter panel
