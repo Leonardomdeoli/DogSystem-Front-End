@@ -141,7 +141,7 @@ angular.module('dog-system')
                 if (angular.isDefined(currObj[currPath])) {
                   currObj = currObj[currPath];
                 }
-                if (angular.isUndefined(currObj)) {
+                if (angular.isUndefined(currObj) ||currObj == null) {
                   return undefined;
                 }
               }

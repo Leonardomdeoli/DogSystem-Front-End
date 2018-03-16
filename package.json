@@ -4,11 +4,11 @@
   "description": "Projeto de conclusão de curso TCC - Una Uberlândia",
   "main": "app/src/index.js",
   "dependencies": {
-    "ag-grid": "16.0.1",
+    "ag-grid": "^17.0.0",
     "angular": "1.6.9",
     "angular-animate": "^1.6.9",
     "angular-aria": "^1.6.9",
-    "angular-base64-upload": "0.1.23",
+    "angular-base64-upload": "^0.1.23",
     "angular-cookies": "1.5.3",
     "angular-crypto": "0.0.3",
     "angular-input-masks": "4.1.0",
@@ -21,6 +21,7 @@
     "checklist-model": "0.11.0",
     "crypto-js": "^3.1.9-1",
     "font-awesome": "4.7.0",
+    "jimp": "^0.2.28",
     "jquery": "3.2.1",
     "moment": "2.21.0",
     "ngstorage": "0.3.10"

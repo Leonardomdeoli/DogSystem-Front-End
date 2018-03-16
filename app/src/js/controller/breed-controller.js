@@ -17,6 +17,7 @@ angular.module('dog-system')
             self.facePanel = 0;
             self.gridOptions = {
                 columnDefs: [
+                    { headerName: "#", field: "id", width: 90, valueGetter: 'node.id', hide: true },
                     {
                         headerName: "Especie", field: "tipoAnimal", width: 129, suppressFilter:true,
                         cellRenderer: function (params) {
@@ -24,13 +25,21 @@ angular.module('dog-system')
                             return '<img src="img/' + icon + '" style="width: 24px;"></i>';
                         }
                     },
-                    { headerName: "#", field: "id", width: 90, valueGetter: 'node.id', hide: true },
                     { headerName: "Nome", field: "name", width: 300 },
+                    { headerName: "Porte", field: "porte", width: 200 },
                     { headerName: "Vida", field: "life" },
-                    { headerName: "Peso", field: "weight" },
+                    { headerName: "Peso", field: "weight"},
                     { headerName: "Altura", field: "height" }
                 ],
                 
+            };
+
+            self.tipoAnimais = {
+                options: ['Cão', 'Gato']
+            };
+
+            self.portes = {
+                options: ['Pequeno', 'Medio', 'Grande', 'Gigante']
             };
 
             init();
@@ -55,10 +64,6 @@ angular.module('dog-system')
                     }
                 });
             }
-
-            self.tipoAnimais = {
-                options: ['Cão', 'Gato']
-            };
 
             function setFacePanel(face) {
                 self.facePanel = face;
@@ -101,9 +106,10 @@ angular.module('dog-system')
             }
 
             function remover() {
-                MessageUtils.confirmeDialog('Deseja Realmente apagar esta raça')
+                var selectedData = self.gridOptions.api.getSelectedRows();
+                
+                MessageUtils.confirmeDialog('Deseja realmente apagar esta raça ' + selectedData[0].name)
                     .then(function () {
-                        var selectedData = self.gridOptions.api.getSelectedRows();
                         ServiceProxy.remove(_breedUrl, selectedData[0], function () {
                             self.gridOptions.api.updateRowData({ remove: selectedData });
                         });

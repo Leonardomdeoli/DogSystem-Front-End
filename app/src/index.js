@@ -19,7 +19,8 @@ var dependencias = [
   'ngMessages',
   'ngMaterial',
   'ngAria',
-  'ngCrypto'
+  'ngCrypto',
+  'toggle-switch'
 ];
 
 angular.module('dog-system', dependencias);

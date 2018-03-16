@@ -1,8 +1,8 @@
-<section id="login">
+<section id="login" flex>
 	<div class="container">
 		<div class="row">
-			<div class="col-xs-12">
-				<div class="form-wrap">
+			<div  style="background-color: white;" class="col-md-6 col-md-offset-3 col-xs-12">
+				<div flex>
 					<h1>Efetue o login com sua conta de e-mail</h1>
 					<form role="form" ng-submit="ctrl.login(email, password)">
 						<div class="form-group">
@@ -39,14 +39,15 @@
 					<span aria-hidden="true">&times;</span>
 					<span class="sr-only">Fechar</span>
 				</button>
-				<h4 class="modal-title">Recuperação de senha	<img src="img/ajax-loader.gif" ng-show="ctrl.mostar"></h4>
+				<h4 class="modal-title">Recuperação de senha
+					<img src="img/ajax-loader.gif" ng-show="ctrl.mostar">
+				</h4>
 			</div>
 			<div class="modal-body">
 				<form id="loginForm" name="loginForm" role="form" ng-submit="ctrl.forgotPassword(recoverEmail)">
 					<p>Digite seu e-mail</p>
-					<input type="email" ng-model="recoverEmail" 
-						   name="recoverEmail" id="recoverEmail" class="form-control" 
-						   placeholder="alguem@example.com" required autofocus>
+					<input type="email" ng-model="recoverEmail" name="recoverEmail" id="recoverEmail" class="form-control" placeholder="alguem@example.com"
+					 required autofocus>
 					<p class="text-muted" ng-bind="ctrl.textInfo"></p>
 				</form>
 			</div>

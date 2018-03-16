@@ -46,8 +46,8 @@ angular.module('dog-system')
                     + '<h4 class="text-center" ng-bind="message\"></h4></div>';
 
                 if (tipo == 'btn-primary') {
-                    template += '<div><button type="button" class="btn btn-sm btn-info" style="width: 50%" ng-click="ok()\">'
-                        + 'SIM</button><button type="button" class="btn btn-sm btn-danger" style="width: 50%" ng-click="cancel()\">'
+                    template += '<div><button type="button" class="btn btn-sm btn-primary" style="width: 50%" ng-click="ok()\">'
+                        + 'SIM</button><button type="button" class="btn btn-sm" style="width: 50%" ng-click="cancel()\">'
                         + 'NÃO</button></div>';
                 } else {
                     template += '<div><button type="button" class="btn btn-sm"ng-click="ok()" style="width: 100%;">OK</button></div>';

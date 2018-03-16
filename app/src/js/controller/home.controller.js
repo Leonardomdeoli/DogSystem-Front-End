@@ -5,6 +5,8 @@ angular.module('dog-system')
         function (ServiceApplication, $location, ServicePathConstants, ServiceProxy, AngularUtils, DateUtisConstants) {
             var self = this;
 
+            var  today = AngularUtils.getToday();
+
             self.pageChanged = pageChanged;
             self.getAgenda = getAgenda;
             self.maxSize = 5;
@@ -21,7 +23,7 @@ angular.module('dog-system')
                 if (ServiceApplication.hasAnyPermission(['ROLE_ADMIN'])) {
                     self.isAdmin = true;
                     self.name = ServiceApplication.getNameUsuLogado();
-                    self.titulo = 'Lista de agendamento do dia ' + AngularUtils.formatDate(AngularUtils.getToday());
+                    self.titulo = 'Lista de agendamento do dia ' + AngularUtils.formatDate(today);
                     getAgenda(1);
                 }
             }
@@ -33,9 +35,9 @@ angular.module('dog-system')
             function getAgenda(pageNo) {
                 var page = pageNo - 1;
 
-                var _url = ServicePathConstants.PRIVATE_PATH.concat('/agenda') + '/pagina/' + page + '/qtd/' + self.numPerPage;
+                var _url = ServicePathConstants.PRIVATE_PATH + '/agenda';
 
-                _url = _url.concat('/datainicial/').concat(new Date()).concat('/datafinal/').concat(new Date());
+                _url = _url + '/datainicial/' + today + '/datafinal/' + today;
 
                 ServiceProxy.find(_url, function (data) {
                     self.agendas = data.content;

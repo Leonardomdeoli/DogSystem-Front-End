@@ -1,102 +1,111 @@
 <div layout="row" flex>
     <div ng-show="ctrl.facePanel == 1" layout="column" layout-align="space-between stretch" flex>
         <section class="nav-grid" layout="row" layout-sm="column" layout-wrap>
-            <md-button class="md-icon-button" ng-click="ctrl.setFacePanel(0)" tooltip-placement="right-bottom"
-                uib-tooltip="Modo Grade">
+
+            <md-button class="md-icon-button" ng-click="ctrl.setFacePanel(0)" tooltip-placement="right-bottom" uib-tooltip="Modo Grade">
                 <i class="fa fa-th" aria-label="Modo Grade"></i>
             </md-button>
+
+            <md-button class="md-icon-button" form="breedForm" tooltip-placement="right-bottom" uib-tooltip="Limpar" type="reset">
+                <i class="fa fa-eraser" aria-label="Limpar"></i>
+            </md-button>
+
+            <md-button class="md-icon-button" form="breedForm" type="submit" tooltip-placement="right-bottom" uib-tooltip="Salvar">
+                <i class="fa fa-floppy-o" aria-label="Salvar"></i>
+            </md-button>
+
         </section>
-        <div class="col-md-10 col-md-offset-1 " flex>
-            <div class="panel panel-default">
-                <div class="panel-body">
-                    <div class="col-md-10 col-md-offset-1 ">
-                        <h3 class="thin">Dados da Raça</h3>
-                        <hr>
-                        <form name="breedForm" ng-submit="ctrl.enviar(breedForm.$valid)" novalidate>
-                            <div class="row">
-                                <div class="col-md-9 col-sm-7 col-xs-12">
-                                    <div class="form-group" ng-class="{ 'has-error': (breedForm.$submitted || breedForm.tipoAnimal.$touched) && breedForm.tipoAnimal.$invalid}">
-                                        <label for="porte" class="control-label">Tipo
-                                            <span class="text-danger">*</span>
-                                        </label>
-                                        <div class="input-group">
-                                            <span class="input-group-addon">
-                                                <i class="fa fa-outdent"></i>
-                                            </span>
-                                            <select class="form-control" name="tipoAnimal" ng-model="ctrl.breed.tipoAnimal" ng-options="o as o for o in ctrl.tipoAnimais.options"
-                                                required></select>
-                                        </div>
-                                        <div class="help-block" ng-messages="breedForm.tipoAnimal.$error" ng-if="breedForm.$submitted || breedForm.tipoAnimal.$touched">
-                                            <div ng-messages-include="src/include/messages.html"></div>
-                                        </div>
-                                    </div>
-                                    <div class="form-group" ng-class="{ 'has-error': breedForm.name.$touched && breedForm.name.$invalid}">
-                                        <label for="name" class="control-label">Descrição
-                                            <span class="text-danger">*</span>
-                                        </label>
-                                        <input type="text" name="name" class="form-control" ng-model="ctrl.breed.name" placeholder="Informe a raça animal" ng-maxlength="100"
-                                            required>
 
-                                        <div class="help-block" ng-messages="breedForm.name.$error" ng-if="breedForm.name.$touched">
-                                            <div ng-messages-include="src/include/messages.html"></div>
-                                        </div>
-                                    </div>
-                                    <div class="form-group">
-                                        <label for="life" class="control-label">Expectativa de Vida</label>
-                                        <input type="text" name="life" class="form-control" ng-model="ctrl.breed.life" placeholder="10 – 13 anos">
-                                    </div>
-
-                                    <div class="form-group">
-                                        <label for="peso" class="control-label">Peso</label>
-                                        <input type="text" name="peso" class="form-control" ng-model="ctrl.breed.weight" placeholder="3kg - 6kg">
-                                    </div>
-
-                                    <div class="form-group">
-                                        <label for="height" class="control-label">Altura</label>
-                                        <input type="text" name="height" class="form-control" ng-model="ctrl.breed.height" placeholder="12cm – 14cm">
-                                    </div>
+        <div class="panel panel-default" flex>
+            <div class="panel-body">
+                <h3 class="thin">Dados da Raça</h3>
+                <hr>
+                <form name="breedForm" ng-submit="ctrl.enviar(breedForm.$valid)" novalidate>
+                    <div class="row">
+                        <div class="col-xs-12 col-sm-12 col-md-4">
+                            <div class="form-group" ng-class="{ 'has-error': (breedForm.$submitted || breedForm.tipoAnimal.$touched) && breedForm.tipoAnimal.$invalid}">
+                                <label for="porte" class="control-label">Tipo
+                                    <span class="text-danger">*</span>
+                                </label>
+                                <div class="input-group">
+                                    <span class="input-group-addon">
+                                        <i class="fa fa-outdent"></i>
+                                    </span>
+                                    <select class="form-control" name="tipoAnimal" ng-model="ctrl.breed.tipoAnimal" ng-options="o as o for o in ctrl.tipoAnimais.options"></select>
+                                </div>
+                                <div class="help-block" ng-messages="breedForm.tipoAnimal.$error" ng-if="breedForm.$submitted || breedForm.tipoAnimal.$touched">
+                                    <div ng-messages-include="src/include/messages.html"></div>
                                 </div>
                             </div>
-                            <div class="row">
-                                <div class="col-md-12">
-                                    <div class="form-group">
-                                        <button class="btn btn-danger" type="reset">
-                                            <i class="fa fa-eraser" aria-hidden="true"></i> Limpar
-                                        </button>
-                                        <button style="margin-left: 5px" class="btn btn-success" type="submit">
-                                            <i class="fa fa-floppy-o" aria-hidden="true"></i> Salvar
-                                        </button>
+
+                            <div class="form-group" ng-class="{ 'has-error': (breedForm.$submitted || breedForm.porte.$touched) && breedForm.porte.$invalid}">
+                                    <label for="porte" class="control-label">Porte
+                                        <span class="text-danger">*</span>
+                                    </label>
+                                    <div class="input-group">
+                                        <span class="input-group-addon">
+                                            <i class="fa fa-outdent"></i>
+                                        </span>
+                                        <select class="form-control" name="porte" ng-model="ctrl.breed.porte" ng-options="o as o for o in ctrl.portes.options" required></select>
+                                    </div>
+                                    <div class="help-block" ng-messages="breedForm.porte.$error" ng-if="breedForm.$submitted || breedForm.porte.$touched">
+                                        <div ng-messages-include="src/include/messages.html"></div>
                                     </div>
                                 </div>
+                        </div>
+
+                        <div class="col-xs-12 col-sm-12 col-md-4">
+                            <div class="form-group" ng-class="{ 'has-error': breedForm.name.$touched && breedForm.name.$invalid}">
+                                <label for="name" class="control-label">Descrição
+                                    <span class="text-danger">*</span>
+                                </label>
+                                <input type="text" name="name" class="form-control" ng-model="ctrl.breed.name" placeholder="Informe a raça animal" ng-maxlength="100"
+                                    required>
+
+                                <div class="help-block" ng-messages="breedForm.name.$error" ng-if="breedForm.name.$touched">
+                                    <div ng-messages-include="src/include/messages.html"></div>
+                                </div>
                             </div>
-                            <input type="text" ng-model="ctrl.breed.id" ng-hide="true">
-                        </form>
+
+                            <div class="form-group">
+                                <label for="life" class="control-label">Expectativa de Vida</label>
+                                <input type="text" name="life" class="form-control" ng-model="ctrl.breed.life" placeholder="10 – 13 anos">
+                            </div>
+                        </div>
+
+                        <div class="col-xs-12 col-sm-12 col-md-4">
+                            <div class="form-group">
+                                <label for="peso" class="control-label">Peso</label>
+                                <input type="text" name="peso" class="form-control" ng-model="ctrl.breed.weight" placeholder="3kg - 6kg">
+                            </div>
+
+                            <div class="form-group">
+                                <label for="height" class="control-label">Altura</label>
+                                <input type="text" name="height" class="form-control" ng-model="ctrl.breed.height" placeholder="12cm – 14cm">
+                            </div>
+                        </div>
                     </div>
-                </div>
+                    <input type="text" ng-model="ctrl.breed.id" ng-hide="true">
+                </form>
             </div>
         </div>
     </div>
 
     <div ng-show="ctrl.facePanel == 0" layout="column" layout-align="space-between stretch" flex>
         <section class="nav-grid" layout="row" layout-sm="column" layout-wrap>
-            <md-button class="md-icon-button" ng-click="ctrl.edit()" tooltip-placement="right-bottom"
-                uib-tooltip="Modo Formulário">
+            <md-button class="md-icon-button" ng-click="ctrl.edit()" tooltip-placement="right-bottom" uib-tooltip="Modo Formulário">
                 <i class="fa fa-table" aria-label="Modo formulário"></i>
             </md-button>
-            <md-button class="md-icon-button" ng-click="ctrl.add()" tooltip-placement="right-bottom"
-                uib-tooltip="Adicionar">
+            <md-button class="md-icon-button" ng-click="ctrl.add()" tooltip-placement="right-bottom" uib-tooltip="Adicionar">
                 <i class="fa fa-plus" aria-label="Modo formulário"></i>
             </md-button>
-            <md-button class="md-icon-button"  ng-click="ctrl.edit()" tooltip-placement="right-bottom"
-                uib-tooltip="Editar">
+            <md-button class="md-icon-button" ng-click="ctrl.edit()" tooltip-placement="right-bottom" uib-tooltip="Editar">
                 <i class="fa fa-pencil" aria-label="Editar"></i>
             </md-button>
-            <md-button class="md-icon-button" ng-click="ctrl.remover()" tooltip-placement="right-bottom"
-                uib-tooltip="Remover">
+            <md-button class="md-icon-button" ng-click="ctrl.remover()" tooltip-placement="right-bottom" uib-tooltip="Remover">
                 <i class="fa fa-trash-o" aria-label="Remover"></i>
             </md-button>
-            <md-button class="md-icon-button" ng-click="ctrl.recarregar()" tooltip-placement="right-bottom"
-                uib-tooltip="Recarregar">
+            <md-button class="md-icon-button" ng-click="ctrl.recarregar()" tooltip-placement="right-bottom" uib-tooltip="Recarregar">
                 <i class="fa fa-refresh" aria-label="Recarregar"></i>
             </md-button>
         </section>

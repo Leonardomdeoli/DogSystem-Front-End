@@ -13,7 +13,7 @@ angular.module('dog-system')
 
                 self.gridOptions = {
                     columnDefs: data.columnDefs,
-                    paginationPageSize: 4
+                    paginationPageSize: 10
                 };
 
                 recarregar();

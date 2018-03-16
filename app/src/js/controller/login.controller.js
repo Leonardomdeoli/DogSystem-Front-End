@@ -3,8 +3,8 @@
  */
 
 angular.module('dog-system')
-    .controller('LoginCtrl', ['LoginLogoutSrv',
-        function (LoginLogoutSrv) {
+    .controller('LoginCtrl', ['LoginLogoutSrv', '$localStorage', '$rootScope', 'AngularUtils',
+        function (LoginLogoutSrv, $localStorage, $rootScope, AngularUtils) {
             var self = this;
 
             self.textInfo = "";
@@ -12,14 +12,20 @@ angular.module('dog-system')
             self.showPassword = showPassword;
             self.forgotPassword = forgotPassword;
             self.mostar = false;
-            
+
+            init();
+            function init(params) {
+                delete $localStorage.authDetails;
+                $rootScope.authDetails = { name: '', authenticated: false, permissions: [] };
+            }
+
             function login(email, password) {
                 LoginLogoutSrv.login(email, password);
             }
-            
+
             function forgotPassword(email) {
                 var promisse = LoginLogoutSrv.forgotPassword(email);
-                
+
                 self.mostar = true;
                 promisse.then(
                     function success(response) {
@@ -28,13 +34,11 @@ angular.module('dog-system')
                         self.mostar = false;
                     },
                     function failure(response) {
-                        var data = response.data;
-                        if (data.atributeMessage.mensagem) {
-                            self.textInfo = data.atributeMessage.mensagem;
-                        } else {
-                            self.textInfo = 'Ocorreu um ao erro ao solicitar sua nova senha';
-                        }
+                        var mensagem = AngularUtils.getProperty(response,'data.atributeMessage.mensagem');
+
                         self.mostar = false;
+
+                        self.textInfo = mensagem ? mensagem : 'Ocorreu um ao erro ao solicitar sua nova senha';
                     }
                 );
             }

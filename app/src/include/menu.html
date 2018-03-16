@@ -27,24 +27,6 @@
                 <!-- Links Inicio -->
                 <ul class="nav navbar-nav navbar-left navbar-header-style">
 
-                    <!-- Menu dropdown Inicio -->
-                    <li class="dropdown">
-                        <a class="dropdown-toggle" data-toggle="dropdown">Relatorios
-                            <b class="caret"></b>
-                        </a>
-                        <ul class="dropdown-menu">
-                            <li ng-show="hasAnyPermission(['ROLE_ADMIN'])">
-                                <a style="cursor: pointer" ng-click="reportClientePet()">Clientes</a>
-                            </li>
-
-                            <li ng-show="hasAnyPermission(['ROLE_ADMIN'])">
-                                <a style="cursor: pointer" ng-click="reportBreed()">Raça</a>
-                            </li>
-
-                        </ul>
-                    </li>
-                    <!-- Menu dropdown Fim -->
-
                     <li ng-show="hasAnyPermission(['ROLE_ADMIN'])">
                         <a href="#/usuario">Usuários
                             <i class="fa fa-users" aria-hidden="true"></i>
@@ -78,6 +60,26 @@
                     <li ng-show="hasAnyPermission(['ROLE_ADMIN'])">
                         <a href="#/raca">Raças</a>
                     </li>
+
+                    <!-- Menu dropdown Inicio -->
+                    <li class="dropdown">
+                        <a class="dropdown-toggle" data-toggle="dropdown">Relatorios
+                            <b class="caret"></b>
+                        </a>
+                        <ul class="dropdown-menu">
+                            <li ng-show="hasAnyPermission(['ROLE_ADMIN'])">
+                                <a style="cursor: pointer" ng-click="reportClientePet()">
+                                    <i class="fa fa-file-pdf-o" aria-hidden="true"></i> Clientes.pdf</a>
+                            </li>
+
+                            <li ng-show="hasAnyPermission(['ROLE_ADMIN'])">
+                                <a style="cursor: pointer" ng-click="reportBreed()">
+                                    <i class="fa fa-file-pdf-o" aria-hidden="true"></i> Raça.pdf</a>
+                            </li>
+
+                        </ul>
+                    </li>
+                    <!-- Menu dropdown Fim -->
                 </ul>
 
                 <ul class="nav navbar-nav navbar-right navbar-header-style">

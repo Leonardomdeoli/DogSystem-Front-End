@@ -4,7 +4,7 @@
 <head>
 	<meta charset="utf-8">
 	<base href="/">
-	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
 	<meta name="description" content="Dog System">
 	<meta name="author" content="Leonardo Mendes de Oliveira">
 	<link rel="shortcut icon" href="img/paw.png">
@@ -14,6 +14,7 @@
 	<!-- build:css -->
 	<!-- inject:css -->
 	<link rel="stylesheet" href="assets/css/angular-material.min.css">
+	<link rel="stylesheet" href="assets/css/angular-toggle-switch.css">
 	<link rel="stylesheet" href="assets/css/bootstrap.css">
 	<link rel="stylesheet" href="assets/css/font-awesome.css">
 	<link rel="stylesheet" href="src/css/ag-grid.css">
@@ -32,24 +33,25 @@
 
 <!-- build:js -->
 <!-- inject:js -->
-<script src="assets/lib/ag-grid/ag-grid.min.js"></script>
+<script src="assets/lib/ag-grid/ag-grid.js"></script>
 <script src="assets/lib/angular/angular.js"></script>
 <script src="assets/lib/angular-animate/angular-animate.min.js"></script>
 <script src="assets/lib/angular-aria/angular-aria.min.js"></script>
+<script src="assets/lib/angular-base64-upload/angular-base64-upload.min.js"></script>
 <script src="assets/lib/angular-cookies/angular-cookies.min.js"></script>
+<script src="assets/lib/angular-locale/angular-locale.js"></script>
 <script src="assets/lib/angular-material/angular-material.min.js"></script>
 <script src="assets/lib/angular-messages/angular-messages.js"></script>
 <script src="assets/lib/angular-route/angular-route.js"></script>
 <script src="assets/lib/angular-sanitize/angular-sanitize.js"></script>
+<script src="assets/lib/angular-toggle-switch/angular-toggle-switch.js"></script>
 <script src="assets/lib/angular-ui-bootstrap/ui-bootstrap-tpls.js"></script>
 <script src="assets/lib/checklist-model/checklist-model.js"></script>
 <script src="assets/lib/crypto/angular-crypto.js"></script>
 <script src="assets/lib/moment/moment.js"></script>
 <script src="assets/lib/moment/pt-br.js"></script>
 <script src="assets/lib/ngstorage/ngStorage.min.js"></script>
-<script src="assets/lib/angular-base64-upload/dist/angular-base64-upload.min.js"></script>
 <script src="assets/lib/angular-input-masks/releases/angular-input-masks-standalone.min.js"></script>
-<script src="assets/lib/angular-ui-bootstrap/dist/ui-bootstrap-tpls.js"></script>
 <script src="assets/lib/jquery/dist/jquery.min.js"></script>
 <script src="assets/lib/bootstrap/dist/js/bootstrap.min.js"></script>
 <script src="src/index.js"></script>
@@ -88,5 +90,22 @@
 <script src="src/js/service/service-proxy.service.js"></script>
 <!-- endinject -->
 <!-- endbuild -->
+<script>
+	if (document.getElementsByTagName) {
+
+		var inputElements = document.getElementsByTagName("input");
+
+		for (i = 0; inputElements[i]; i++) {
+
+			if (inputElements[i].className && (inputElements[i].className.indexOf("disableAutoComplete") != -1)) {
+
+				inputElements[i].setAttribute("autocomplete", "off");
+
+			}
+
+		}
+
+	}
+</script>
 
 </html>

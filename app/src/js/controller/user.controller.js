@@ -12,7 +12,7 @@ angular.module('dog-system')
             self.user = {};
             self.users = [];
             self.permissions = [];
-            self.showAddEditUser = false;
+            self.facePanel = 0;
             self.showList = false;
             self.isEditFields = true;
             self.btnSalvar = 'Salvar';
@@ -24,10 +24,44 @@ angular.module('dog-system')
             self.listUser = listUser;
             self.newUser = newUser;
             self.buscarUser = buscarUser;
-            self.pageChanged = pageChanged;
+            self.setFacePanel = setFacePanel;
+            self.edit = edit;
 
             self.maxSize = 5;
             self.numPerPage = 6;
+            self.gridOptions = {
+                columnDefs: [
+                    { headerName: "#", field: "id", width: 90, valueGetter: 'node.id', hide: true },
+                    {
+                        headerName: "CPF", field: "cpf",  suppressFilter: true, width: 200, cellRenderer: function (params) {
+                            return params.data.cpf
+                                .replace(/(\d{3})(\d)/, "$1.$2")
+                                .replace(/(\d{3})(\d)/, "$1.$2")
+                                .replace(/(\d{3})(\d{1,2})$/, "$1-$2");
+                        }
+                    },
+                    { headerName: "Name", field: "name", width: 300 },
+                    { headerName: "Email", field: "email", width: 200 },
+                    {
+                        headerName: "Telefone", field: "phone",  suppressFilter: true , width: 200, cellRenderer: function (params) {
+                            return params.data.phone
+                                .replace(/(\d{2})(\d)/, "($1) $2")
+                                .replace(/(\d{3})(\d{1,4})$/, "$1-$2");
+                        }
+                    },
+                    {
+                        headerName: "CEP", field: "address.zipcode", width: 150, cellRenderer: function (params) {
+                            return params.data.address.zipcode
+                                .replace(/(\d{3})(\d{1,3})$/, "$1-$2");
+                        }
+                    },
+                    { headerName: "Rua", field: "address.name", width: 200 },
+                    { headerName: "Número", field: "number", width: 100 ,  suppressFilter: true},
+                    { headerName: "Bairro", field: "address.neighborhood.name", width: 200 },
+                    { headerName: "Cidade", field: "address.neighborhood.city.name", width: 200 },
+                    { headerName: "Estado", field: "address.neighborhood.city.uf.sigla", width: 100 },
+                ]
+            };
 
             init();
             function init() {
@@ -37,33 +71,24 @@ angular.module('dog-system')
                     listUser(1);
                 }
             }
-
-            function pageChanged() {
-                listUser(self.currentPage);
-            }
-
             function listUser(pageNo) {
-                var page = pageNo - 1;
-
-                ServiceProxy.find(_userUrl + '/pagina/' + page + '/qtd/' + self.numPerPage, function (data) {
-                    self.users = data.content;
-                    self.totalItems = data.totalElements;
+                ServiceProxy.find(_userUrl, function (data) {
+                    self.gridOptions.api.setRowData(data);
+                    var rowData = self.gridOptions.api.getRowNode(0);
+                    if (rowData) {
+                        rowData.setSelected(true);
+                    }
                     modifyTela(false);
                 });
-                self.currentPage = pageNo;
+            }
+
+            function setFacePanel(index) {
+                self.facePanel = index;
             }
 
             self.sort = function (keyname) {
                 self.sortKey = keyname;   //set the sortKey to the param passed
                 self.reverse = !self.reverse; //if true make it false and vice versa
-            }
-
-            function getPermission() {
-                self.btnSalvar = 'Salvar';
-                self.isEditFields = true;
-                ServiceProxy.find(_permissionUrl, function (data) {
-                    self.permissions = data;
-                });
             }
 
             function newUser() {
@@ -73,12 +98,11 @@ angular.module('dog-system')
             }
 
             function modifyTela(condicao) {
-                self.showAddEditUser = condicao;
+                self.facePanel = condicao;
                 self.showList = !condicao;
             };
 
             function buscarUser() {
-                self.nameuser
                 ServiceProxy.find(_userUrl + "/" + self.nameuser, function (data) {
                     self.users = data;
                     modifyTela(false);
@@ -101,24 +125,22 @@ angular.module('dog-system')
                 }
             }
 
-            self.editUser = function (user) {
-                self.user = angular.copy(user);
+            function edit(user) {
+                var selected = self.gridOptions.api.getSelectedRows();
+                self.user = selected[0];
 
-                if ($rootScope.authDetails.user.id != self.user.id) {
-                    getPermission();
-                } else {
+                if ($rootScope.authDetails.user.id == self.user.id) {
                     self.isEditFields = false;
-                    self.btnSalvar = 'Atualizar';
                 }
 
-                modifyTela(true);
+                self.facePanel = 1;
             }
 
             self.deleteUser = function (user) {
                 MessageUtils.confirmeDialog('Deseja realmente apagar este registo')
                     .then(function () {
                         ServiceProxy.remove(_userUrl, user);
-                });
+                    });
             };
 
         }]);

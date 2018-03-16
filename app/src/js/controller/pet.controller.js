@@ -9,15 +9,6 @@ angular.module('dog-system')
             var _petUrl = ServicePathConstants.PRIVATE_PATH + '/pet';
             var page = 0;
 
-
-            self.sizes = {
-                options: ['Pequeno', 'Medio', 'Grande', 'Gigante']
-            };
-
-            self.tipoAnimais = {
-                options: ['Cão', 'Gato']
-            };
-
             self.sexs = ["macho", "femea"];
             self.pets = [];
 
@@ -90,7 +81,7 @@ angular.module('dog-system')
                     tipoAnimal: 'Cão',
                     size: 'Pequeno',
                     sex: 'macho',
-                    usadogLove: true
+                    usaDogLove: true
                 };
                 setFacePanel(1);
             }
@@ -144,22 +135,32 @@ angular.module('dog-system')
 
             function getColumnDefs(tipo) {
                 if (tipo == 'user') {
-                    return {
-
-                    };
-                }
-
-                if (tipo == 'breed') {
                     return [
                         { headerName: "#", field: "id", width: 90, valueGetter: 'node.id', hide: true },
-                        { headerName: "Nome", field: "name" },
-                        { headerName: "Vida", field: "life" },
-                        { headerName: "Peso", field: "weight" },
-                        { headerName: "Altura", field: "height" }
+                        { headerName: "Name", field: "name", width: 250 },
+                        { headerName: "Email", field: "email", suppressFilter: true, width: 200 },
+                        {
+                            headerName: "Telefone", field: "phone", suppressFilter: true, width: 130, cellRenderer: function (params) {
+                                return params.data.phone
+                                    .replace(/(\d{2})(\d)/, "($1) $2")
+                                    .replace(/(\d{3})(\d{1,4})$/, "$1-$2");
+                            }
+                        },
+                        { headerName: "Rua", suppressFilter: true, field: "address.name", width: 180 },
+                        { headerName: "Número", suppressFilter: true,  field: "number", width: 100 },
                     ];
-                }
 
-                if (tipo == 'pet') {
+                } else if (tipo == 'breed') {
+
+                    return [
+                        { headerName: "#", field: "id", valueGetter: 'node.id', hide: true },
+                        { headerName: "Nome", field: "name", width: 300 },
+                        { headerName: "Vida", suppressFilter: true ,field: "life", width: 150},
+                        { headerName: "Peso", suppressFilter: true, field: "weight", width: 160 },
+                        { headerName: "Altura", suppressFilter: true, field: "height", width: 160 }
+                    ];
+
+                } else if (tipo == 'pet') {
                     return [
                         { headerName: "#", field: "id", width: 90, hide: true },
                         { headerName: "Nome propriétario", field: "user.name", width: 265 },
@@ -170,58 +171,25 @@ angular.module('dog-system')
                             }
                         },
                         { headerName: "Sexo", field: "sex" },
-                        { headerName: "Porte", field: "size" },
                         {
-                            headerName: "Usa DogLove", field: "usadogLove",
+                            headerName: "Usa DogLove",  width: 150, suppressFilter: true, field: "usaDogLove",
                             cellRenderer: function (params) {
-                                var icon = params.data.usadogLove ? 'fa fa-toggle-on' : 'fa fa-toggle-off';
-                                return '<i class="' + icon + '" style="font-size: 24px;"></i>';
+                                var icon = params.data.usaDogLove ? 'fa-toggle-on' : 'fa-toggle-off';
+                                return '<i class="fa '+ icon + '" aria-hidden="true" style="font-size: 26px;" ></i>';
                             }
+                            
                         },
+                        { headerName: "Porte", field: "breed.porte" },
                         {
                             headerName: "Especie", field: "tipoAnimal", width: 129, suppressFilter: true,
                             cellRenderer: function (params) {
-                                var icon = params.data.tipoAnimal == 'Cão' ? 'dog.svg' : 'cat.svg';
+                                var icon = params.data.breed.tipoAnimal == 'Cão' ? 'dog.svg' : 'cat.svg';
                                 return '<img src="img/' + icon + '" style="width: 24px;"></i>';
                             }
                         },
                         { headerName: "Raça", field: "breed.name" }
                     ];
                 }
-            }
-
-            //Redimensionamento
-            self.resizeImage = function (file, base64) {
-                var deferred = $q.defer();
-                // We create an image to receive the Data URI
-                var img = document.createElement('img');
-
-                // When the event "onload" is triggered we can resize the image.
-                img.onload = function () {
-                    // We create a canvas and get its context.
-                    var canvas = document.createElement('canvas');
-                    var ctx = canvas.getContext('2d');
-
-                    // We set the dimensions at the wanted size.
-                    canvas.width = 100;
-                    canvas.height = 100;
-
-                    // We resize the image with the canvas method drawImage();
-                    ctx.drawImage(this, 0, 0, 100, 100);
-
-                    var dataURI = canvas.toDataURL(1.0);
-                    base64.base64 = dataURI.replace('data:image/png;base64,', '');
-                    deferred.resolve(base64);
-
-                    $scope.$apply();
-                };
-                img.src = 'data:' + base64.filetype + ';base64,' + base64.base64;
-                return deferred.promise;
-            };
-
-
-            self.touched = function () {
-                self.pet.image.id = undefined;;
             }
 
             function eventKeyPro($event) {
@@ -265,17 +233,8 @@ angular.module('dog-system')
                         throw _msg;
                     }
 
-                    self.pet.usadogLove = self.pet.usadogLove ? 'True' : 'False';
-
                     if (self.pet.id) {
                         ServiceProxy.edit(_petUrl, self.pet, function (response) {
-                            for (var pet in self.pets) {
-                                if (self.pets[pet].id == self.pet.id) {
-                                    self.pet.usadogLove = self.pet.usadogLove == 'True';
-                                    self.pets[pet] = self.pet;
-                                    break;
-                                }
-                            }
                             self.gridOptions.api.refreshCells();
                             setFacePanel(0);
                         });

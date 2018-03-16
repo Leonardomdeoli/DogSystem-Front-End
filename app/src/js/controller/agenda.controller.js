@@ -95,7 +95,7 @@ angular.module('dog-system')
 
           var page = pageNo - 1;
 
-          var _url = ServicePathConstants.PRIVATE_PATH.concat('/agenda') + '/pagina/' + page + '/qtd/' + self.numPerPage;
+          var _url = ServicePathConstants.PRIVATE_PATH + '/agenda';
 
           _url = _url.concat('/datainicial/').concat(self.inicial);
 
