@@ -25,6 +25,7 @@ angular.module('dog-system')
             self.agendar = agendar;
             self.add = add;
             self.edit = edit;
+            self.recarregar = recarregar;
 
             self.maxSize = 5;
             self.numPerPage = 6;
@@ -40,6 +41,10 @@ angular.module('dog-system')
                     getPet();
                     self.facePanel = 0;
                 }
+            }
+
+            function recarregar() {
+                getPet();
             }
 
             self.sort = function (keyname) {
@@ -147,7 +152,7 @@ angular.module('dog-system')
                             }
                         },
                         { headerName: "Rua", suppressFilter: true, field: "address.name", width: 180 },
-                        { headerName: "Número", suppressFilter: true,  field: "number", width: 100 },
+                        { headerName: "Número", suppressFilter: true, field: "number", width: 100 },
                     ];
 
                 } else if (tipo == 'breed') {
@@ -155,7 +160,7 @@ angular.module('dog-system')
                     return [
                         { headerName: "#", field: "id", valueGetter: 'node.id', hide: true },
                         { headerName: "Nome", field: "name", width: 300 },
-                        { headerName: "Vida", suppressFilter: true ,field: "life", width: 150},
+                        { headerName: "Vida", suppressFilter: true, field: "life", width: 150 },
                         { headerName: "Peso", suppressFilter: true, field: "weight", width: 160 },
                         { headerName: "Altura", suppressFilter: true, field: "height", width: 160 }
                     ];
@@ -172,12 +177,12 @@ angular.module('dog-system')
                         },
                         { headerName: "Sexo", field: "sex" },
                         {
-                            headerName: "Usa DogLove",  width: 150, suppressFilter: true, field: "usaDogLove",
+                            headerName: "Usa DogLove", width: 150, suppressFilter: true, field: "usaDogLove",
                             cellRenderer: function (params) {
                                 var icon = params.data.usaDogLove ? 'fa-toggle-on' : 'fa-toggle-off';
-                                return '<i class="fa '+ icon + '" aria-hidden="true" style="font-size: 26px;" ></i>';
+                                return '<i class="fa ' + icon + '" aria-hidden="true" style="font-size: 26px;" ></i>';
                             }
-                            
+
                         },
                         { headerName: "Porte", field: "breed.porte" },
                         {

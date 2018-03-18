@@ -25,11 +25,9 @@ angular.module('dog-system')
                 return hasPermission;
             }
 
-
             function getNameUsuLogado() {
                 return $rootScope.authDetails.name;
             }
-
 
             return service;
         }]);

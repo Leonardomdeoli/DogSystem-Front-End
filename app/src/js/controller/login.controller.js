@@ -12,6 +12,7 @@ angular.module('dog-system')
             self.showPassword = showPassword;
             self.forgotPassword = forgotPassword;
             self.mostar = false;
+            self.MostarSenha = 0;
 
             init();
             function init(params) {
@@ -34,7 +35,7 @@ angular.module('dog-system')
                         self.mostar = false;
                     },
                     function failure(response) {
-                        var mensagem = AngularUtils.getProperty(response,'data.atributeMessage.mensagem');
+                        var mensagem = AngularUtils.getProperty(response, 'data.atributeMessage.mensagem');
 
                         self.mostar = false;
 
@@ -43,20 +44,15 @@ angular.module('dog-system')
                 );
             }
 
-            function showPassword() {
+            function showPassword(indice) {
                 var key_attr = $('#key').attr('type');
 
                 if (key_attr != 'text') {
-
-                    $('.checkbox').addClass('show');
                     $('#key').attr('type', 'text');
-
                 } else {
-
-                    $('.checkbox').removeClass('show');
                     $('#key').attr('type', 'password');
-
                 }
+                self.MostarSenha = indice;
             }
 
         }]);

@@ -17,7 +17,7 @@
         <div class="panel panel-default" flex>
 
             <div class="panel-body">
-                <form name="userForm" ng-submit="ctrl.enviar(userForm.$valid)" novalidate>
+                <form name="userForm" ng-submit="ctrl.enviar(userForm.$valid)" novalidate  autocomplete="off">
                     <div class="row">
                         <div class="col-md-8 col-sm-7 col-xs-12">
                             <div class="form-group" ng-class="{ 'has-error': userForm.name.$touched && userForm.name.$invalid}">
@@ -67,7 +67,7 @@
                                     <span class="input-group-addon">
                                         <i class="fa fa-envelope-o fa-fw"></i>
                                     </span>
-                                    <input class="form-control" type="text" placeholder="email@email.com" ng-model="ctrl.user.email" name="email" ng-pattern="rgxEmail"
+                                    <input autocomplete="nope" class="form-control" type="text" placeholder="email@email.com" ng-model="ctrl.user.email" name="email" ng-pattern="rgxEmail"
                                         required>
                                 </div>
                                 <div class="help-block" ng-messages="userForm.email.$error" ng-if="userForm.email.$touched">
@@ -105,7 +105,7 @@
                                     <span class="input-group-addon">
                                         <i class="fa fa-key fa-fw"></i>
                                     </span>
-                                    <input class="form-control" type="password" ng-minlength="6" class="form-control" name="password" placeholder="Digite sua Senha..."
+                                    <input autocomplete="new-password" class="form-control" type="password" ng-minlength="6" class="form-control" name="password" placeholder="Digite sua Senha..."
                                         ng-model="ctrl.user.password" required>
                                 </div>
                                 <div class="help-block" ng-messages="userForm.password.$error" ng-if="userForm.password.$touched">

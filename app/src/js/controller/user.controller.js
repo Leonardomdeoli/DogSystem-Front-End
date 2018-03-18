@@ -2,8 +2,8 @@
 
 
 angular.module('dog-system')
-    .controller('UserCtrl', ['ServiceProxy', 'ServicePathConstants', 'MessageUtils', '$uibModal', '$rootScope', '$location',
-        function (ServiceProxy, ServicePathConstants, MessageUtils, $uibModal, $rootScope, $location) {
+    .controller('UserCtrl', ['ServiceApplication', 'ServiceProxy', 'ServicePathConstants', 'MessageUtils', '$uibModal', '$rootScope', '$location',
+        function (ServiceApplication, ServiceProxy, ServicePathConstants, MessageUtils, $uibModal, $rootScope, $location) {
             var self = this;
 
             var _permissionUrl = ServicePathConstants.PRIVATE_PATH + '/permission';
@@ -26,6 +26,8 @@ angular.module('dog-system')
             self.buscarUser = buscarUser;
             self.setFacePanel = setFacePanel;
             self.edit = edit;
+            self.recarregar = recarregar;
+            self.remover = remover;
 
             self.maxSize = 5;
             self.numPerPage = 6;
@@ -33,7 +35,7 @@ angular.module('dog-system')
                 columnDefs: [
                     { headerName: "#", field: "id", width: 90, valueGetter: 'node.id', hide: true },
                     {
-                        headerName: "CPF", field: "cpf",  suppressFilter: true, width: 200, cellRenderer: function (params) {
+                        headerName: "CPF", field: "cpf", suppressFilter: true, width: 200, cellRenderer: function (params) {
                             return params.data.cpf
                                 .replace(/(\d{3})(\d)/, "$1.$2")
                                 .replace(/(\d{3})(\d)/, "$1.$2")
@@ -43,7 +45,7 @@ angular.module('dog-system')
                     { headerName: "Name", field: "name", width: 300 },
                     { headerName: "Email", field: "email", width: 200 },
                     {
-                        headerName: "Telefone", field: "phone",  suppressFilter: true , width: 200, cellRenderer: function (params) {
+                        headerName: "Telefone", field: "phone", suppressFilter: true, width: 200, cellRenderer: function (params) {
                             return params.data.phone
                                 .replace(/(\d{2})(\d)/, "($1) $2")
                                 .replace(/(\d{3})(\d{1,4})$/, "$1-$2");
@@ -56,7 +58,7 @@ angular.module('dog-system')
                         }
                     },
                     { headerName: "Rua", field: "address.name", width: 200 },
-                    { headerName: "Número", field: "number", width: 100 ,  suppressFilter: true},
+                    { headerName: "Número", field: "number", width: 100, suppressFilter: true },
                     { headerName: "Bairro", field: "address.neighborhood.name", width: 200 },
                     { headerName: "Cidade", field: "address.neighborhood.city.name", width: 200 },
                     { headerName: "Estado", field: "address.neighborhood.city.uf.sigla", width: 100 },
@@ -68,10 +70,10 @@ angular.module('dog-system')
                 if (!$rootScope.authDetails.authenticated) {
                     $location.path("/login");
                 } else {
-                    listUser(1);
+                    listUser();
                 }
             }
-            function listUser(pageNo) {
+            function listUser() {
                 ServiceProxy.find(_userUrl, function (data) {
                     self.gridOptions.api.setRowData(data);
                     var rowData = self.gridOptions.api.getRowNode(0);
@@ -136,12 +138,19 @@ angular.module('dog-system')
                 self.facePanel = 1;
             }
 
-            self.deleteUser = function (user) {
-                MessageUtils.confirmeDialog('Deseja realmente apagar este registo')
+            function remover() {
+                var selected = self.gridOptions.api.getSelectedRows();
+                self.user = selected[0];
+
+                MessageUtils.confirmeDialog('Deseja realmente apagar o ' + self.user.name + ' usuário')
                     .then(function () {
-                        ServiceProxy.remove(_userUrl, user);
+                        ServiceProxy.remove(_userUrl, self.user);
                     });
             };
+
+            function recarregar() {
+                listUser();
+            }
 
         }]);
 
