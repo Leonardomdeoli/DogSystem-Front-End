@@ -12,9 +12,13 @@ angular.module('dog-system')
           return 'Usuário';
         break;
 
+        case 'ROLE_EMPLOYEE':
+          return 'Funcionário';
+        break;
+
         default:
           return 'Unknown';
         break;
       };
     };
-  });
+  });  

@@ -33,14 +33,8 @@ angular.module('dog-system')
 
             init();
             function init() {
-
-
-                if (!$rootScope.authDetails.authenticated) {
-                    $location.path("/login");
-                } else {
-                    getPet();
-                    self.facePanel = 0;
-                }
+                getPet();
+                self.facePanel = 0;
             }
 
             function recarregar() {

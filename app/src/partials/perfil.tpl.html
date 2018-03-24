@@ -15,7 +15,7 @@
                 <hr>
                 <form name="userForm" ng-submit="ctrl.enviar(userForm.$valid)" novalidate autocomplete="off">
                     <div class="row">
-                        <div class="col-md-8 col-sm-7 col-xs-12">
+                        <div class="col-md-6 col-sm-12 col-xs-12">
                             <div class="form-group" ng-class="{ 'has-error': userForm.name.$touched && userForm.name.$invalid}">
                                 <label for="name" class="control-label">Nome
                                     <span class="text-danger">*</span>
@@ -34,7 +34,7 @@
                             </div>
                         </div>
 
-                        <div class="col-md-4 col-sm-5 col-xs-12">
+                        <div class="col-md-6 col-sm-12 col-xs-12">
                             <div class="form-group" ng-class="{ 'has-error': userForm.cpf.$touched && userForm.cpf.$invalid}">
                                 <label for="cpf" class="control-label">CPF
                                     <span class="text-danger">*</span>
@@ -109,12 +109,22 @@
                                 </div>
                             </div>
                         </div>
+                        <div class="col-md-6 col-sm-6 col-xs-12">
+                            <div class="form-group" ng-class="{ 'has-error': userForm.number.$touched && userForm.number.$invalid}">
+                                <label for="input-number" class="control-label">Número
+                                    <span class="text-danger">*</span>
+                                </label>
+                                <input type="text" class="form-control" name="number" id="input-number" ng-model="ctrl.user.number" ng-maxlength="10" ng-minlength="2"
+                                    ng-pattern="/^[0-9]{1,}$/" required>
+
+                                <div class="help-block" ng-messages="userForm.number.$error" ng-if="userForm.number.$touched">
+                                    <span ng-message="pattern">Insira somente números</span>
+                                    <div ng-messages-include="src/include/messages.html"></div>
+                                </div>
+                            </div>
+                        </div>
                     </div>
                     <!-- Fim dados pessoais -->
-
-                    <h3 class="thin">
-                        <i class="fa fa-map-marker" aria-hidden="true"></i>Endereço</h3>
-                    <hr>
                     <div class="row">
                         <div class="col-md-4 col-sm-4 col-xs-12">
                             <div class="form-group" ng-class="{ 'has-error': userForm.zipcode.$touched && userForm.zipcode.$invalid}">
@@ -148,19 +158,10 @@
                                 </div>
                             </div>
                         </div>
-
                         <div class="col-md-4 col-sm-4 col-xs-12">
-                            <div class="form-group" ng-class="{ 'has-error': userForm.number.$touched && userForm.number.$invalid}">
-                                <label for="input-number" class="control-label">Número
-                                    <span class="text-danger">*</span>
-                                </label>
-                                <input type="text" class="form-control" name="number" id="input-number" ng-model="ctrl.user.number" ng-maxlength="10" ng-minlength="2"
-                                    ng-pattern="/^[0-9]{1,}$/" required>
-
-                                <div class="help-block" ng-messages="userForm.number.$error" ng-if="userForm.number.$touched">
-                                    <span ng-message="pattern">Insira somente números</span>
-                                    <div ng-messages-include="src/include/messages.html"></div>
-                                </div>
+                            <div class="form-group">
+                                <label for="input-complement">Complemento</label>
+                                <input type="text" class="form-control" id="input-complement" ng-model="ctrl.user.complement">
                             </div>
                         </div>
                     </div>
@@ -204,14 +205,6 @@
                                 <div class="help-block" ng-messages="userForm.uf.$error" ng-if="userForm.uf.$touched">
                                     <div ng-messages-include="src/include/messages.html"></div>
                                 </div>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="row">
-                        <div class="col-md-12 col-sm-12 col-xs-12">
-                            <div class="form-group">
-                                <label for="input-complement">Complemento</label>
-                                <input type="text" class="form-control" id="input-complement" ng-model="ctrl.user.complement">
                             </div>
                         </div>
                     </div>

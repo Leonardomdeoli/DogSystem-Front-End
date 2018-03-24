@@ -4,7 +4,7 @@ angular.module('dog-system')
 
             init();
             function init() {
-                $scope.gridOptions.debug = true;
+                //$scope.gridOptions.debug = true;
 
                 $scope.gridOptions.animateRows = true;
 

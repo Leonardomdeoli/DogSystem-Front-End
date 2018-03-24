@@ -1,6 +1,3 @@
-'use strict';
-
-
 angular.module('dog-system')
     .controller('UserCtrl', ['ServiceApplication', 'ServiceProxy', 'ServicePathConstants', 'MessageUtils', '$uibModal', '$rootScope', '$location',
         function (ServiceApplication, ServiceProxy, ServicePathConstants, MessageUtils, $uibModal, $rootScope, $location) {
@@ -11,7 +8,7 @@ angular.module('dog-system')
 
             self.user = {};
             self.users = [];
-            self.permissions = [];
+            self.permissions = [{id: 1, role: "ROLE_ADMIN"}, { id: 2 , role : "ROLE_EMPLOYEE"}, {id: 3, role: "ROLE_USER"}];
             self.facePanel = 0;
             self.showList = false;
             self.isEditFields = true;
@@ -22,12 +19,12 @@ angular.module('dog-system')
 
 
             self.listUser = listUser;
-            self.newUser = newUser;
             self.buscarUser = buscarUser;
             self.setFacePanel = setFacePanel;
             self.edit = edit;
             self.recarregar = recarregar;
             self.remover = remover;
+            self.add = add;
 
             self.maxSize = 5;
             self.numPerPage = 6;
@@ -93,10 +90,9 @@ angular.module('dog-system')
                 self.reverse = !self.reverse; //if true make it false and vice versa
             }
 
-            function newUser() {
+            function add() {
                 getPermission();
-                self.user = {};
-                modifyTela(true);
+                self.user = {}
             }
 
             function modifyTela(condicao) {
@@ -131,7 +127,7 @@ angular.module('dog-system')
                 var selected = self.gridOptions.api.getSelectedRows();
                 self.user = selected[0];
 
-                if ($rootScope.authDetails.user.id == self.user.id) {
+                if ($rootScope.authDetails.id == self.user.id) {
                     self.isEditFields = false;
                 }
 

@@ -12,7 +12,7 @@ angular.module('dog-system')
         getNumberOrZero: getNumberOrZero,
 
         emptyAsUndefined: emptyAsUndefined,
-        getProperty:getProperty
+        getProperty: getProperty
       };
 
 
@@ -59,24 +59,20 @@ angular.module('dog-system')
 
 
       /*  Números Inicio  */
-      function formatNumber(value, acceptDecimals) {
-        if (value) {
-          value = value.toString();
+      function formatNumber(value, precision) {
+        var mask = '0,0';
 
-          var negative = (value.charAt(0) == '-');
+        if (precision == undefined) {
+          precision = 2;
+        }
+        
+        mask += '.';
 
-          if (acceptDecimals == false) {
-            value = value.replace(/[^\d]/g, '');
-          } else {
-            value = value.replace(/[^\d.,]/g, '');
-          }
-
-          if (negative) {
-            value = '-' + value;
-          }
+        for (var i = 0; i < precision; i++) {
+          mask += '0';
         }
 
-        return value;
+        return numeral(value).format(mask);
       }
 
       function stringToNumber(value) {
@@ -141,7 +137,7 @@ angular.module('dog-system')
                 if (angular.isDefined(currObj[currPath])) {
                   currObj = currObj[currPath];
                 }
-                if (angular.isUndefined(currObj) ||currObj == null) {
+                if (angular.isUndefined(currObj) || currObj == null) {
                   return undefined;
                 }
               }

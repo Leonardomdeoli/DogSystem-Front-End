@@ -1,77 +1,60 @@
 angular.module('dog-system')
-  .controller('ServicoCtrl', ['MessageUtils', 'ServiceProxy', 'ServicePathConstants', 'MessageUtils', '$uibModal', '$rootScope', '$location',
-    function (MessageUtils, ServiceProxy, ServicePathConstants, MessageUtils, $uibModal, $rootScope, $location) {
+  .controller('ServicoCtrl', ['MessageUtils', 'ServiceProxy', 'ServicePathConstants', 'MessageUtils', '$uibModal', '$rootScope', '$location', 'AngularUtils',
+    function (MessageUtils, ServiceProxy, ServicePathConstants, MessageUtils, $uibModal, $rootScope, $location, AngularUtils) {
       var self = this;
 
       var _serviceUrl = ServicePathConstants.PRIVATE_PATH + '/services';
 
       self.service = {};
       self.services = [];
-      self.showAddEditService = false;
-      self.showList = true;
+      self.facePanel = 0;
       self.sizes = {
         options: ['Pequeno', 'Medio', 'Grande', 'Gigante']
       };
 
-      self.listService = listService;
-      self.newService = newService;
-      self.buscarService = buscarService;
-      self.formatNumber = formatNumber;
-      self.pageChanged = pageChanged;
+      self.gridOptions = {
+        columnDefs: [
+          { headerName: "Código", field: "id", width: 150, cellClass: 'number-cell' },
+          { headerName: "Name", field: "name", width: 300 },
+          { headerName: "Preço", field: "price", width: 200, cellClass: 'number-cell', valueFormatter: currencyFormatter },
+          { headerName: "Porte", field: "size", width: 200 }
+        ]
+      };
 
-      self.maxSize = 5;
-      self.numPerPage = 6;
+      self.edit = edit;
+      self.add = add;
+      self.remover = remover;
+      self.recarregar = recarregar;
+      self.setFacePanel = setFacePanel;
 
       init();
       function init() {
-        if (!$rootScope.authDetails.authenticated) {
-          $location.path("/login");
-        } else {
-          listService(1);
-        }
-      }
-
-      function formatNumber(number) {
-        return parseFloat(number).toFixed(2);
-      }
-
-      self.sort = function (keyname) {
-        self.sortKey = keyname;   //set the sortKey to the param passed
-        self.reverse = !self.reverse; //if true make it false and vice versa
+        getServices();
       }
 
 
-      function pageChanged() {
-        listService(self.currentPage);
+      function currencyFormatter(params) {
+        return 'R$ ' + AngularUtils.formatNumber(params.value);
       }
 
-      function listService(pageNo) {
-        var page = pageNo - 1;
 
-        ServiceProxy.find(_serviceUrl + '/pagina/' + page + '/qtd/' + self.numPerPage, function (data) {
-          self.services = data.content;
-          self.totalItems = data.totalElements;
-          modifyTela(false);
+      function getServices() {
+        ServiceProxy.find(_serviceUrl, function (data) {
+          self.gridOptions.api.setRowData(data);
+          var rowData = self.gridOptions.api.getRowNode(0);
+          if (rowData) {
+            rowData.setSelected(true);
+          }
         });
-        self.currentPage = pageNo;
       }
 
-      function newService() {
+      function add() {
         self.service = {};
-        modifyTela(true);
+        setFacePanel(1);
       }
 
-      function modifyTela(condicao) {
-        self.showAddEditService = condicao;
-        self.showList = !condicao;
-      };
-
-      function buscarService() {
-        self.nameService
-        ServiceProxy.find(_serviceUrl + "/" + self.nameService, function (data) {
-          self.services = data;
-          modifyTela(false);
-        });
+      function setFacePanel(index) {
+        self.facePanel = index;
       }
 
       self.enviar = function (condicao) {
@@ -85,17 +68,22 @@ angular.module('dog-system')
         }
       }
 
-      self.editservice = function (service) {
-        self.service = angular.copy(service);
-        modifyTela(true);
+      function edit(user) {
+        var selected = self.gridOptions.api.getSelectedRows();
+        self.service = selected[0];
+        self.facePanel = 1;
       }
 
-      self.deleteservice = function (service) {
+      function remover(service) {
         MessageUtils.confirmeDialog('Deseja realmente apagar este registo')
           .then(function () {
             ServiceProxy.remove(_serviceUrl, service);
           });
       };
+
+      function recarregar() {
+        getServices();
+      }
 
     }]);
 

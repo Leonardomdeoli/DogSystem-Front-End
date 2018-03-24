@@ -4,23 +4,21 @@
 
 agGrid.initialiseAgGridWithAngular1(angular);
 
-var dependencias = [
-  'ngRoute', 
-  'agGrid', 
-  'ngCookies', 
+angular.module('dog-system', [
+  'ngRoute',
+  'agGrid',
+  'ngCookies',
   'ngAnimate',
-  'ngStorage', 
-  'angular.viacep', 
+  'ngStorage',
+  'angular.viacep',
   'ui.utils.masks',
-  'ngSanitize', 
-  'ui.bootstrap', 
-  'checklist-model', 
-  'naif.base64', 
+  'ngSanitize',
+  'ui.bootstrap',
+  'checklist-model',
+  'naif.base64',
   'ngMessages',
   'ngMaterial',
   'ngAria',
   'ngCrypto',
   'toggle-switch'
-];
-
-angular.module('dog-system', dependencias);
+]);

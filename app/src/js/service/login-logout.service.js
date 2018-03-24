@@ -9,6 +9,7 @@ angular.module('dog-system')
       var urlEmail = ServicePathConstants.PUBLIC_PATH + '/email-send';
       var urlLogin = ServicePathConstants.PUBLIC_PATH + '/login';
       var urlLogout = ServicePathConstants.PUBLIC_PATH + '/logout';
+      
       var serviceFactory = {
         login: login,
         logout: logout,
@@ -41,16 +42,16 @@ angular.module('dog-system')
             var data = response.data;
 
             if (data.name) {
-              $rootScope.authDetails = { name: data.name, authenticated: data.authenticated, permissions: data.authorities, user: data.principal.user };
+              $rootScope.authDetails = { name: data.name, authenticated: data.authenticated, permissions: data.authorities};
               $localStorage.authDetails = $rootScope.authDetails;
               $location.path('/');
             } else {
-              $rootScope.authDetails = { name: '', authenticated: false, permissions: [], user: '' };
+              $rootScope.authDetails = { name: '', authenticated: false, permissions: []};
               MessageUtils.error('O e-mail ou a senha que você digitou não correspondem aos nossos registros.');
             }
           },
           function failure(response) {
-            $rootScope.authDetails = { name: '', authenticated: false, permissions: [], user: '' };
+            $rootScope.authDetails = { name: '', authenticated: false, permissions: []};
             if (response.status == 401) {
               MessageUtils.error('O e-mail ou a senha que você digitou não correspondem aos nossos registros, favor verifique.');
             } else {

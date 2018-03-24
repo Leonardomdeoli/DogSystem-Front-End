@@ -14,71 +14,55 @@ angular.module('dog-system')
 
         $locationProvider.hashPrefix('');
 
-        $routeProvider.when('/', {
-            templateUrl: path + 'home.tpl.html',
-            controller: 'HomeCtrl as  ctrl'
-        });
-
-        $routeProvider.when('/login', {
-            templateUrl: path + 'login.tpl.html',
-            controller: 'LoginCtrl as ctrl'
-        });
-
-        $routeProvider.when('/usuario', {
-            templateUrl: path + 'user.tpl.html',
-            controller: 'UserCtrl as ctrl'
-        });
-
-        $routeProvider.when('/perfil', {
-            templateUrl: path + 'perfil.tpl.html',
-            controller: 'perfilCtrl as ctrl'
-        });
-
-        $routeProvider.when('/dogLove', {
-            templateUrl: path + 'doglove.tpl.html',
-            controller: 'DogloveCtrl as ctrl'
-        });
-
-        $routeProvider.when('/animal', {
-            templateUrl: path + 'pet.tpl.html',
-            controller: 'PetCtrl as ctrl'
-        });
-
-        $routeProvider.when('/servico', {
-            templateUrl: path + 'servico.tpl.html',
-            controller: 'ServicoCtrl as  ctrl'
-        });
-
-        $routeProvider.when('/agenda', {
-            templateUrl: path + 'agenda.tpl.html',
-            controller: 'AgendaCtrl as ctrl'
-        });
-
-        $routeProvider.when('/agenda/:id', {
-            templateUrl: path + 'agenda.tpl.html',
-            controller: 'AgendaCtrl as ctrl'
-        });
-
-        $routeProvider.when('/amigopet', {
-            templateUrl: path + 'amigopet.tpl.html',
-            controller: 'amigopetCtrl as ctrl'
-        });
-
-        $routeProvider.when('/contato', {
-            templateUrl: path + 'contact.tpl.html',
-            controller: 'ContactCtrl as ctrl'
-        });
-
-        $routeProvider.when('/raca', {
-            templateUrl: path + 'breed.tpl.html',
-            controller: 'BreedCtrl as ctrl'
-        });
-
-        $routeProvider.when('/404', {
-            templateUrl: path + '404.html'
-        });
-
-        $routeProvider.otherwise({
-            redirectTo: '/404'
-        });
+        $routeProvider
+            .when('/', {
+                templateUrl: path + 'home.tpl.html',
+                controller: 'HomeCtrl as  ctrl'
+            })
+            .when('/login', {
+                templateUrl: path + 'login.tpl.html',
+                controller: 'LoginCtrl as ctrl'
+            })
+            .when('/usuario', {
+                templateUrl: path + 'user.tpl.html',
+                controller: 'UserCtrl as ctrl'
+            })
+            .when('/perfil', {
+                templateUrl: path + 'perfil.tpl.html',
+                controller: 'perfilCtrl as ctrl'
+            })
+            .when('/dogLove', {
+                templateUrl: path + 'doglove.tpl.html',
+                controller: 'DogloveCtrl as ctrl'
+            })
+            .when('/servico', {
+                templateUrl: path + 'servico.tpl.html',
+                controller: 'ServicoCtrl as  ctrl'
+            })
+            .when('/agenda', {
+                templateUrl: path + 'agenda.tpl.html',
+                controller: 'AgendaCtrl as ctrl'
+            })
+            .when('/agenda/:id', {
+                templateUrl: path + 'agenda.tpl.html',
+                controller: 'AgendaCtrl as ctrl'
+            })
+            .when('/amigopet', {
+                templateUrl: path + 'amigopet.tpl.html',
+                controller: 'amigopetCtrl as ctrl'
+            })
+            .when('/contato', {
+                templateUrl: path + 'contact.tpl.html',
+                controller: 'ContactCtrl as ctrl'
+            })
+            .when('/raca', {
+                templateUrl: path + 'breed.tpl.html',
+                controller: 'BreedCtrl as ctrl'
+            })
+            .when('/404', {
+                templateUrl: path + '404.html'
+            })
+            .otherwise({
+                redirectTo: '/404'
+            });
     });

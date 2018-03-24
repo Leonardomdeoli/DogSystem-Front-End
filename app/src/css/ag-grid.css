@@ -11,3 +11,9 @@
   color: #212121;
   font-size: 25px;
 }
+.number-cell {
+  text-align: right;
+}
+.text_cell {
+  text-align: center;
+}
