@@ -47,9 +47,9 @@ angular.module('dog-system')
                 templateUrl: path + 'agenda.tpl.html',
                 controller: 'AgendaCtrl as ctrl'
             })
-            .when('/amigopet', {
-                templateUrl: path + 'amigopet.tpl.html',
-                controller: 'amigopetCtrl as ctrl'
+            .when('/animal', {
+                templateUrl: path + 'pet.tpl.html',
+                controller: 'PetCtrl as ctrl'
             })
             .when('/contato', {
                 templateUrl: path + 'contact.tpl.html',

@@ -26,7 +26,7 @@
 	<!-- endbuild -->
 </head>
 
-<body layout="column" flex>
+<body layout="column" style="overflow-y: scroll" flex>
 	<nav ng-include="'src/include/menu.html'"></nav>
 	<div ng-view layout="column" flex></div>
 </body>
@@ -35,14 +35,14 @@
 <!-- inject:js -->
 <script src="assets/lib/ag-grid/ag-grid.js"></script>
 <script src="assets/lib/angular/angular.js"></script>
-<script src="assets/lib/angular-animate/angular-animate.min.js"></script>
+<script src="assets/lib/angular-animate/angular-animate.js"></script>
 <script src="assets/lib/angular-aria/angular-aria.min.js"></script>
 <script src="assets/lib/angular-base64-upload/angular-base64-upload.min.js"></script>
 <script src="assets/lib/angular-cookies/angular-cookies.min.js"></script>
 <script src="assets/lib/angular-locale/angular-locale.js"></script>
 <script src="assets/lib/angular-material/angular-material.min.js"></script>
-<script src="assets/lib/angular-route/angular-route.js"></script>
 <script src="assets/lib/angular-messages/angular-messages.js"></script>
+<script src="assets/lib/angular-route/angular-route.js"></script>
 <script src="assets/lib/angular-sanitize/angular-sanitize.js"></script>
 <script src="assets/lib/angular-toggle-switch/angular-toggle-switch.js"></script>
 <script src="assets/lib/angular-ui-bootstrap/ui-bootstrap-tpls.js"></script>
@@ -59,7 +59,6 @@
 <script src="src/components/grid/grid.controller.js"></script>
 <script src="src/components/grid/grid.directive.js"></script>
 <script src="src/components/messageUtils/message.service.js"></script>
-<script src="src/components/modal/modal.js"></script>
 <script src="src/components/popup/popup.js"></script>
 <script src="src/components/popupimage/popupimage.js"></script>
 <script src="src/js/config/dog-system.config.js"></script>

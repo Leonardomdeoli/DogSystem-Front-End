@@ -19,7 +19,7 @@ angular.module('dog-system')
                 columnDefs: [
                     { headerName: "#", field: "id", width: 90, valueGetter: 'node.id', hide: true },
                     {
-                        headerName: "Especie", field: "tipoAnimal", width: 129, suppressFilter:true,
+                        headerName: "Especie", field: "tipoAnimal", width: 129, suppressFilter: true,
                         cellRenderer: function (params) {
                             var icon = params.data.tipoAnimal == 'Cão' ? 'dog.svg' : 'cat.svg';
                             return '<img src="img/' + icon + '" style="width: 24px;"></i>';
@@ -28,10 +28,10 @@ angular.module('dog-system')
                     { headerName: "Nome", field: "name", width: 300 },
                     { headerName: "Porte", field: "porte", width: 200 },
                     { headerName: "Vida", field: "life" },
-                    { headerName: "Peso", field: "weight"},
+                    { headerName: "Peso", field: "weight" },
                     { headerName: "Altura", field: "height" }
                 ],
-                
+
             };
 
             self.tipoAnimais = {
@@ -94,7 +94,7 @@ angular.module('dog-system')
 
                     } else {
                         ServiceProxy.add(_breedUrl, self.breed, function (response) {
-                            self.gridOptions.api.updateRowData({ add: data })
+                            self.gridOptions.api.updateRowData({ add: [response.data] });
                             setFacePanel(0);
                         });
                     }
@@ -107,12 +107,15 @@ angular.module('dog-system')
 
             function remover() {
                 var selectedData = self.gridOptions.api.getSelectedRows();
-                
-                MessageUtils.confirmeDialog('Deseja realmente apagar esta raça ' + selectedData[0].name)
-                    .then(function () {
-                        ServiceProxy.remove(_breedUrl, selectedData[0], function () {
-                            self.gridOptions.api.updateRowData({ remove: selectedData });
+                var breed = selectedData[0];
+                if (breed) {
+                    MessageUtils.confirmeDialog('Deseja realmente apagar esta raça ' + breed.name)
+                        .then(function () {
+                            ServiceProxy.remove(_breedUrl, breed, function () {
+                                self.gridOptions.api.updateRowData({ remove: selectedData });
+                            });
                         });
-                    });
-            };
+
+                };
+            }
         }]);

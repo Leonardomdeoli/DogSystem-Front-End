@@ -9,7 +9,8 @@ angular.module('dog-system')
             gridOptions: '=',
             rowSelected: '&?',
             rowDoubleClicked:'&?',
-            cellClicked:'&?'
+            cellClicked:'&?',
+            cellDoubleClicked:'&?'
         };
 
         ddo.controller = 'AgGridController';
