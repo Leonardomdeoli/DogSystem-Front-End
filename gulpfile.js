@@ -46,7 +46,7 @@ gulp.task('connect_doc', function () {
   gulp.watch('./docs/*').on('change', connect.reload);
 });
 
-gulp.task('serveprod', function () {
+gulp.task('serveprod', function() {
   connect.server({
     root: 'app',
     port: process.env.PORT || 5000, // localhost:5000
