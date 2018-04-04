@@ -8,6 +8,8 @@ angular.module('dog-system')
 
                 $scope.gridOptions.animateRows = true;
 
+                $scope.gridOptions.suppressMovableColumns = true;
+
                 $scope.gridOptions.enableRangeSelection = true;
 
                 $scope.gridOptions.rowData = null;
@@ -75,6 +77,12 @@ angular.module('dog-system')
                     }
                 }
 
+                if (angular.isFunction($scope.cellDoubleClicked)) {
+                    $scope.gridOptions.onCellDoubleClicked = function (event) {
+                        $scope.cellDoubleClicked({ event: event });
+                    }
+                }
+
                 $scope.gridOptions.localeText = {
 
                     // for filter panel
@@ -125,7 +133,7 @@ angular.module('dog-system')
                     pivotColumnsEmptyMessage: 'Arraste aqui para pivotear',
 
                     // other
-                    noRowsToShow: 'sem linhas para mostrar',
+                    noRowsToShow: 'Sem linhas para mostrar',
 
                     // enterprise menu
                     pinColumn: 'Coluna pino',

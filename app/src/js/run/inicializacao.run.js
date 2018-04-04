@@ -9,8 +9,6 @@ angular.module('dog-system')
         $rootScope.authDetails = { name: '', authenticated: false, permissions: [] };
         LoginLogoutSrv.verifyAuth();
 
-
-
     }).run(function ($rootScope, $route, $routeParams, $location, ServiceApplication) {
 
         $rootScope.$on('$routeChangeStart', function (evt, next, current) {
@@ -19,9 +17,9 @@ angular.module('dog-system')
                 $location.path("/login");
             }
 
-            if (current && !ServiceApplication.hasAnyPathPermission(next.$$route.originalPath)) {
-                $location.path(current.$$route.originalPath);
-            }
+            // if (current && !ServiceApplication.hasAnyPathPermission(next.$$route.originalPath)) {
+            //     $location.path(current.$$route.originalPath);
+            // }
         });
 
         $rootScope.$route = $route;

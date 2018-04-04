@@ -1,6 +1,6 @@
 angular.module('dog-system')
-    .controller('ModalInstanceCtrl', ['$uibModalInstance', 'ServiceProxy', 'data', 'MessageUtils',
-        function ($uibModalInstance, ServiceProxy, data, MessageUtils) {
+    .controller('ModalInstanceCtrl', ['$uibModalInstance', 'ServiceProxy', 'data', 'MessageUtils', '$timeout',
+        function ($uibModalInstance, ServiceProxy, data, MessageUtils, $timeout) {
             var self = this;
 
             self.aplicar = aplicar;
@@ -16,7 +16,7 @@ angular.module('dog-system')
                     paginationPageSize: 10
                 };
 
-                recarregar();
+                $timeout(recarregar, 300);
             }
 
             function cellClicked(event) {
@@ -26,12 +26,8 @@ angular.module('dog-system')
 
             function recarregar() {
                 ServiceProxy.find(data.url, function (data) {
-                    try {
-                        self.gridOptions.api.setRowData(data);
-                        self.gridOptions.api.getRowNode(0).setSelected(true);
-                    } catch (error) {
-                        recarregar();
-                    }
+                    self.gridOptions.api.setRowData(data);
+                    self.gridOptions.api.getRowNode(0).setSelected(true);
                 });
             }
 

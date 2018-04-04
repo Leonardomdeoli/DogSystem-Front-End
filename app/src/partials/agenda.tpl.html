@@ -1,213 +1,139 @@
 <div layout="row" flex>
-    <article class="col-md-12 maincontent" ng-if="ctrl.showAddEditagenda">
-        <header class="page-header">
-            <h1 class="page-title text-center">Agendamentos</h1>
-            <button class="btn btn-primary" type="button" ng-click="ctrl.buscar(true,1)" uib-tooltip="Voltar a lista de agendamento">
-                <i class="fa fa-reply" aria-hidden="true"></i>
-            </button>
-        </header>
-        <div class="col-md-10 col-md-offset-1 ">
-            <div class="panel panel-default">
-                <div class="panel-body">
-                    <div class="col md 12">
-                        <div class="col-md-7">
-                            <h3 class="thin"><i class="fa fa-address-card-o" aria-hidden="true"></i> Dados do agendamento</h3>
-                            <hr>
-                            <form name="form" ng-submit="ctrl.enviar(form.$valid)">
-                                <input type="text" ng-model="ctrl.agenda.pet.id" ng-hide="true">
-                                <div class="row">
-                                    <div class="col-md-12">
-                                        <div class="form-group" ng-class="{ 'has-error': ctrl.isPetInvalido}">
-                                            <label for="nomePet" class="control-label">Pet<span class="text-danger">*</span></label>
-                                            <div class="input-group">
-                                                <input type="text" name="nomePet" ng-keydown="ctrl.eventKeyPet($event)" ng-change="ctrl.modifyAnimal()" ng-model="ctrl.agenda.pet.name"
-                                                    class="form-control input-md" placeholder="Selecione o pet" required />
-                                                <span class="input-group-addon" name="searchuser" ng-click="ctrl.openPopup('pet',ctrl.agenda.pet.name)"><i class="fa fa-search"></i></span>
-                                            </div>
-                                            <div class="help-block" ng-if="ctrl.isPetInvalido">
-                                                <span>Pesquise por uma animal</span>
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <input type="text" ng-model="ctrl.agenda.service.id" ng-hide="true">
-                                    <div class="col-md-12">
-                                        <div class="form-group" ng-class="{ 'has-error': ctrl.isServiInvalido}">
-                                            <label for="servico" class="control-label">Serviço<span class="text-danger">*</span></label>
-                                            <div class="input-group">
-                                                <input type="text" ng-keydown="ctrl.eventKeyService($event)" ng-disabled="ctrl.agenda.pet.id == undefined" name="servico"
-                                                    ng-model="ctrl.agenda.service.name" class="form-control input-md" placeholder="Selecione o serviço"
-                                                    required />
-                                                <span class="input-group-addon" name="searchuser" ng-click="ctrl.openPopup('service',ctrl.agenda.service.name,ctrl.agenda.pet.size)"><i class="fa fa-search"></i></span>
-                                            </div>
-                                            <div class="help-block" ng-if="ctrl.isServiInvalido">
-                                                <span>Pesquise por um serviço</span>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                                <div class="col-md-6">
-                                    <p class="input-group">
+    <div ng-show="ctrl.facePanel == 1" layout="column" layout-align="space-between stretch" flex>
+        <section class="nav-grid" layout="row" layout-sm="column" layout-wrap>
 
+            <md-button class="md-icon-button" ng-click="ctrl.setFacePanel(0)" tooltip-placement="right-bottom" uib-tooltip="Modo Grade">
+                <i class="fa fa-th" aria-label="Modo Grade"></i>
+            </md-button>
 
-                                    </p>
-                                </div>
-                                <div class="row">
-                                    <div class="col-md-8">
-                                        <div class="form-group" ng-class="{ 'has-error': form.schedulingDate.$touched && form.schedulingDate.$invalid}">
-                                            <label for="dateBirth" for="schedulingDate" class="control-label">Data do agendamento</label>
-                                            <div class="input-group">
-                                                <input type="text" class="form-control" ng-model="ctrl.agenda.schedulingDate" name="schedulingDate" is-open="popup2.opened"
-                                                    datepicker-options="dateOptions2" close-text="Fechar" current-text="Hoje"
-                                                    clear-text="Limpar" ng-required="true" ng-change="ctrl.buscarHoras()" uib-datepicker-popup="dd/MM/yyyy"
-                                                />
-                                                <span class="input-group-btn">
-                                                    <button type="button" class="btn btn-default" ng-click="open2()">
-                                                        <i class="fa fa-calendar"></i>
-                                                    </button>
-                                                </span>
-                                            </div>
-                                            <div class="help-block" ng-messages="form.schedulingDate.$error" ng-if="form.schedulingDate.$touched && form.schedulingDate.$invalid">
-                                                <span>Data não é válida</span>
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <div class="col-md-4">
-                                        <div class="form-group">
-                                            <label for="hora" for="time" class="control-label">Hora</label>
-                                            <div class="input-group">
-                                                <span class="input-group-addon"><i class="fa fa-calendar"></i></span>
-                                                <select ng-disabled="ctrl.agenda.schedulingDate == undefined" class="form-control" name="time" ng-model="ctrl.agenda.time"
-                                                    ng-options="o as o for o in ctrl.horas.options" required></select>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                                <div class="row">
-                                    <div class="col-md-12">
-                                        <div class="form-group">
-                                            <label for="hora" for="observacao" class="control-label">Observações</label>
-                                            <div class="input-group">
-                                                <span class="input-group-addon"><i class="fa fa-sticky-note-o" aria-hidden="true"></i></span>
-                                                <textarea class="form-control" name="observacao" ng-model="ctrl.agenda.note" rows="1"></textarea>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                                <div class="row">
-                                    <div class="col-md-12">
-                                        <div class="form-group">
-                                            <button class="btn btn-danger" ng-click="ctrl.limpar()" type="reset">
-                                            <i class="fa fa-eraser" aria-hidden="true"></i> Limpar
-                                        </button>
-                                            <button style="margin-left: 5px" class="btn btn-success" type="submit">
-                                            <i class="fa fa-floppy-o" aria-hidden="true"></i> Salvar
-                                        </button>
-                                        </div>
-                                    </div>
-                                </div>
-                                <input type="text" ng-model="ctrl.service.id" ng-hide="true">
-                            </form>
-                        </div>
-                        <div class="col-md-5">
-                            <h3 class="thin"><i class="fa fa-paw" aria-hidden="true"></i> PET</h3>
-                            <hr>
+            <md-button class="md-icon-button" form="form" tooltip-placement="right-bottom" uib-tooltip="Limpar" type="reset">
+                <i class="fa fa-eraser" aria-label="Limpar"></i>
+            </md-button>
+
+            <md-button class="md-icon-button" form="form" type="submit" tooltip-placement="right-bottom" uib-tooltip="Salvar">
+                <i class="fa fa-floppy-o" aria-label="Salvar"></i>
+            </md-button>
+
+        </section>
+
+        <div class="panel panel-default" flex>
+            <div class="panel-body">
+                <h3 class="thin">
+                    <i class="fa fa-address-card-o" aria-hidden="true"></i> Dados do agendamento</h3>
+                <hr>
+                <form name="form" ng-submit="ctrl.enviar(form.$valid)">
+                    <input type="text" ng-model="ctrl.agenda.pet.id" ng-hide="true">
+                    <div class="row">
+                        <div class="col-md-6">
                             <img class="img-responsive img-thumbnail" ng-src="{{'data:' + ctrl.agenda.pet.image.filetype + ';base64,' + ctrl.agenda.pet.image.base64}}"
                                 alt="Imagem do animal">
                         </div>
+                        <div class="col-md-6">
+                            <div class="form-group" ng-class="{ 'has-error': ctrl.isPetInvalido}">
+                                <label for="nomePet" class="control-label">Pet
+                                    <span class="text-danger">*</span>
+                                </label>
+                                <div class="input-group">
+                                    <input type="text" name="nomePet" ng-keydown="ctrl.eventKeyPet($event)" ng-model="ctrl.agenda.pet.name" class="form-control input-md"
+                                        placeholder="Selecione o pet" required />
+                                    <span class="input-group-addon" name="searchuser" ng-click="ctrl.openPopup('pet',ctrl.agenda.pet.name)">
+                                        <i class="fa fa-search"></i>
+                                    </span>
+                                </div>
+                                <div class="help-block" ng-if="ctrl.isPetInvalido">
+                                    <span>Pesquise por uma animal</span>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <input type="text" ng-model="ctrl.agenda.service.id" ng-hide="true">
+                            <div class="form-group" ng-class="{ 'has-error': ctrl.isServiInvalido}">
+                                <label for="servico" class="control-label">Serviço
+                                    <span class="text-danger">*</span>
+                                </label>
+                                <div class="input-group">
+                                    <input type="text" ng-keydown="ctrl.eventKeyService($event)" name="servico" ng-model="ctrl.agenda.service.name" class="form-control input-md"
+                                        placeholder="Selecione o serviço" required />
+                                    <span class="input-group-addon" name="searchuser" ng-click="ctrl.openPopup('service',ctrl.agenda.service.name,ctrl.agenda.pet.size)">
+                                        <i class="fa fa-search"></i>
+                                    </span>
+                                </div>
+                                <div class="help-block" ng-if="ctrl.isServiInvalido">
+                                    <span>Pesquise por um serviço</span>
+                                </div>
+                            </div>
+                        </div>
                     </div>
-                </div>
+                    <div class="row">
+                        <div class="col-md-6">
+                            <div class="form-group" ng-class="{ 'has-error': form.schedulingDate.$touched && form.schedulingDate.$invalid}">
+                                <label for="dateBirth" for="schedulingDate" class="control-label">Data do agendamento</label>
+                                <div class="input-group">
+                                    <input type="text" class="form-control" ng-model="ctrl.agenda.schedulingDate" name="schedulingDate" is-open="popup2.opened"
+                                        datepicker-options="dateOptions2" close-text="Fechar" current-text="Hoje" clear-text="Limpar"
+                                        ng-required="true" ng-change="ctrl.buscarHoras()" uib-datepicker-popup="dd/MM/yyyy" />
+                                    <span class="input-group-btn">
+                                        <button type="button" class="btn btn-default" ng-click="open2()">
+                                            <i class="fa fa-calendar"></i>
+                                        </button>
+                                    </span>
+                                </div>
+                                <div class="help-block" ng-messages="form.schedulingDate.$error" ng-if="form.schedulingDate.$touched && form.schedulingDate.$invalid">
+                                    <span>Data não é válida</span>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="form-group">
+                                <label for="hora" for="time" class="control-label">Hora</label>
+                                <div class="input-group">
+                                    <span class="input-group-addon">
+                                        <i class="fa fa-calendar"></i>
+                                    </span>
+                                    <select ng-disabled="ctrl.agenda.schedulingDate == undefined" class="form-control" name="time" ng-model="ctrl.agenda.time"
+                                        ng-options="o as o for o in ctrl.horas.options" required></select>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-12">
+                            <div class="form-group">
+                                <label for="hora" for="observacao" class="control-label">Observações</label>
+                                <div class="input-group">
+                                    <span class="input-group-addon">
+                                        <i class="fa fa-sticky-note-o" aria-hidden="true"></i>
+                                    </span>
+                                    <textarea class="form-control" name="observacao" ng-model="ctrl.agenda.note" rows="1"></textarea>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <input type="text" ng-model="ctrl.service.id" ng-hide="true">
+                </form>
             </div>
         </div>
-    </article>
-    <article class="col-md-12 maincontent" ng-if="ctrl.showList">
-        <header class="page-header">
-            <h1 class="page-title text-center">Lista de Agendamento</h1>
-            <form class="form-inline" style="padding-top: 5px" ng-submit="ctrl.buscar(false, 1)">
-                <div class="form-group">
-                    <button class="btn btn-primary" type="button" ng-click="ctrl.newagenda()" uib-tooltip="Criar um novo agendamento">
-                        <i class="fa fa-plus" aria-hidden="true"></i>
-                    </button>
-                </div>
-                <div class="form-group" style="margin-left: 20px">
-                    <label for="inicial" class="control-label">Data Inicial:<span class="text-danger">*</span></label>
-                    <div class="input-group" style="margin-left: 5px">
-                        <input type="text" class="form-control" name="inicial" ng-model="ctrl.inicial" is-open="popup3.opened" datepicker-options="dateOptions"
-                            close-text="Fechar" current-text="Hoje" clear-text="Limpar" ng-required="true" uib-datepicker-popup="dd/MM/yyyy"
-                        />
-                        <span class="input-group-btn">
-                            <button type="button" class="btn btn-default" ng-click="open3()">
-                                <i class="fa fa-calendar"></i>
-                            </button>
-                        </span>
-                    </div>
+    </div>
+    <div ng-show="ctrl.facePanel == 0" layout="column" layout-align="space-between stretch" flex>
+        <section class="nav-grid" layout="row" layout-sm="column" layout-wrap>
+            <md-button class="md-icon-button" ng-click="ctrl.edit()" tooltip-placement="right-bottom" uib-tooltip="Modo Formulário">
+                <i class="fa fa-table" aria-label="Modo formulário"></i>
+            </md-button>
+            <md-button class="md-icon-button" ng-click="ctrl.add()" tooltip-placement="right-bottom" uib-tooltip="Adicionar">
+                <i class="fa fa-plus" aria-label="Modo formulário"></i>
+            </md-button>
+            <md-button class="md-icon-button" ng-click="ctrl.edit()" tooltip-placement="right-bottom" uib-tooltip="Editar">
+                <i class="fa fa-pencil" aria-label="Editar"></i>
+            </md-button>
+            <md-button class="md-icon-button" ng-click="ctrl.remover()" tooltip-placement="right-bottom" uib-tooltip="Remover">
+                <i class="fa fa-trash-o" aria-label="Remover"></i>
+            </md-button>
+            <md-button class="md-icon-button" ng-click="ctrl.recarregar()" tooltip-placement="right-bottom" uib-tooltip="Recarregar">
+                <i class="fa fa-refresh" aria-label="Recarregar"></i>
+            </md-button>
+        </section>
 
-                </div>
-                <div class="form-group" style="margin-left: 20px">
-                    <label for="final" class="control-label">Data Final:</label>
-                    <div class="input-group" style="margin-left: 5px">
-                        <input type="text" class="form-control" ng-model="ctrl.final" is-open="popup1.opened" datepicker-options="dateOptions2" close-text="Fechar"
-                            current-text="Hoje" clear-text="Limpar" ng-required="true" uib-datepicker-popup="dd/MM/yyyy" />
-                        <span class="input-group-btn">
-                            <button type="button" class="btn btn-default" ng-click="open1()">
-                                <i class="fa fa-calendar"></i>
-                            </button>
-                        </span>
-                    </div>
-                </div>
-                <button style="margin-left: 20px" type="submit" class="btn btn-primary">Aplicar</button>
-            </form>
-        </header>
-        <div class="table-responsive text-center">
-            <table class="table table-striped">
-                <thead>
-                    <tr>
-                        <th ng-click="ctrl.sort('id')">#
-                            <i ng-class="{'fa fa-sort-asc':ctrl.reverse,'fa fa-sort-desc':!ctrl.reverse}" aria-hidden="true" ng-show="ctrl.sortKey=='id'"></i>
-                            <i class="fa fa-sort" aria-hidden="true" ng-show="ctrl.sortKey !='id'"></i>
-                        </th>
-                        <th ng-click="ctrl.sort('pet.name')">Nome Pet
-                            <i ng-class="{'fa fa-sort-asc':ctrl.reverse,'fa fa-sort-desc':!ctrl.reverse}" aria-hidden="true" ng-show="ctrl.sortKey=='pet.name'"></i>
-                            <i class="fa fa-sort" aria-hidden="true" ng-show="ctrl.sortKey !='pet.name'"></i>
-                        </th>
-                        <th>Porte</th>
-                        <th>Serviço</th>
-                        <th>Preço</th>
-                        <th>Data</th>
-                        <th>Hora</th>
-                        <th>Editar</th>
-                        <th>Cancelar</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    <tr ng-repeat="agenda in ctrl.agendas|orderBy:sortKey:ctrl.reverse|filter:criteria as results" ng-dblclick="ctrl.editagenda(agenda)">
-                        <th scope="row" ng-bind="agenda.id"></th>
-                        <td ng-bind="agenda.pet.name"></td>
-                        <td ng-bind="agenda.pet.size"></td>
-                        <td ng-bind="agenda.service.name"></td>
-                        <td>R$ {{ctrl.formatNumber(agenda.service.price)}}</td>
-                        <td>{{ctrl.formateDate(agenda.schedulingDate)}}</td>
-                        <td ng-bind="agenda.time"></td>
-                        <td><button class="btn btn-primary" type="button" uib-tooltip="Editar" tooltip-placement="left-top" ng-click="ctrl.editagenda(agenda)">
-                            <span type="button">
-                                <i class="fa fa-pencil" aria-hidden="true"></i>
-                            </span>
-                        </button>
-                        </td>
-                        <td><button class="btn btn-danger" type="button" uib-tooltip="Cancelar" tooltip-placement="left-top"
-                                ng-click="ctrl.deleteagenda(agenda)" ng-disabled="!ctrl.podeCancelar(agenda.schedulingDate)">
-                            <span type="button">
-                                <i class="fa fa-ban" aria-hidden="true"></i>
-                            </span>
-                        </button>
-                        </td>
-                    </tr>
-                </tbody>
-            </table>
-            <ul uib-pagination total-items="ctrl.totalItems" ng-model="ctrl.currentPage" ng-change="ctrl.pageChanged()" max-size="ctrl.maxSize"
-                items-per-page="ctrl.numPerPage" class="pagination-sm" boundary-link-numbers="true" previous-text="Anterior"
-                next-text="Próximo" ng-if="ctrl.totalItems > ctrl.numPerPage">
-            </ul>
-            <h5 class="text-center" ng-if="results.length < 1"> Nenhum agendamento encontrado...</h5>
-        </div>
-    </article>
+        <ag-grid grid-options="ctrl.gridOptions" flex>
+        </ag-grid>
+    </div>
 </div>

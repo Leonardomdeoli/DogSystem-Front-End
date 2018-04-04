@@ -1,5 +1,5 @@
 angular.module('dog-system')
-  .controller('AgendaCtrl', ['base64','$scope', 'ServiceProxy', 'ServicePathConstants', 'MessageUtils', '$uibModal', '$rootScope', '$location', 'AngularUtils', '$routeParams',
+  .controller('AgendaCtrl', ['base64', '$scope', 'ServiceProxy', 'ServicePathConstants', 'MessageUtils', '$uibModal', '$rootScope', '$location', 'AngularUtils', '$routeParams',
     function (base64, $scope, ServiceProxy, ServicePathConstants, MessageUtils, $uibModal, $rootScope, $location, AngularUtils, $routeParams) {
       var self = this;
       var _msg = 'Verifique o formulário pois pode conter erros';
@@ -8,21 +8,27 @@ angular.module('dog-system')
       self.agendas = [];
       self.showAddEditagenda = false;
       self.showList = true;
+      self.facePanel = 0;
 
       self.buscar = buscar;
-      self.newagenda = newagenda;
       self.buscaragenda = buscaragenda;
       self.limpar = limpar;
       self.buscarHoras = buscarHoras;
       self.podeCancelar = podeCancelar;
       self.formatNumber = formatNumber;
       self.formateDate = formateDate;
-      self.pageChanged = pageChanged;
       self.eventKeyPet = eventKeyPet;
       self.eventKeyService = eventKeyService;
+      self.openPopup = openPopup;
+      self.setFacePanel = setFacePanel;
+      self.edit = edit;
+      self.remover = remover;
+      self.add = add;
 
-      self.maxSize = 5;
-      self.numPerPage = 6;
+
+      self.gridOptions = {
+        columnDefs: getColumnDefs('agenda')
+      };
 
       var _agendaUrl = ServicePathConstants.PRIVATE_PATH.concat('/agenda');
       var _petUrl = ServicePathConstants.PRIVATE_PATH + '/pet';
@@ -45,15 +51,15 @@ angular.module('dog-system')
         }
       }
 
+      function setFacePanel(face) {
+        self.facePanel = face;
+      }
+
       function findyPet(id) {
         ServiceProxy.find(_petUrl + /id/ + id, function (data) {
           self.agenda.pet = data;
           modifyTela(true);
         });
-      }
-
-      function pageChanged() {
-        buscar(false, self.currentPage);
       }
 
       function formateDate(date) {
@@ -89,7 +95,7 @@ angular.module('dog-system')
             throw 'Data inicial não pode ser menor que a final, favor verifique.';
           }
 
-          if (AngularUtils.emptyAsUndefined(self.inicial) == undefined) {
+          if (self.inicial == undefined) {
             self.inicial = getToday();
           }
 
@@ -100,16 +106,18 @@ angular.module('dog-system')
           _url = _url.concat('/datainicial/').concat(self.inicial);
 
           if (isInit || self.final) {
-            self.final = AngularUtils.emptyAsUndefined(self.final) == undefined ? getToday() : self.final;
+            self.final = self.final == undefined ? getToday() : self.final;
             _url = _url.concat('/datafinal/').concat(self.final);
           }
 
           ServiceProxy.find(_url, function (data) {
-            self.agendas = data.content;
-            self.totalItems = data.totalElements;
+            self.gridOptions.api.setRowData(data);
+            var rowData = self.gridOptions.api.getRowNode(0);
+            if (rowData) {
+              rowData.setSelected(true);
+            }
             modifyTela(false);
           });
-          self.currentPage = pageNo;
 
         } catch (error) {
           MessageUtils.error(error);
@@ -139,7 +147,7 @@ angular.module('dog-system')
         }
       }
 
-      function newagenda() {
+      function add() {
         self.agenda = {};
 
         self.agenda = {
@@ -151,7 +159,7 @@ angular.module('dog-system')
           }
         };
 
-        modifyTela(true);
+        setFacePanel(1);
       }
 
       function modifyTela(condicao) {
@@ -167,11 +175,7 @@ angular.module('dog-system')
         });
       }
 
-      self.modifyAnimal = function () {
-        self.agenda.service = undefined;
-      }
-
-      self.openPopup = function (name, criteria, param) {
+      function openPopup(tipo, criteria, param) {
         self.isPetInvalido = false;
         self.isServiInvalido = false;
 
@@ -179,7 +183,7 @@ angular.module('dog-system')
         var title = ' o serviço';
         var url = '/services';
 
-        if (name == 'pet') {
+        if (tipo == 'pet') {
           header = 'Animais';
           title = ' o animal';
           url = '/pet';
@@ -193,28 +197,21 @@ angular.module('dog-system')
           url = url.concat('/param/').concat(param);
         }
 
-        self.sort = function (keyname) {
-          self.sortKey = keyname;   //set the sortKey to the param passed
-          self.reverse = !self.reverse; //if true make it false and vice versa
-        }
-
-
         var modalInstance = $uibModal.open({
           animation: true,
           ariaLabelledBy: 'modal-title',
           ariaDescribedBy: 'modal-body',
           templateUrl: 'src/components/popup/popup.html',
           controller: 'ModalInstanceCtrl',
-          controllerAs: '$ctrl',
-          size: '',
+          controllerAs: 'ctrl',
+          size: 'lg',
+          backdrop: false,
           resolve: {
             data: function () {
               return {
-                criteria: criteria,
-                name: name,
-                header: header,
-                title: title,
-                url: url
+                columnDefs: getColumnDefs(tipo),
+                url: ServicePathConstants.PRIVATE_PATH + url,
+                title: title
               }
             }
           }
@@ -222,10 +219,73 @@ angular.module('dog-system')
 
         modalInstance.result.then(
           function (data) {
-            self.agenda[name] = data;
-          }, function (data) {
-            self.agenda[name] = undefined;
+            self.agenda[tipo] = data;
           });
+      }
+
+      function getColumnDefs(tipo) {
+        if (tipo == 'pet') {
+          return [
+            { headerName: "#", field: "id", width: 90, hide: true },
+            { headerName: "Nome propriétario", field: "user.name", width: 265 },
+            { headerName: "Nome pet", field: "name" },
+            {
+              headerName: "Data Nascimento", field: "dateBirth", valueGetter: function chainValueGetter(params) {
+                return AngularUtils.formatDate(params.data.dateBirth);
+              }
+            },
+            { headerName: "Sexo", field: "sex" },
+            {
+              headerName: "Usa DogLove", width: 150, suppressFilter: true, field: "usaDogLove",
+              cellRenderer: function (params) {
+                var icon = params.data.usaDogLove ? 'fa-toggle-on' : 'fa-toggle-off';
+                return '<i class="fa ' + icon + '" aria-hidden="true" style="font-size: 26px;" ></i>';
+              }
+
+            },
+            { headerName: "Porte", field: "breed.porte" },
+            {
+              headerName: "Especie", field: "tipoAnimal", width: 129, suppressFilter: true,
+              cellRenderer: function (params) {
+                var icon = params.data.breed.tipoAnimal == 'Cão' ? 'dog.svg' : 'cat.svg';
+                return '<img src="img/' + icon + '" style="width: 24px;"></i>';
+              }
+            },
+            { headerName: "Raça", field: "breed.name" }
+          ];
+        }
+
+        if (tipo == 'agenda') {
+          return [
+            { headerName: "#", field: "id", width: 90, hide: true },
+            { headerName: "Serviço", field: "service.name", width: 300 },
+            {
+              headerName: "Data do agendamento", field: "schedulingDate", valueGetter: function chainValueGetter(params) {
+                return AngularUtils.formatDate(params.data.schedulingDate);
+              }
+            },
+            { headerName: "Hora", field: "time" },
+            { headerName: "Observações", field: "note", width: 265 },
+
+            { headerName: "Animal", field: "pet.name" },
+            { headerName: "Sexo", field: "pet.sex" },
+            { headerName: "Porte", field: "pet.breed.porte" },
+            { headerName: "Raça", field: "pet.breed.name" }
+          ];
+        }
+
+        if (tipo == 'service') {
+          return [
+            { headerName: "Código", field: "id", width: 150, cellClass: 'number-cell' },
+            { headerName: "Name", field: "name", width: 300 },
+            { headerName: "Preço", field: "price", width: 200, cellClass: 'number-cell', valueFormatter: currencyFormatter },
+            { headerName: "Porte", field: "size", width: 200 }
+          ];
+        }
+      }
+
+      function currencyFormatter(params) {
+        return 'R$ ' + AngularUtils.formatNumber(params.value);
       }
 
       self.enviar = function (condicao) {
@@ -236,12 +296,12 @@ angular.module('dog-system')
             throw _msg;
           }
 
-          if (AngularUtils.isEmptyOrNull(self.agenda.pet.id)) {
+          if (self.agenda.pet == undefined) {
             self.isPetInvalido = true;
             throw _msg;
           }
 
-          if (AngularUtils.isEmptyOrNull(self.agenda.service.id)) {
+          if (self.agenda.service == undefined) {
             self.isServiInvalido = true;
             throw _msg;
           }
@@ -259,21 +319,31 @@ angular.module('dog-system')
 
       }
 
-      self.editagenda = function (agenda) {
-        self.agenda = angular.copy(agenda);
-        var schedulingDate = new Date(self.agenda.schedulingDate);
-        schedulingDate.setDate(schedulingDate.getDate() + 1);
-        self.agenda.schedulingDate = schedulingDate;
-        modifyTela(true);
+      function edit() {
+        var selected = self.gridOptions.api.getSelectedRows();
+        self.agenda = selected[0];
+        if (self.agenda) {
+          //var schedulingDate = new Date(self.agenda.schedulingDate);
+          //schedulingDate.setDate(schedulingDate.getDate() + 1);
+          //self.agenda.schedulingDate = schedulingDate;
+          setFacePanel(1);
+        } else {
+          add();
+        }
       }
 
-      self.deleteagenda = function (agenda) {
-        MessageUtils.confirmeDialog('Deseja realmente cancelar esse agendamento?').then(
-          function () {
-            ServiceProxy.delete(_agendaUrl, agenda, function () {
-              buscar(true);
+      function remover() {
+        var selectedData = self.gridOptions.api.getSelectedRows();
+        self.agenda = selectedData[0];
+
+        if (self.agenda) {
+          MessageUtils.confirmeDialog('Deseja realmente cancelar esse agendamento?').then(
+            function () {
+              ServiceProxy.delete(_agendaUrl, agenda, function () {
+                self.gridOptions.api.updateRowData({ remove: selectedData });
+              });
             });
-          });
+        }
       }
 
       function podeCancelar(date) {

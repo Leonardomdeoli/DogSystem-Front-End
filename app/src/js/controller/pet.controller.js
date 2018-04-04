@@ -26,6 +26,7 @@ angular.module('dog-system')
             self.add = add;
             self.edit = edit;
             self.recarregar = recarregar;
+            self.remover = remover;
 
             self.maxSize = 5;
             self.numPerPage = 6;
@@ -239,7 +240,7 @@ angular.module('dog-system')
                         });
                     } else {
                         ServiceProxy.add(_petUrl, self.pet, function (response) {
-                            self.pets.push(response.data);
+                            self.gridOptions.api.updateRowData({ add: [response.data] });
                             setFacePanel(0);
                         });
                     }
@@ -249,11 +250,17 @@ angular.module('dog-system')
                 }
             }
 
-            self.delete = function (pet) {
-                MessageUtils.confirmeDialog('Deseja realmente apagar este registo')
-                    .then(function () {
-                        ServiceProxy.remove(_petUrl, pet);
-                    });
+            function remover() {
+                var selectedData = self.gridOptions.api.getSelectedRows();
+                var pet = selectedData[0];
+                if (pet) {
+                    MessageUtils.confirmeDialog('Deseja realmente apagar este registo')
+                        .then(function () {
+                            ServiceProxy.remove(_petUrl, pet, function () {
+                                self.gridOptions.api.updateRowData({ remove: selectedData });
+                            });
+                        });
+                }
             };
 
             $scope.dateOptions = {
