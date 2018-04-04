@@ -26,9 +26,7 @@
     "moment": "2.21.0",
     "ngstorage": "0.3.10",
     "gulp": "3.9.1",
-    "gulp-connect": "^5.5.0"
-  },
-  "devDependencies": {
+    "gulp-connect": "^5.5.0",
     "browser-sync": "^2.23.6",
     "csslint-stylish": "0.0.6",
     "gulp-clean": "0.4.0",
