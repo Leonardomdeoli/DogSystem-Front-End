@@ -4,7 +4,9 @@
 
 var app = angular.module('dog-system');
 
-var BASE_URL = 'http://localhost:8080/api';
+//var BASE_URL = 'http://localhost:8080/api';
+
+var BASE_URL = 'https://dogsystem.herokuapp.com/api';
 
 app.constant('ServicePathConstants', {
     ROOT_PATH: BASE_URL,
