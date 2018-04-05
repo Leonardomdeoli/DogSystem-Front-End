@@ -48,11 +48,12 @@ gulp.task('connect_doc', function () {
 
 gulp.task('serveprod', function() {
   connect.server({
-    root: 'app',
-    port: process.env.PORT || 5000, // localhost:5000
-    livereload: false
+      root: 'app',
+      host: '0.0.0.0',
+      port: process.env.PORT, // localhost:5000
+      livereload: false,
+      open: false
   });
-});
 
 //Apagando conteudo da pasta
 gulp.task('clean', function () {
