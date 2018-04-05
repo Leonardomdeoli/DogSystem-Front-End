@@ -49,7 +49,7 @@ gulp.task('connect_doc', function () {
 gulp.task('serveprod', function() {
   connect.server({
     root: 'app',
-    port: 80, // localhost:5000
+    port: process.env.PORT || 5000, // localhost:5000
     livereload: false
   });
 });
