@@ -46,14 +46,16 @@ gulp.task('connect_doc', function () {
   gulp.watch('./docs/*').on('change', connect.reload);
 });
 
-gulp.task('serveprod', function() {
+gulp.task('serveprod', function () {
   connect.server({
-      root: 'app',
-      host: '0.0.0.0',
-      port: process.env.PORT, // localhost:5000
-      livereload: false,
-      open: false
+    root: 'app',
+    host: '0.0.0.0',
+    port: process.env.PORT, // localhost:5000
+    livereload: false,
+    open: false
   });
+});
+
 
 //Apagando conteudo da pasta
 gulp.task('clean', function () {
