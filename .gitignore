@@ -169,6 +169,6 @@ typings/
 # dotenv environment variables file
 .env
 
-
-
 # End of https://www.gitignore.io/api/java,node,eclipse
+
+app/src/js/constant/constant.js
