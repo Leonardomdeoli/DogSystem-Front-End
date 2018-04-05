@@ -26,6 +26,7 @@
     "moment": "2.21.0",
     "ngstorage": "0.3.10",
     "gulp": "3.9.1",
+    "gulp-build": "0.5.3",
     "gulp-connect": "^5.5.0",
     "browser-sync": "^2.23.6",
     "csslint-stylish": "0.0.6",
@@ -43,9 +44,7 @@
     "less": "^3.0.1"
   },
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1",
-    "start": "node app",
-    "postinstall": "gulp serveprod"
+    "test": "echo \"Error: no test specified\" && exit 1"
   },
   "repository": {
     "type": "git",
