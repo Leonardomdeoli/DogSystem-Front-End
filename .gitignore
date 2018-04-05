@@ -1,4 +1,4 @@
-# Created by https://www.gitignore.io/api/java,node,eclipse
+ app/src/js/constant/constant.js
 
 #Documentação
 docs/
@@ -170,5 +170,3 @@ typings/
 .env
 
 # End of https://www.gitignore.io/api/java,node,eclipse
-
-app/src/js/constant/constant.js
