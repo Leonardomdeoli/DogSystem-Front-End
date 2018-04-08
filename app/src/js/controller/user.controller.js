@@ -8,7 +8,7 @@ angular.module('dog-system')
 
             self.user = {};
             self.users = [];
-            self.permissions = [{id: 1, role: "ROLE_ADMIN"}, { id: 2 , role : "ROLE_EMPLOYEE"}, {id: 3, role: "ROLE_USER"}];
+            self.permissions = [{ id: 1, role: "ROLE_ADMIN" }, { id: 2, role: "ROLE_EMPLOYEE" }, { id: 3, role: "ROLE_USER" }];
             self.facePanel = 0;
             self.showList = false;
             self.isEditFields = true;
@@ -135,12 +135,18 @@ angular.module('dog-system')
             }
 
             function remover() {
-                var selected = self.gridOptions.api.getSelectedRows();
-                self.user = selected[0];
+                var selectedData = self.gridOptions.api.getSelectedRows();
+                self.user = selectedData[0];
 
                 MessageUtils.confirmeDialog('Deseja realmente apagar o ' + self.user.name + ' usuário')
                     .then(function () {
-                        ServiceProxy.remove(_userUrl, self.user);
+                        ServiceProxy.remove(_userUrl, self.user, function () {
+                            self.gridOptions.api.updateRowData({ remove: selectedData });
+                            var rowData = self.gridOptions.api.getRowNode(0);
+                            if (rowData) {
+                                rowData.setSelected(true);
+                            }
+                        });
                     });
             };
 

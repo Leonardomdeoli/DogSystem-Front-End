@@ -74,7 +74,7 @@ gulp.task('gulp-image-min', function () {
 
 //Concatenando os js em unico arquivo
 gulp.task('gulp-concat-js', function () {
-  gulp.src(['dist/assets/**/*.js', 'dist/src/index.js', 'dist/src/**/*.js']).pipe(concat('all.js')).pipe(gulp.dest('dist/js'));
+  gulp.src(['dist/assets/angular/angular.js', 'dist/assets/**/*.js', 'dist/src/index.js', 'dist/src/**/*.js']).pipe(concat('all.js')).pipe(gulp.dest('dist/js'));
 });
 
 ////Concatenando os cs em unico arquivo
@@ -90,7 +90,7 @@ gulp.task('gulp-html-replace', function () {
 //Injeção de depencias
 gulp.task('gulp-inject', function () {
   return gulp.src('app/index.html').pipe(inject(gulp.src(
-    ['app/assets/**/*.js', 'app/src/index.js', 'app/src/**/*.js', 'app/assets/**/*.css', 'app/**/*.css'],
+    ['app/assets/angular/angular.js', 'app/assets/**/*.js', 'app/src/index.js', 'app/src/**/*.js', 'app/assets/**/*.css', 'app/**/*.css'],
     { read: false }), { relative: true })).pipe(gulp.dest('app/'));
 });
 

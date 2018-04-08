@@ -42,16 +42,16 @@ angular.module('dog-system')
             var data = response.data;
 
             if (data.name) {
-              $rootScope.authDetails = { name: data.name, authenticated: data.authenticated, permissions: data.authorities};
+              $rootScope.authDetails = { name: data.name, authenticated: data.authenticated, permissions: data.authorities, id:data.principal.id};
               $localStorage.authDetails = $rootScope.authDetails;
               $location.path('/');
             } else {
-              $rootScope.authDetails = { name: '', authenticated: false, permissions: []};
+              $rootScope.authDetails = { name: '', authenticated: false, permissions: [],  id: ''};
               MessageUtils.error('O e-mail ou a senha que você digitou não correspondem aos nossos registros.');
             }
           },
           function failure(response) {
-            $rootScope.authDetails = { name: '', authenticated: false, permissions: []};
+            $rootScope.authDetails = { name: '', authenticated: false, permissions: [],  id: ''};
             if (response.status == 401) {
               MessageUtils.error('O e-mail ou a senha que você digitou não correspondem aos nossos registros, favor verifique.');
             } else {

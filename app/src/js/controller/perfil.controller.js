@@ -15,11 +15,9 @@ angular.module('dog-system')
 
             init();
             function init() {
-                if (!$rootScope.authDetails.authenticated) {
-                    $location.path("/login");
-                } else {
-                    self.user = $rootScope.authDetails.user;
-                }
+                ServiceProxy.find(_userUrl + '/id/' + $rootScope.authDetails.id, function (data) {
+                    self.user = data;
+                });
             }
 
             function enviar(condicao) {

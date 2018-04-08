@@ -32,11 +32,9 @@ angular.module('dog-system')
         getServices();
       }
 
-
       function currencyFormatter(params) {
         return 'R$ ' + AngularUtils.formatNumber(params.value);
       }
-
 
       function getServices() {
         ServiceProxy.find(_serviceUrl, function (data) {
@@ -60,10 +58,15 @@ angular.module('dog-system')
       self.enviar = function (condicao) {
         if (condicao) {
           if (angular.isUndefined(self.service.id)) {
-            ServiceProxy.add(_serviceUrl, self.service);
-
+            ServiceProxy.add(_serviceUrl, self.service, function (response) {
+              self.gridOptions.api.updateRowData({ add: [response.data] });
+              setFacePanel(0);
+            });
           } else {
-            ServiceProxy.edit(_serviceUrl, self.service);
+            ServiceProxy.edit(_serviceUrl, self.service, function (response) {
+              self.gridOptions.api.refreshCells();
+              setFacePanel(0);
+            });
           }
         }
       }
@@ -75,16 +78,26 @@ angular.module('dog-system')
       }
 
       function remover(service) {
-        MessageUtils.confirmeDialog('Deseja realmente apagar este registo')
-          .then(function () {
-            ServiceProxy.remove(_serviceUrl, service);
-          });
-      };
+        var selectedData = self.gridOptions.api.getSelectedRows();
+        var service = selectedData[0];
+
+        if (service) {
+          MessageUtils.confirmeDialog('Deseja realmente apagar este registo')
+            .then(function () {
+              ServiceProxy.remove(_serviceUrl, service, function () {
+                self.gridOptions.api.updateRowData({ remove: selectedData });
+                var rowData = self.gridOptions.api.getRowNode(0);
+                if (rowData) {
+                  rowData.setSelected(true);
+                }
+              });
+            });
+        }
+      }
 
       function recarregar() {
         getServices();
       }
-
     }]);
 
 

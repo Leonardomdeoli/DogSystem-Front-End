@@ -258,6 +258,10 @@ angular.module('dog-system')
                         .then(function () {
                             ServiceProxy.remove(_petUrl, pet, function () {
                                 self.gridOptions.api.updateRowData({ remove: selectedData });
+                                var rowData = self.gridOptions.api.getRowNode(0);
+                                if (rowData) {
+                                    rowData.setSelected(true);
+                                }
                             });
                         });
                 }
