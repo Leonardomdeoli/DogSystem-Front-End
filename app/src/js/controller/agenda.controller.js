@@ -1,6 +1,6 @@
 angular.module('dog-system')
-  .controller('AgendaCtrl', ['base64', '$scope', 'ServiceProxy', 'ServicePathConstants', 'MessageUtils', '$uibModal', '$rootScope', '$location', 'AngularUtils', '$routeParams',
-    function (base64, $scope, ServiceProxy, ServicePathConstants, MessageUtils, $uibModal, $rootScope, $location, AngularUtils, $routeParams) {
+  .controller('AgendaCtrl', ['$mdSidenav', 'base64', '$scope', 'ServiceProxy', 'ServicePathConstants', 'MessageUtils', '$uibModal', '$rootScope', '$location', 'AngularUtils', '$routeParams',
+    function ($mdSidenav, base64, $scope, ServiceProxy, ServicePathConstants, MessageUtils, $uibModal, $rootScope, $location, AngularUtils, $routeParams) {
       var self = this;
       var _msg = 'Verifique o formulário pois pode conter erros';
 
@@ -9,6 +9,7 @@ angular.module('dog-system')
       self.showAddEditagenda = false;
       self.showList = true;
       self.facePanel = 0;
+      self.filter = true;
 
       self.buscar = buscar;
       self.buscaragenda = buscaragenda;
@@ -24,10 +25,12 @@ angular.module('dog-system')
       self.edit = edit;
       self.remover = remover;
       self.add = add;
-
+      self.showHideFilter = showHideFilter
+      self.enviar = enviar;
 
       self.gridOptions = {
-        columnDefs: getColumnDefs('agenda')
+        columnDefs: getColumnDefs('agenda'),
+        rowData: null
       };
 
       var _agendaUrl = ServicePathConstants.PRIVATE_PATH.concat('/agenda');
@@ -45,10 +48,12 @@ angular.module('dog-system')
         } else {
           if ($routeParams.id) {
             findyPet(base64.decode($routeParams.id));
-          } else {
-            buscar(true, 1);
           }
         }
+      }
+
+      function showHideFilter() {
+        self.filter = !self.filter;
       }
 
       function setFacePanel(face) {
@@ -58,7 +63,8 @@ angular.module('dog-system')
       function findyPet(id) {
         ServiceProxy.find(_petUrl + /id/ + id, function (data) {
           self.agenda.pet = data;
-          modifyTela(true);
+          self.gridOptions.api.setRowData(undefined);
+          setFacePanel(1);
         });
       }
 
@@ -103,11 +109,19 @@ angular.module('dog-system')
 
           var _url = ServicePathConstants.PRIVATE_PATH + '/agenda';
 
-          _url = _url.concat('/datainicial/').concat(self.inicial);
+          _url = _url.concat('?datainicial=').concat(self.inicial);
 
           if (isInit || self.final) {
             self.final = self.final == undefined ? getToday() : self.final;
-            _url = _url.concat('/datafinal/').concat(self.final);
+            _url = _url.concat('&datafinal=').concat(self.final);
+          }
+
+          if (self.filterPet) {
+            _url = _url.concat('&pet=').concat(self.filterPet);
+          }
+
+          if (self.filterServico) {
+            _url = _url.concat('&service=').concat(self.filterServico);
           }
 
           ServiceProxy.find(_url, function (data) {
@@ -227,7 +241,6 @@ angular.module('dog-system')
         if (tipo == 'pet') {
           return [
             { headerName: "#", field: "id", width: 90, hide: true },
-            { headerName: "Nome propriétario", field: "user.name", width: 265 },
             { headerName: "Nome pet", field: "name" },
             {
               headerName: "Data Nascimento", field: "dateBirth", valueGetter: function chainValueGetter(params) {
@@ -251,7 +264,8 @@ angular.module('dog-system')
                 return '<img src="img/' + icon + '" style="width: 24px;"></i>';
               }
             },
-            { headerName: "Raça", field: "breed.name" }
+            { headerName: "Raça", field: "breed.name" },
+            { headerName: "Nome propriétario", field: "user.name", width: 265 },
           ];
         }
 
@@ -288,7 +302,7 @@ angular.module('dog-system')
         return 'R$ ' + AngularUtils.formatNumber(params.value);
       }
 
-      self.enviar = function (condicao) {
+      function enviar(condicao) {
 
         try {
 
@@ -307,10 +321,16 @@ angular.module('dog-system')
           }
 
           if (angular.isUndefined(self.agenda.id)) {
-            ServiceProxy.add(_agendaUrl, self.agenda);
+            ServiceProxy.add(_agendaUrl, self.agenda, function (response) {
+              self.gridOptions.api.updateRowData({ add: [response.data] });
+              setFacePanel(0);
+            });
 
           } else {
-            ServiceProxy.edit(_agendaUrl, self.agenda);
+            ServiceProxy.edit(_agendaUrl, self.agenda, function (response) {
+              self.gridOptions.api.refreshCells();
+              setFacePanel(0);
+            });
           }
 
         } catch (error) {

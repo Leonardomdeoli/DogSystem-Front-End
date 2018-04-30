@@ -24,20 +24,7 @@
                     <hr/>
                     <input type="text" name="idUser" ng-model="ctrl.pet.user.id" ng-hide="true">
                     <div class="row">
-                        <div class="col-xs-12 col-sm-6 col-md-3">
-                            <div class="form-group">
-                                <label>Habilita o uso do DogLove</label>
-                                <i class="fa fa-question-circle" aria-hidden="true" uib-tooltip="DogLove e uma opção criada para seu animal, encontrar um parceiro para cruza."></i>
-                                <div class="input-group">
-                                    <toggle-switch ng-model="ctrl.pet.usaDogLove" 
-                                                   on-label="Sim" 
-                                                   off-label="Não" 
-                                                   class="switch-success">
-                                    </toggle-switch>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="col-xs-12 col-sm-6 col-md-8">
+                        <div class="col-md-12">
                             <div class="form-group" ng-class="{ 'has-error': ctrl.isProInvalido}">
                                 <label for="user" class="control-label">Propriétario
                                     <span class="text-danger">*</span>
@@ -62,7 +49,7 @@
                     <hr/>
 
                     <div class="row">
-                        <div class="col-md-3 col-sm-6 col-xs-12">
+                        <div class="col-md-4 col-sm-6 col-xs-12">
                             <img class="img-thumbnail" style=" width: 300px; height: 155px;" ng-src="{{'data:' + ctrl.pet.image.filetype + ';base64,' + ctrl.pet.image.base64}}"
                                 alt="Imagem do animal">
 
@@ -112,17 +99,9 @@
                             <div class="form-group" ng-class="{ 'has-error': form.$submitted && form.dateBirth.$touched && form.dateBirth.$invalid}">
                                 <label for="dateBirth" class="control-label">Data de Nascimento</label>
                                 <div class="input-group">
-                                    <input type="text" 
-                                           class="form-control" 
-                                           name="dateBirth" 
-                                           ng-model="ctrl.pet.dateBirth" 
-                                           is-open="popup.opened" 
-                                           datepicker-options="dateOptions"
-                                           close-text="Fechar" 
-                                           current-text="Hoje" 
-                                           clear-text="Limpar" 
-                                           ng-required="true" 
-                                           uib-datepicker-popup="dd/MM/yyyy"/>
+                                    <input type="text" class="form-control" name="dateBirth" ng-model="ctrl.pet.dateBirth" is-open="popup.opened" datepicker-options="dateOptions"
+                                        close-text="Fechar" current-text="Hoje" clear-text="Limpar" ng-required="true" uib-datepicker-popup="dd/MM/yyyy"
+                                    />
                                     <span class="input-group-btn">
                                         <button type="button" class="btn btn-default" ng-click="open()">
                                             <i class="fa fa-calendar"></i>
@@ -133,7 +112,20 @@
                                     <span>Data no formato inválido</span>
                                 </div>
                             </div>
+                        </div>
 
+                        <div class="col-md-2 col-sm-3 col-xs-12">
+                            <div class="form-group">
+                                <label>Utiliza DogLove</label>
+                                <i class="fa fa-question-circle" aria-hidden="true" uib-tooltip="Ao habilitar esta opção o animal estará disponível para busca  na tela DogLove onde é possível encontrar animais para cruzamento"></i>
+                                <div class="input-group">
+                                    <toggle-switch ng-model="ctrl.pet.usaDogLove" on-label="Sim" off-label="Não" class="switch-success">
+                                    </toggle-switch>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="col-md-2 col-sm-3 col-xs-12">
                             <div class="form-group" ng-class="{ 'has-error': (form.$submitted || form.sex.$touched) && form.sex.$invalid}">
                                 <p>
                                     <label for="sex" class="control-label">Sexo
@@ -147,7 +139,6 @@
                                     <div ng-messages-include="src/include/messages.html"></div>
                                 </div>
                             </div>
-
                         </div>
                     </div>
                 </form>

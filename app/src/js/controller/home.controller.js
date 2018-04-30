@@ -37,7 +37,7 @@ angular.module('dog-system')
 
                 var _url = ServicePathConstants.PRIVATE_PATH + '/agenda';
 
-                _url = _url + '/datainicial/' + today + '/datafinal/' + today;
+                _url = _url + '?datainicial=' + today + '&datafinal=' + today;
 
                 ServiceProxy.find(_url, function (data) {
                     self.agendas = data.content;

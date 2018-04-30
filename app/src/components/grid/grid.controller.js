@@ -12,7 +12,7 @@ angular.module('dog-system')
 
                 $scope.gridOptions.enableRangeSelection = true;
 
-                $scope.gridOptions.rowData = null;
+                $scope.gridOptions.rowData = undefined;
 
                 $scope.gridOptions.enableSorting = true;
 

@@ -9,7 +9,8 @@ angular.module('dog-system')
                 isAuthenticated: isAuthenticated,
                 hasAnyPermission: hasAnyPermission,
                 getNameUsuLogado: getNameUsuLogado,
-                hasAnyPathPermission:hasAnyPathPermission
+                hasAnyPathPermission: hasAnyPathPermission,
+                getIdLogado: getIdLogado
             };
 
             function isAuthenticated() {
@@ -18,16 +19,16 @@ angular.module('dog-system')
 
             function hasAnyPathPermission(path) {
 
-                 if(hasAnyPermission('ROLE_USER')){
+                if (hasAnyPermission('ROLE_USER')) {
                     return ROLE_USER.indexOf(path) > -1;
-                 }
+                }
 
-                 if(hasAnyPermission('ROLE_EMPLOYEE')){
+                if (hasAnyPermission('ROLE_EMPLOYEE')) {
                     return ROLE_USER.indexOf(path) > -1 || ROLE_EMPLOYEE.indexOf(path) > -1;
-                 }
-                
+                }
+
                 return true;
-            } 
+            }
 
             function hasAnyPermission(authorities) {
                 var hasPermission = false;
@@ -45,6 +46,10 @@ angular.module('dog-system')
 
             function getNameUsuLogado() {
                 return $rootScope.authDetails.name;
+            }
+
+            function getIdLogado() {
+                return $rootScope.authDetails.id;
             }
 
             return service;

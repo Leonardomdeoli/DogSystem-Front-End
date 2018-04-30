@@ -138,16 +138,22 @@ angular.module('dog-system')
                 var selectedData = self.gridOptions.api.getSelectedRows();
                 self.user = selectedData[0];
 
-                MessageUtils.confirmeDialog('Deseja realmente apagar o ' + self.user.name + ' usuário')
-                    .then(function () {
-                        ServiceProxy.remove(_userUrl, self.user, function () {
-                            self.gridOptions.api.updateRowData({ remove: selectedData });
-                            var rowData = self.gridOptions.api.getRowNode(0);
-                            if (rowData) {
-                                rowData.setSelected(true);
-                            }
+                if (ServiceApplication.getIdLogado() == self.user.id) {
+                    MessageUtils.error('Somente outro usuário com acesso a exclusão pode remover seu usuário');
+                } else {
+                    MessageUtils.confirmeDialog('Deseja realmente apagar o ' + self.user.name + ' usuário')
+                        .then(function () {
+                            ServiceProxy.remove(_userUrl + '/id/' + self.user.id, function () {
+
+                                self.gridOptions.api.updateRowData({ remove: selectedData });
+                                var rowData = self.gridOptions.api.getRowNode(0);
+                                if (rowData) {
+                                    rowData.setSelected(true);
+                                }
+
+                            });
                         });
-                    });
+                }
             };
 
             function recarregar() {
