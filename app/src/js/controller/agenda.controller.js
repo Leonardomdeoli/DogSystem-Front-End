@@ -89,29 +89,16 @@ angular.module('dog-system')
         }
       }
 
-      function buscar(isInit, pageNo) {
-
+      function buscar() {
         try {
-
-          if (self.final != null && self.inicial == null) {
-            throw 'Data inicial não pode ser vazia, favor verifique.';
-          }
-          if (self.final && self.final < self.inicial) {
-            throw 'Data inicial não pode ser menor que a final, favor verifique.';
+          if(self.inicial == null){
+            throw 'Data inicial é obrigatoria, favor verifique.';
           }
 
-          if (self.inicial == undefined) {
-            self.inicial = getToday();
-          }
-
-          var page = pageNo - 1;
-
-          var _url = ServicePathConstants.PRIVATE_PATH + '/agenda';
+          var _url = ServicePathConstants.PRIVATE_PATH + '/agenda/getAgendamentos';
 
           _url = _url.concat('?datainicial=').concat(self.inicial);
-
-          if (isInit || self.final) {
-            self.final = self.final == undefined ? getToday() : self.final;
+          if (self.final) {
             _url = _url.concat('&datafinal=').concat(self.final);
           }
 
@@ -130,15 +117,12 @@ angular.module('dog-system')
               rowData.setSelected(true);
             }
             modifyTela(false);
+            self.showFilter = !self.showFilter;
           });
 
         } catch (error) {
           MessageUtils.error(error);
         }
-      }
-
-      function getToday() {
-        return AngularUtils.getToday();
       }
 
       function formatNumber(number) {
@@ -372,7 +356,7 @@ angular.module('dog-system')
       function podeCancelar(date) {
         var schedulingDate = new Date(date);
         schedulingDate.setDate(schedulingDate.getDate() + 1);
-        return schedulingDate > getToday();
+        return schedulingDate > AngularUtils.getToday();
       }
 
       // Disable weekend selection
@@ -393,7 +377,7 @@ angular.module('dog-system')
         dateDisabled: false,
         formatYear: 'yy',
         maxDate: new Date(2020, 5, 22),
-        minDate: getToday(),
+        minDate: AngularUtils.getToday(),
         startingDay: 1
       };
 

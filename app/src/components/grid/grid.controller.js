@@ -4,16 +4,8 @@ angular.module('dog-system')
 
             init();
             function init() {
-                //$scope.gridOptions.debug = true;
-
                 $scope.gridOptions.animateRows = true;
                 
-                $scope.gridOptions.getRowStyle = function (params) {
-                    if (params.node.rowIndex % 2 == 0) {
-                        return { background: '#eeeded' }
-                    }
-                };
-
                 $scope.gridOptions.suppressMovableColumns = true;
 
                 $scope.gridOptions.enableRangeSelection = true;
