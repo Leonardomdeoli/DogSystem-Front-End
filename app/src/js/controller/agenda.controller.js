@@ -1,6 +1,6 @@
 angular.module('dog-system')
-  .controller('AgendaCtrl', ['$mdSidenav', 'base64', '$scope', 'ServiceProxy', 'ServicePathConstants', 'MessageUtils', '$uibModal', '$rootScope', '$location', 'AngularUtils', '$routeParams',
-    function ($mdSidenav, base64, $scope, ServiceProxy, ServicePathConstants, MessageUtils, $uibModal, $rootScope, $location, AngularUtils, $routeParams) {
+  .controller('AgendaCtrl', ['$timeout', 'base64', '$scope', 'ServiceProxy', 'ServicePathConstants', 'MessageUtils', '$uibModal', '$rootScope', '$location', 'AngularUtils', '$routeParams',
+    function ($timeout, base64, $scope, ServiceProxy, ServicePathConstants, MessageUtils, $uibModal, $rootScope, $location, AngularUtils, $routeParams) {
       var self = this;
       var _msg = 'Verifique o formulário pois pode conter erros';
 
@@ -9,7 +9,7 @@ angular.module('dog-system')
       self.showAddEditagenda = false;
       self.showList = true;
       self.facePanel = 0;
-      self.filter = true;
+      self.showFilter = true;
 
       self.buscar = buscar;
       self.buscaragenda = buscaragenda;
@@ -25,7 +25,6 @@ angular.module('dog-system')
       self.edit = edit;
       self.remover = remover;
       self.add = add;
-      self.showHideFilter = showHideFilter
       self.enviar = enviar;
 
       self.gridOptions = {
@@ -49,11 +48,11 @@ angular.module('dog-system')
           if ($routeParams.id) {
             findyPet(base64.decode($routeParams.id));
           }
-        }
-      }
 
-      function showHideFilter() {
-        self.filter = !self.filter;
+          $timeout(function () {
+            self.gridOptions.api.setRowData(undefined);
+          }, 500);
+        }
       }
 
       function setFacePanel(face) {
