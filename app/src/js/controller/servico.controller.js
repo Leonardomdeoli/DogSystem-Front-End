@@ -49,6 +49,9 @@ angular.module('dog-system')
       function add() {
         self.service = {};
         setFacePanel(1);
+        self.service = {
+          size : 'Medio'
+        };
       }
 
       function setFacePanel(index) {
