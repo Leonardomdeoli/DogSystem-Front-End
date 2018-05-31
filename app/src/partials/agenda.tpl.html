@@ -172,7 +172,7 @@
                     <div class="form-group" style="margin-top: 10px">
                         <label for="nomePet" class="control-label">Animal</label>
                         <div class="input-group">
-                            <input type="text" ng-model="ctrl.filterPet" class="form-control input-md" placeholder="Selecione o pet" />
+                            <input type="text" ng-model="ctrl.agenda.pet.name" class="form-control input-md" placeholder="Selecione o pet" />
                             <span class="input-group-addon" name="searchuser" ng-click="ctrl.openPopup('pet',ctrl.agenda.pet.name)">
                                 <i class="fa fa-search"></i>
                             </span>
@@ -182,9 +182,9 @@
                     <div class="form-group" style="margin-top: 10px">
                         <label for="nomePet" class="control-label">Serviço</label>
                         <div class="input-group">
-                            <input type="text" ng-model="ctrl.filterServico" class="form-control input-md" placeholder="Selecione o Serviço"
+                            <input type="text" ng-model="ctrl.agenda.service.name" class="form-control input-md" placeholder="Selecione o Serviço"
                             />
-                            <span class="input-group-addon" name="searchuser" ng-click="ctrl.openPopup('service',ctrl.agenda.pet.name)">
+                            <span class="input-group-addon" name="searchuser" ng-click="ctrl.openPopup('service',ctrl.agenda.service.name)">
                                 <i class="fa fa-search"></i>
                             </span>
                         </div>

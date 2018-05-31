@@ -30,17 +30,18 @@ angular.module('dog-system')
                 return true;
             }
 
-            function hasAnyPermission(authorities) {
+            function hasAnyPermission(authority) {
                 var hasPermission = false;
 
-                $rootScope.authDetails.permissions
-                    .forEach(function (permission) {
-                        authorities.forEach(function (authority) {
-                            if (permission.authority === authority) {
-                                hasPermission = true;
-                            }
-                        });
-                    });
+                var permissions = ["ROLE_ADMIN", "ROLE_EMPLOYEE", "ROLE_USER"];
+                    
+                    for (var i = 0; i < permissions.length; i++) {
+                        if(permissions[i].toUpperCase() == authority.toUpperCase()){
+                            hasPermission = true;
+                            break;
+                        }
+                    }
+                
                 return hasPermission;
             }
 

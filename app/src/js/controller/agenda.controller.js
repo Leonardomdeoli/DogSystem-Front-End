@@ -102,12 +102,12 @@ angular.module('dog-system')
             _url = _url.concat('&datafinal=').concat(self.final);
           }
 
-          if (self.filterPet) {
-            _url = _url.concat('&pet=').concat(self.filterPet);
+          if (self.agenda.pet && self.agenda.pet.id) {
+            _url = _url.concat('&pet=').concat(self.agenda.pet.id);
           }
 
-          if (self.filterServico) {
-            _url = _url.concat('&service=').concat(self.filterServico);
+          if (self.agenda.service && self.agenda.service.id) {
+            _url = _url.concat('&service=').concat(self.agenda.service.id);
           }
 
           ServiceProxy.find(_url, function (data) {

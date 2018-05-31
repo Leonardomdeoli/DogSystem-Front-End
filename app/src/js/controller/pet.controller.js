@@ -1,13 +1,13 @@
 'use strict';
 
 angular.module('dog-system')
-    .controller('PetCtrl', ['base64', '$uibModal', 'ServicePathConstants', 'ServiceProxy', '$q', '$scope', 'MessageUtils', '$rootScope', '$location', 'AngularUtils',
-        function (base64, $uibModal, ServicePathConstants, ServiceProxy, $q, $scope, MessageUtils, $rootScope, $location, AngularUtils) {
+    .controller('PetCtrl', ['ServiceApplication', 'base64', '$uibModal', 'ServicePathConstants', 'ServiceProxy', '$q', '$scope', 'MessageUtils', '$rootScope', '$location', 'AngularUtils',
+        function (ServiceApplication, base64, $uibModal, ServicePathConstants, ServiceProxy, $q, $scope, MessageUtils, $rootScope, $location, AngularUtils) {
             var self = this;
 
             var _msg = 'Verifique o formulário pois pode conter erros';
-            var _petUrl = ServicePathConstants.PRIVATE_PATH + '/pet';
             var page = 0;
+            var ehPermissionUser = false;
 
             self.sexs = ["macho", "femea"];
             self.pets = [];
@@ -34,8 +34,9 @@ angular.module('dog-system')
 
             init();
             function init() {
-                getPet();
                 self.facePanel = 0;
+                ehPermissionUser = ServiceApplication.hasAnyPermission('ROLE_USER');
+                getPet();
             }
 
             function recarregar() {
@@ -52,6 +53,11 @@ angular.module('dog-system')
             }
 
             function getPet() {
+                var _petUrl = ServicePathConstants.PRIVATE_PATH + '/pet';
+                if(ehPermissionUser){
+                    _petUrl = _petUrl + '?user=' + ServiceApplication.getIdLogado();
+                }
+                
                 self.pets = [];
                 ServiceProxy.find(_petUrl, function (data) {
                     if (data.length > 0) {

@@ -1,19 +1,23 @@
 'use strict';
 
 angular.module('dog-system')
-    .controller('DogloveCtrl', ['$uibModal', 'ServicePathConstants', 'ServiceProxy', '$q', '$scope', 'MessageUtils', '$rootScope', '$location', 'AngularUtils',
-        function ($uibModal, ServicePathConstants, ServiceProxy, $q, $scope, MessageUtils, $rootScope, $location, AngularUtils) {
+    .controller('DogloveCtrl', ['$timeout', '$uibModal', 'ServicePathConstants', 'ServiceProxy', '$q', '$scope', 'MessageUtils', '$rootScope', '$location', 'AngularUtils',
+        function ($timeout, $uibModal, ServicePathConstants, ServiceProxy, $q, $scope, MessageUtils, $rootScope, $location, AngularUtils) {
             var self = this;
 
             var _petUrl = ServicePathConstants.PRIVATE_PATH + '/pet';
 
             self.buscarAnimais = buscarAnimais;
+            self.openPopup = openPopup;
+            self.gridOptions = {
+                columnDefs: getColumnDefs('pet'),
+                enableFilter: false,
+                floatingFilter: false,
+                enableSorting: false,
+            };
 
-            self.pageChanged = pageChanged;
+            self.showFilter = true;
             self.eventKey = eventKey;
-            self.maxSize = 5;
-            self.numPerPage = 6;
-
             self.pets = [];
             self.sexs = ["macho", "femea"];
             self.pet = {
@@ -32,10 +36,6 @@ angular.module('dog-system')
                 }
             }
 
-            function pageChanged() {
-                buscarAnimais(self.currentPage);
-            }
-
             self.formatDate = function (date) {
                 return new Date(date).toLocaleDateString("pt-BR");
             }
@@ -46,25 +46,16 @@ angular.module('dog-system')
                 }
             }
 
-            self.openPopup = function (name, criteria, param) {
+            $timeout(function () {
+                self.gridOptions.api.setRowData(undefined);
+            }, 500);
 
-                var header = 'Raças';
-                var title = ' a Raça do animal';
-                var url = '/breed/';
+            function openPopup(tipo) {
+                self.isBreedInvalido = false;
+                self.isProInvalido = false;
 
-                if (name == 'user') {
-                    header = 'Proprietários';
-                    title = ' o proprietário';
-                    url = '/user';
-                }
-
-                if (criteria) {
-                    url = url.concat('/criteria/').concat(criteria);
-                }
-
-                if (param) {
-                    url = url.concat('/param/').concat(param);
-                }
+                var title = tipo != 'user' ? ' UMA RAÇA' : ' UM PROPRIETÁRIO';
+                var url = tipo != 'user' ? '/breed' : '/user';
 
                 var modalInstance = $uibModal.open({
                     animation: true,
@@ -72,28 +63,75 @@ angular.module('dog-system')
                     ariaDescribedBy: 'modal-body',
                     templateUrl: 'src/components/popup/popup.html',
                     controller: 'ModalInstanceCtrl',
-                    controllerAs: '$ctrl',
-                    size: '',
+                    controllerAs: 'ctrl',
+                    size: 'lg',
+                    backdrop: false,
                     resolve: {
                         data: function () {
                             return {
-                                criteria: criteria,
-                                param: param,
-                                name: name,
-                                header: header,
-                                title: title,
-                                url: url
+                                columnDefs: getColumnDefs(tipo),
+                                url: ServicePathConstants.PRIVATE_PATH + url,
+                                title: title
                             }
                         }
                     }
-                });
-
-                modalInstance.result.then(
+                }).result.then(
                     function (data) {
-                        self.pet[name] = data;
-                    }, function (data) {
-                        self.pet[name] = undefined;
+                        self.pet[tipo] = data;
                     });
+            }
+
+            function getColumnDefs(tipo) {
+                if (tipo == 'user') {
+                    return [
+                        { headerName: "#", field: "id", width: 90, valueGetter: 'node.id', hide: true },
+                        { headerName: "Name", field: "name", width: 250 },
+                        { headerName: "Email", field: "email", suppressFilter: true, width: 200 },
+                        {
+                            headerName: "Telefone", field: "phone", suppressFilter: true, width: 130, cellRenderer: function (params) {
+                                return params.data.phone
+                                    .replace(/(\d{2})(\d)/, "($1) $2")
+                                    .replace(/(\d{3})(\d{1,4})$/, "$1-$2");
+                            }
+                        },
+                        { headerName: "Rua", suppressFilter: true, field: "address.name", width: 180 },
+                        { headerName: "Número", suppressFilter: true, field: "number", width: 100 },
+                    ];
+
+                } else if (tipo == 'breed') {
+
+                    return [
+                        { headerName: "#", field: "id", valueGetter: 'node.id', hide: true },
+                        { headerName: "Nome", field: "name", width: 300 },
+                        { headerName: "Vida", suppressFilter: true, field: "life", width: 150 },
+                        { headerName: "Peso", suppressFilter: true, field: "weight", width: 160 },
+                        { headerName: "Altura", suppressFilter: true, field: "height", width: 160 }
+                    ];
+
+                } else if (tipo == 'pet') {
+                    return [
+                        { headerName: "#", field: "id", width: 90, hide: true },
+                        { headerName: "Nome propriétario", field: "user.name", width: 265 },
+                        { headerName: "Nome pet", field: "name" },
+                        { headerName: "Data Nascimento", field: "dateBirth", valueGetter: function chainValueGetter(params) { return AngularUtils.formatDate(params.data.dateBirth); } },
+                        { headerName: "Porte", field: "breed.porte" },
+                        {
+                            headerName: "Visualizar", field: "ver", pinned: "right", width: 100, suppressFilter: true, suppressSorting: true, cellRenderer: function (params) {
+                                var eDiv = document.createElement('div');
+                                eDiv.innerHTML = '<button type="button" style="width: 100%;" class="btn btn-primary btn-xs">Ver</button>';
+
+                                var eButton = eDiv.querySelectorAll('.btn-primary')[0];
+
+                                self.data = params.data;
+                                eButton.addEventListener('click', function () {
+                                    console.log(self.data);
+                                });
+
+                                return eDiv;
+                            }
+                        }
+                    ];
+                }
             }
 
             //Redimensionamento
@@ -133,28 +171,26 @@ angular.module('dog-system')
                 self.pet.image.id = undefined;;
             }
 
-
-            function buscarAnimais(pageNo) {
-
+            function buscarAnimais() {
                 try {
-                    self.pets = [];
-
-                    if (AngularUtils.isEmptyOrNull(self.pet.sex)) {
+                    if (self.pet.sex == undefined) {
                         throw 'Um sexo deve ser escolhido, Favor verifique';
                     }
 
-                    if (AngularUtils.isEmptyOrNull(self.pet.breed.id)) {
+                    if (self.pet.breed.name == undefined) {
                         throw 'Uma raça deve ser escolhida, Favor verifique';
                     }
 
-                    var page = pageNo - 1;
-
-                    ServiceProxy.find(_petUrl + '/sex/' + self.pet.sex + '/breed/' + self.pet.breed.id + '/pagina/' + page + '/qtd/' + self.numPerPage, function (data) {
-                        self.pets = data.content;
-                        self.totalItems = data.totalElements;
+                    ServiceProxy.find(_petUrl + '/getPetSexoRaca?sex=' + self.pet.sex + '&breed=' + self.pet.breed.id, function (data) {
+                        self.showFilter = false;
+                        if (data.length > 0) {
+                            self.gridOptions.api.setRowData(data);
+                            var rowData = self.gridOptions.api.getRowNode(0);
+                            rowData.setSelected(true);
+                        } else {
+                            self.gridOptions.api.setRowData(undefined);
+                        }
                     });
-                    self.currentPage = pageNo;
-
                 } catch (error) {
                     MessageUtils.error(error);
                 }

@@ -1,6 +1,6 @@
 angular.module('dog-system')
-  .factory('AngularUtils', ['DateUtisConstants',
-    function (DateUtisConstants) {
+  .factory('AngularUtils', ['DateUtisConstants','$compile','$rootScope',
+    function (DateUtisConstants, $compile, $rootScope) {
 
       var service = {
         formatDate: formatDate,
@@ -12,9 +12,14 @@ angular.module('dog-system')
         getNumberOrZero: getNumberOrZero,
 
         emptyAsUndefined: emptyAsUndefined,
-        getProperty: getProperty
+        getProperty: getProperty,
+        compile:compile
       };
 
+
+      function compile(element, scope) {
+        return $compile(element)(scope || $rootScope.$new());
+      }
 
       function emptyAsUndefined(s) {
         if (s == undefined || s.length == 0) {
@@ -65,7 +70,7 @@ angular.module('dog-system')
         if (precision == undefined) {
           precision = 2;
         }
-        
+
         mask += '.';
 
         for (var i = 0; i < precision; i++) {

@@ -91,8 +91,8 @@ angular.module('dog-system')
             }
 
             function add() {
-                getPermission();
-                self.user = {}
+                self.user = {};
+                modifyTela(true);
             }
 
             function modifyTela(condicao) {
@@ -114,9 +114,13 @@ angular.module('dog-system')
                     }
 
                     if (angular.isUndefined(self.user.id)) {
-                        ServiceProxy.add(_userUrl, self.user);
+                        ServiceProxy.add(_userUrl, self.user).then(function (response) {
+                            self.gridOptions.api.updateRowData({ add: [response.data] });
+                        });
                     } else {
-                        ServiceProxy.edit(_userUrl, self.user);
+                        ServiceProxy.edit(_userUrl, self.user).then(function (response) {
+                            self.gridOptions.api.refreshCells();
+                        });
                     }
                 } catch (error) {
                     MessageUtils.error(error);

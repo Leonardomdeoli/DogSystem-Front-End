@@ -12,11 +12,13 @@ angular.module('dog-system')
 
                 $scope.gridOptions.rowData = undefined;
 
-                $scope.gridOptions.enableSorting = true;
+                $scope.gridOptions.pagination = true;
 
                 $scope.gridOptions.enableColResize = true;
 
-                $scope.gridOptions.pagination = true;
+                if (angular.isUndefined($scope.gridOptions.enableSorting)) {
+                    $scope.gridOptions.enableSorting = true;
+                }
 
                 if (angular.isUndefined($scope.gridOptions.enableFilter)) {
                     $scope.gridOptions.enableFilter = true;
@@ -29,7 +31,6 @@ angular.module('dog-system')
                 if (angular.isUndefined($scope.gridOptions.floatingFilter)) {
                     $scope.gridOptions.floatingFilter = true;
                 }
-
 
                 $scope.gridOptions.rowSelection = "single";
 
@@ -54,7 +55,8 @@ angular.module('dog-system')
                     enableValue: true,
                     width: 230,
                     filter: 'agTextColumnFilter',
-                    unSortIcon: true
+                    unSortIcon: true,
+                    suppressMenu:true
                 }
 
                 if (angular.isFunction($scope.rowSelected)) {

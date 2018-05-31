@@ -1,58 +1,66 @@
-<div layout="row" flex>
-    <article class="col-md-12 maincontent">
-        <header class="page-header">
-            <h1 class="page-title text-center">Lista de animais DogLove</h1>
-            <form class="form-inline" name="petForm" style="padding-top: 5px" ng-submit="ctrl.buscar(false)">
-                <div class="form-group">
-                    <label for="breed" class="control-label">Raça<span class="text-danger">*</span></label>
-                    <div class="input-group">
-                        <input type="text" ng-keydown="ctrl.eventKey($event)" class="form-control input-md" placeholder="Escolha uma raça" name="breed" ng-model="ctrl.pet.breed.name"
-                            required>
-                        <span class="input-group-addon" name="searchuser" ng-click="ctrl.openPopup('breed',ctrl.pet.breed.name)"><i class="fa fa-search"></i></span>
-                    </div>
+<div layout="column" flex>
+
+    <div layout="row" class="side-nav" ng-show="ctrl.showFilter" flex>
+
+        <form name="form" ng-submit="ctrl.buscarAnimais()" novalidate>
+
+            <div layout="row" layout-align="space-between center" flex>
+                <div>
+                    <i class="fa fa-chevron-left sair-filtro" ng-click="ctrl.showFilter = !ctrl.showFilter" uib-tooltip="Esconder filtro" tooltip-placement="right"
+                        aria-hidden="true"></i>
                 </div>
-                <div class="form-group">
-                    <label for="sex" class="control-label">Sexo<span class="text-danger">*</span></label>
-                    <label class="radio-inline" ng-repeat="sex in ctrl.sexs" id="{{sex}}">
-                        <input type="radio" name="sex" ng-model="ctrl.pet.sex" value="{{sex}}" required>{{sex | formatSex}}
-                    </label>
+                <div>
+                    <button type="submit" class="btn btn-primary" flex>Aplicar</button>
                 </div>
-                <button style="margin-left: 20px" type="submit" class="btn btn-primary" ng-click="ctrl.buscarAnimais(1)">Buscar</button>
-            </form>
-        </header>
-        <div class="table-responsive text-center">
-            <table class="table table-striped">
-                <thead>
-                    <tr>
-                        <th>Propriétario</th>
-                        <th>Animal</th>
-                        <th>Foto</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    <tr ng-repeat="pet in ctrl.pets | filter:criteria as results">
-                        <td>
-                            <p> Nome: {{pet.user.name}}</p>
-                            <p> Telefone: {{pet.user.phone}}</p>
-                            <p> Email: {{pet.user.email}}</p>
-                        </td>
-                        <td>
-                            <p> Nome: {{pet.name}}</p>
-                            <p> Raça: {{pet.breed.name}}</p>
-                            <p> Sexo: {{pet.sex | formatSex}}</p>
-                        </td>
-                        <td>
-                            <img class="img-responsive img-circle" style="margin: auto" ng-src="{{'data:' + pet.image.filetype + ';base64,' + pet.image.base64}}"
-                                alt="Imagem do animal">
-                        </td>
-                    </tr>
-                </tbody>
-            </table>
-            <ul uib-pagination total-items="ctrl.totalItems" ng-model="ctrl.currentPage" ng-change="ctrl.pageChanged()" max-size="ctrl.maxSize"
-                items-per-page="ctrl.numPerPage" class="pagination-sm" boundary-link-numbers="true" previous-text="Anterior"
-                next-text="Próximo" ng-if="ctrl.totalItems > ctrl.numPerPage">
-            </ul>
-            <h5 class="text-center" ng-if="results.length < 1"> Nenhum Animal encontrado...</h5>
-        </div>
-    </article>
+            </div>
+
+            <div class="form-group" style="margin-top: 8%">
+                <label for="sex" class="control-label">Sexo
+                    <span class="text-danger">*</span>
+                </label>
+                <label class="radio-inline" ng-repeat="sex in ctrl.sexs" id="{{sex}}">
+                    <input type="radio" name="sex" ng-model="ctrl.pet.sex" value="{{sex}}" required>{{sex | formatSex}}
+                </label>
+            </div>
+
+            <div class="form-group" style="margin-top: 10px">
+                <label for="breed" class="control-label">Raça
+                    <span class="text-danger">*</span>
+                </label>
+                <div class="input-group">
+                    <input type="text" ng-model="ctrl.pet.breed.name" class="form-control input-md" placeholder="Selecione a Raça" />
+                    <span class="input-group-addon" name="searchuser" ng-click="ctrl.openPopup('breed',ctrl.pet.breed.name)">
+                        <i class="fa fa-search"></i>
+                    </span>
+                </div>
+            </div>
+        </form>
+    </div>
+
+
+    <section class="nav-grid" layout="row" layout-sm="column" layout-wrap>
+
+        <md-button class="md-icon-button" ng-click="ctrl.showFilter = !ctrl.showFilter" tooltip-placement="right-botto" uib-tooltip="Mostrar filtro">
+            <i class="fa fa-filter" aria-label="Filtro"></i>
+        </md-button>
+
+        <md-button class="md-icon-button" ng-click="ctrl.add()" tooltip-placement="bottom" uib-tooltip="Adicionar">
+            <i class="fa fa-plus" aria-label="Modo formulário"></i>
+        </md-button>
+
+        <md-button class="md-icon-button" ng-click="ctrl.edit()" tooltip-placement="bottom" uib-tooltip="Editar">
+            <i class="fa fa-pencil" aria-label="Editar"></i>
+        </md-button>
+
+        <md-button class="md-icon-button" ng-click="ctrl.remover()" tooltip-placement="bottom" uib-tooltip="Remover">
+            <i class="fa fa-trash-o" aria-label="Remover"></i>
+        </md-button>
+
+        <md-button class="md-icon-button" ng-click="ctrl.recarregar()" tooltip-placement="bottom" uib-tooltip="Recarregar">
+            <i class="fa fa-refresh" aria-label="Recarregar"></i>
+        </md-button>
+
+    </section>
+
+    <ag-grid grid-options="ctrl.gridOptions" flex></ag-grid>
 </div>

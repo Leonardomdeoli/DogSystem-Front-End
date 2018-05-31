@@ -20,7 +20,7 @@
             <div class="panel-body">
                 <h3 class="thin">Dados da Raça</h3>
                 <hr>
-                <form id="form"  name="form" ng-submit="ctrl.enviar(form.$valid)" novalidate>
+                <form id="form" name="form" ng-submit="ctrl.enviar(form.$valid)" novalidate>
                     <div class="row">
                         <div class="col-xs-12 col-sm-12 col-md-4">
                             <div class="form-group" ng-class="{ 'has-error': (form.$submitted || form.tipoAnimal.$touched) && form.tipoAnimal.$invalid}">
@@ -39,19 +39,19 @@
                             </div>
 
                             <div class="form-group" ng-class="{ 'has-error': (form.$submitted || form.porte.$touched) && form.porte.$invalid}">
-                                    <label for="porte" class="control-label">Porte
-                                        <span class="text-danger">*</span>
-                                    </label>
-                                    <div class="input-group">
-                                        <span class="input-group-addon">
-                                            <i class="fa fa-outdent"></i>
-                                        </span>
-                                        <select class="form-control" name="porte" ng-model="ctrl.breed.porte" ng-options="o as o for o in ctrl.portes.options" required></select>
-                                    </div>
-                                    <div class="help-block" ng-messages="form.porte.$error" ng-if="form.$submitted || form.porte.$touched">
-                                        <div ng-messages-include="src/include/messages.html"></div>
-                                    </div>
+                                <label for="porte" class="control-label">Porte
+                                    <span class="text-danger">*</span>
+                                </label>
+                                <div class="input-group">
+                                    <span class="input-group-addon">
+                                        <i class="fa fa-outdent"></i>
+                                    </span>
+                                    <select class="form-control" name="porte" ng-model="ctrl.breed.porte" ng-options="o as o for o in ctrl.portes.options" required></select>
                                 </div>
+                                <div class="help-block" ng-messages="form.porte.$error" ng-if="form.$submitted || form.porte.$touched">
+                                    <div ng-messages-include="src/include/messages.html"></div>
+                                </div>
+                            </div>
                         </div>
 
                         <div class="col-xs-12 col-sm-12 col-md-4">
@@ -108,6 +108,12 @@
             <md-button class="md-icon-button" ng-click="ctrl.recarregar()" tooltip-placement="right-bottom" uib-tooltip="Recarregar">
                 <i class="fa fa-refresh" aria-label="Recarregar"></i>
             </md-button>
+
+            <!-- <div class="btn-rows-counter rows-counter">
+                <div class="rows-counter-div" uib-tooltip="{{::countRow}} registros" tooltip-placement="left-bottom">
+                    <span ng-bind="ctrl.countRow"></span>
+                </div>
+            </div> -->
         </section>
 
         <ag-grid grid-options="ctrl.gridOptions" flex>

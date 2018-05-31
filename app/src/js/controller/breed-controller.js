@@ -62,6 +62,7 @@ angular.module('dog-system')
                     if (rowData) {
                         rowData.setSelected(true);
                     }
+                    self.countRow = self.gridOptions.api.getDisplayedRowCount();
                 });
             }
 

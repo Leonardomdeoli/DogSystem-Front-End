@@ -1,11 +1,5 @@
-.ag-theme-material .ag-row-selected {
-  background-color: #eee!important;
-}
-.ag-theme-material .ag-cell-focus {
-  border: none !important;
-}
 .nav-grid {
-  background-color: #F4F7F7;
+  background-color: #EAEAEA;
 }
 .nav-grid .md-icon-button i {
   color: #212121;
@@ -16,4 +10,37 @@
 }
 .text_cell {
   text-align: center;
+}
+.ag-cell-focus {
+  background: #DCEDD1 !important;
+}
+.ag-row-focus {
+  background: #DCEDD1 !important;
+}
+.ag-row-selected {
+  background: #A9D09F !important;
+}
+.ag-header-container {
+  background-color: #EAEAEA !important;
+  font-weight: bold;
+}
+.ag-header-viewport {
+  background-color: #EAEAEA !important;
+}
+.ag-header-cell-label {
+  text-align: center !important;
+}
+.ag-header-cell-label .ag-header-cell-text {
+  width: 100% !important;
+}
+body {
+  font-family: Arial, Helvetica, sans-serif !important;
+  font-size: 13px !important;
+  color: #333 !important;
+}
+ag-theme-fresh {
+  background-color: white;
+  font-family: Arial, Helvetica, sans-serif !important;
+  font-size: 13px !important;
+  color: #333 !important;
 }
