@@ -8,6 +8,7 @@ angular.module('dog-system')
             var _msg = 'Verifique o formulário pois pode conter erros';
             var page = 0;
             var ehPermissionUser = false;
+            var _petUrl = ServicePathConstants.PRIVATE_PATH + '/pet';
 
             self.sexs = ["macho", "femea"];
             self.pets = [];
@@ -53,13 +54,13 @@ angular.module('dog-system')
             }
 
             function getPet() {
-                var _petUrl = ServicePathConstants.PRIVATE_PATH + '/pet';
+                var user = '';
                 if(ehPermissionUser){
-                    _petUrl = _petUrl + '?user=' + ServiceApplication.getIdLogado();
+                    user = '?user=' + ServiceApplication.getIdLogado();
                 }
                 
                 self.pets = [];
-                ServiceProxy.find(_petUrl, function (data) {
+                ServiceProxy.find(_petUrl + user, function (data) {
                     if (data.length > 0) {
                         self.gridOptions.api.setRowData(data);
                         var rowData = self.gridOptions.api.getRowNode(0);
