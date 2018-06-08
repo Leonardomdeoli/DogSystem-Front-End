@@ -55,10 +55,10 @@ angular.module('dog-system')
 
             function getPet() {
                 var user = '';
-                if(ehPermissionUser){
+                if (ehPermissionUser) {
                     user = '?user=' + ServiceApplication.getIdLogado();
                 }
-                
+
                 self.pets = [];
                 ServiceProxy.find(_petUrl + user, function (data) {
                     if (data.length > 0) {
@@ -210,6 +210,52 @@ angular.module('dog-system')
                     self.openPopup('breed', (self.pet.breed ? self.pet.breed.name : undefined), self.pet.tipoAnimal);
                 }
             }
+
+            //Redimensionamento
+            self.resizeImage = function (file, base64) {
+                var deferred = $q.defer();
+                // Criamos uma imagem para receber o URI de dados
+                var img = document.createElement('img');
+
+                // Quando o evento "onload" é acionado, podemos redimensionar a imagem.
+                img.onload = function () {
+                    // Criamos uma tela e obtemos seu contexto.
+                    var canvas = document.createElement('canvas');
+                    var ctx = canvas.getContext('2d');
+
+                    // Nós definimos as dimensões no tamanho desejado.
+                    var MAX_WIDTH = 350;
+                    var MAX_HEIGHT = 350;
+
+                    var width = img.width;
+                    var height = img.height;
+
+                    if (width > height) {
+                        if (width > MAX_WIDTH) {
+                            height *= MAX_WIDTH / width;
+                            width = MAX_WIDTH;
+                        }
+                    } else {
+                        if (height > MAX_HEIGHT) {
+                            width *= MAX_HEIGHT / height;
+                            height = MAX_HEIGHT;
+                        }
+                    }
+                    canvas.width = width;
+                    canvas.height = height;
+
+                    // Nós redimensionamos a imagem com o método canvasImage ();
+                    ctx.drawImage(this, 0, 0, width, height);
+
+                    var dataURI = canvas.toDataURL(1.0);
+                    base64.base64 = dataURI.replace('data:image/png;base64,', '');
+                    deferred.resolve(base64);
+
+                    $scope.$apply();
+                };
+                img.src = 'data:' + base64.filetype + ';base64,' + base64.base64;
+                return deferred.promise;
+            };
 
             function agendar() {
                 var selected = self.gridOptions.api.getSelectedRows();
