@@ -218,3 +218,6 @@ body {
   min-width: 45px;
   line-height: 26px;
 }
+.panel {
+  margin-bottom: 0px;
+}
