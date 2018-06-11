@@ -99,6 +99,15 @@
 .fa-file-pdf-o {
   color: red;
 }
+.modal-dialog {
+  margin-top: 50px;
+}
+.focus-menu {
+  opacity: 1;
+  background-color: #366DB8;
+  -webkit-box-shadow: inset 0 0 20px #000;
+  box-shadow: inset 0 0 20px #000;
+}
 body {
   background: #EAEAEA !important;
 }
@@ -220,4 +229,7 @@ body {
 }
 .panel {
   margin-bottom: 0px;
+}
+.panel-body {
+  background: white;
 }

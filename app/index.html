@@ -17,6 +17,7 @@
 	<link rel="stylesheet" href="assets/css/angular-toggle-switch.css">
 	<link rel="stylesheet" href="assets/css/bootstrap.css">
 	<link rel="stylesheet" href="assets/css/font-awesome.css">
+	<link rel="stylesheet" href="assets/css/textAngular.css">
 	<link rel="stylesheet" href="src/css/ag-grid.css">
 	<link rel="stylesheet" href="src/css/perfil.css">
 	<link rel="stylesheet" href="src/css/pet.css">
@@ -26,7 +27,7 @@
 	<!-- endbuild -->
 </head>
 
-<body layout="column" style="overflow-y: scroll" flex>
+<body layout="column" flex>
 	<nav ng-include="'src/include/menu.html'"></nav>
 	<div ng-view layout="column" flex></div>
 </body>
@@ -52,6 +53,13 @@
 <script src="assets/lib/moment/pt-br.js"></script>
 <script src="assets/lib/ngstorage/ngStorage.min.js"></script>
 <script src="assets/lib/numeraljs/numeraljs.js"></script>
+<script src="assets/lib/textAngular/textAngular-rangy.min.js"></script>
+<script src="assets/lib/textAngular/textAngular-sanitize.js"></script>
+<script src="assets/lib/textAngular/textAngular-sanitize.min.js"></script>
+<script src="assets/lib/textAngular/textAngular.js"></script>
+<script src="assets/lib/textAngular/textAngular.min.js"></script>
+<script src="assets/lib/textAngular/textAngular.umd.js"></script>
+<script src="assets/lib/textAngular/textAngularSetup.js"></script>
 <script src="assets/lib/angular-input-masks/releases/angular-input-masks-standalone.min.js"></script>
 <script src="assets/lib/jquery/dist/jquery.min.js"></script>
 <script src="assets/lib/bootstrap/dist/js/bootstrap.min.js"></script>
@@ -71,14 +79,14 @@
 <script src="src/js/controller/menu.controller.js"></script>
 <script src="src/js/controller/perfil.controller.js"></script>
 <script src="src/js/controller/pet.controller.js"></script>
+<script src="src/js/controller/relatorio.controller.js"></script>
 <script src="src/js/controller/servico.controller.js"></script>
 <script src="src/js/controller/user.controller.js"></script>
-<script src="src/js/directive/carregando.directive.js"></script>
 <script src="src/js/filter/formatar-permissao.filter.js"></script>
 <script src="src/js/filter/sexo-animal.filter.js"></script>
 <script src="src/js/filter/to-array.filter.js"></script>
-<script src="src/js/lib/angular-via.js"></script>
-<script src="src/js/run/inicializacao.run.js"></script>
+<script src="src/js/directive/carregando.directive.js"></script>
+<script src="src/js/directive/focus.directive.js"></script>
 <script src="src/js/service/angular-utils.js"></script>
 <script src="src/js/service/http.service.js"></script>
 <script src="src/js/service/interceptor.js"></script>
@@ -87,6 +95,8 @@
 <script src="src/js/service/report.service.js"></script>
 <script src="src/js/service/service-application.service.js"></script>
 <script src="src/js/service/service-proxy.service.js"></script>
+<script src="src/js/lib/angular-via.js"></script>
+<script src="src/js/run/inicializacao.run.js"></script>
 <!-- endinject -->
 <!-- endbuild -->
 <script>

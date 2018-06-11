@@ -1,0 +1,11 @@
+<div layout="row" flex>
+    <div class="col-xs-12" flex style="background-color: white">
+        <div dir-carregando style="margin-left: -15px"></div>
+        <div class="col-xs-4 col-sm-4 col-md-2" ng-repeat="item in ctrl.items" style="padding: 8px;">
+            <div layout="column" style="cursor: pointer" ng-click="ctrl.openRelatorio(item.codigo)" layout-align="center center">
+                <i class="fa fa-file-pdf-o" style="font-size: 100px;" aria-hidden="true"></i>
+                <span>{{item.descricao}}.pdf</span>
+            </div>
+        </div>
+    </div>
+</div>

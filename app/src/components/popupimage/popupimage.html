@@ -1,23 +1,24 @@
 <div class="modal-header">
-    <h3 class="modal-title text-center">Dados do doador</h3>
+    <div class="col-md-12">
+        <h3 class="modal-title text-center" style="text-transform: uppercase">Envie uma mensagem para o proprietário</h3>
+    </div>
 </div>
 <div class="modal-body">
-    <div class="col-md-12">
-        <div class="col-md-5">
-            <p class="text-left" style="font-weight: bold">Dados do próprietario</p>
-            <p class="text-left">{{$ctrl.user.name}}</p>
-            <p class="text-left">{{$ctrl.user.phone}}</p>
-            <p class="text-left">{{$ctrl.user.email}}</p>
+    <div layout="row" layout-align="space-between center">
+        <div class="panel panel-default">
+            <div class="panel-heading">
+                <h3 class="modal-title text-center" ng-bind="ctrl.descricao"></h3>
+            </div>
+            <div class="panel-body">
+                <img class="img-thumbnail" style="height: 100%;" ng-src="{{'data:' + ctrl.pet.image.filetype + ';base64,' + ctrl.pet.image.base64}}"
+                    alt="Imagem do animal" />
+            </div>
         </div>
-        <div class="col-md-4">
-            <p class="text-left" style="font-weight: bold">Dados do Animal</p>
-            <p class="text-left">{{$ctrl.pet.name}}</p>
-            <p class="text-left">{{$ctrl.pet.sex}}</p>
-            <p class="text-left">{{$ctrl.pet.size}}</p>
-        </div>
-        <div class="col-md-3">
-            <img class="img-responsive" style="margin: auto" ng-src="{{'data:' + $ctrl.filetype + ';base64,' + $ctrl.base64}}" alt="Imagem do animal">
-        </div>
+        <text-angular style="width: 460px" ng-model="ctrl.htmlVariable" ta-toolbar="ctrl.toolbar" ta-translations="ctrl.taTranslations">
+        </text-angular>
     </div>
-    <button class="btn btn-primary" type="button" ng-click="$ctrl.ok()">Fechar</button>
+</div>
+<div class="modal-footer">
+    <button class="btn btn-primary" type="button" ng-click="ctrl.aplicar()" style="width: 100px;">Enviar</button>
+    <button class="btn btn-danger" type="button" ng-click="ctrl.sair()" style="width: 100px;">Cancelar</button>
 </div>

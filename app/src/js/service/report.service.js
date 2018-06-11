@@ -1,9 +1,7 @@
 angular.module('dog-system')
   .factory('reportUtils', ['ServicePathConstants', 'MessageUtils', '$http', '$rootScope',
     function (ServicePathConstants, MessageUtils, $http, $rootScope) {
-
       var report = {};
-
       report.buildReport = function (param, name, url) {
         $rootScope.$emit('loading-started');
         $http({
@@ -45,6 +43,5 @@ angular.module('dog-system')
           $rootScope.$emit('loading-complete');
         });
       };
-
       return report;
     }]);

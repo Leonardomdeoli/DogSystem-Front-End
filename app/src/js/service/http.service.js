@@ -19,9 +19,7 @@ angular.module('dog-system')
           data: data
         })
           .then(function (response) {
-
             callback && callback(response.data);
-
           }, function (error) {
 
             if (404 == error.status) {

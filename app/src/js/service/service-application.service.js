@@ -2,8 +2,8 @@ angular.module('dog-system')
     .factory('ServiceApplication', ['$rootScope',
         function ($rootScope) {
 
-            var ROLE_USER = ['/permission', '/user', '/pet', '/agenda', '/relatorio', '/login', '/logout'];
-            var ROLE_EMPLOYEE = ['/breed', '/services'];
+            var ROLE_USER = ['/login', '/usuario', '/perfil', '/dogLove', '/agenda', '/animal', '/404', '/'];
+            var ROLE_ADMIN = ['/raca', '/servico'];
 
             var service = {
                 isAuthenticated: isAuthenticated,
@@ -18,16 +18,7 @@ angular.module('dog-system')
             }
 
             function hasAnyPathPermission(path) {
-
-                if (hasAnyPermission('ROLE_USER')) {
-                    return ROLE_USER.indexOf(path) > -1;
-                }
-
-                if (hasAnyPermission('ROLE_EMPLOYEE')) {
-                    return ROLE_USER.indexOf(path) > -1 || ROLE_EMPLOYEE.indexOf(path) > -1;
-                }
-
-                return true;
+                return((ROLE_USER.indexOf(path) > -1 && hasAnyPermission('ROLE_USER')) || hasAnyPermission('ROLE_ADMIN'));
             }
 
             function hasAnyPermission(authority) {

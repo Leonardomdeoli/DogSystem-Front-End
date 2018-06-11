@@ -5,6 +5,9 @@
   color: #212121;
   font-size: 25px;
 }
+.ag-body-viewport {
+  background: white !important;
+}
 .number-cell {
   text-align: right;
 }
@@ -21,6 +24,10 @@
   background: #A9D09F !important;
 }
 .ag-header-container {
+  background-color: #EAEAEA !important;
+  font-weight: bold;
+}
+.ag-pinned-right-header {
   background-color: #EAEAEA !important;
   font-weight: bold;
 }

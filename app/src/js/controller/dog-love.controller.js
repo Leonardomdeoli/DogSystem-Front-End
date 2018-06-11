@@ -81,6 +81,26 @@ angular.module('dog-system')
                     });
             }
 
+            function openPopupImagem(params) {
+                var modalInstance = $uibModal.open({
+                    animation: true,
+                    ariaLabelledBy: 'modal-title',
+                    ariaDescribedBy: 'modal-body',
+                    templateUrl: 'src/components/popupimage/popupimage.html',
+                    controller: 'ModalImageCtrl',
+                    controllerAs: 'ctrl',
+                    size: 'lg',
+                    backdrop: false,
+                    resolve: {
+                        data: function () {
+                            return {
+                                params: params
+                            }
+                        }
+                    }
+                });
+            }
+
             function getColumnDefs(tipo) {
                 if (tipo == 'user') {
                     return [
@@ -116,15 +136,15 @@ angular.module('dog-system')
                         { headerName: "Data Nascimento", field: "dateBirth", valueGetter: function chainValueGetter(params) { return AngularUtils.formatDate(params.data.dateBirth); } },
                         { headerName: "Porte", field: "breed.porte" },
                         {
-                            headerName: "Visualizar", field: "ver", pinned: "right", width: 100, suppressFilter: true, suppressSorting: true, cellRenderer: function (params) {
+                            headerName: "Visualizar", field: "ver", pinned: "right", width: 150, suppressFilter: true, suppressSorting: true, cellRenderer: function (params) {
                                 var eDiv = document.createElement('div');
-                                eDiv.innerHTML = '<button type="button" style="width: 100%;" class="btn btn-primary btn-xs">Ver</button>';
+                                eDiv.innerHTML = '<button type="button" style="width: 100%;position: absolute;margin-left: -10px;" class="btn btn-primary btn-xs">Ver</button>';
 
                                 var eButton = eDiv.querySelectorAll('.btn-primary')[0];
 
                                 self.data = params.data;
                                 eButton.addEventListener('click', function () {
-                                    console.log(self.data);
+                                     openPopupImagem(self.data);
                                 });
 
                                 return eDiv;

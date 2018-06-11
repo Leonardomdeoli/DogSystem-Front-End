@@ -1,6 +1,6 @@
 angular.module('dog-system')
-    .controller('UserCtrl', ['ServiceApplication', 'ServiceProxy', 'ServicePathConstants', 'MessageUtils', '$uibModal', '$rootScope', '$location',
-        function (ServiceApplication, ServiceProxy, ServicePathConstants, MessageUtils, $uibModal, $rootScope, $location) {
+    .controller('UserCtrl', ['$document', 'ServiceApplication', 'ServiceProxy', 'ServicePathConstants', 'MessageUtils', '$uibModal', '$rootScope', '$location',
+        function ($document, ServiceApplication, ServiceProxy, ServicePathConstants, MessageUtils, $uibModal, $rootScope, $location) {
             var self = this;
 
             var _permissionUrl = ServicePathConstants.PRIVATE_PATH + '/permission';
@@ -12,6 +12,7 @@ angular.module('dog-system')
             self.facePanel = 0;
             self.showList = false;
             self.isEditFields = true;
+            self.showBoxPassword = false;
             self.btnSalvar = 'Salvar';
 
             self.rgxEmail = /^([\w-]+(?:\.[\w-]+)*)@((?:[\w-]+\.)*\w[\w-]{0,66})\.([a-z]{2,6}(?:\.[a-z]{2})?)$/i;
@@ -30,9 +31,10 @@ angular.module('dog-system')
             self.numPerPage = 6;
             self.gridOptions = {
                 columnDefs: [
-                    { headerName: "#", field: "id", width: 90, valueGetter: 'node.id', hide: true },
+                    { headerName: "Código", field: "id", width: 100, cellStyle: { 'text-align': 'right' } },
                     {
-                        headerName: "CPF", field: "cpf", suppressFilter: true, width: 200, cellRenderer: function (params) {
+                        headerName: "CPF", field: "cpf", suppressFilter: true, width: 200, cellStyle: { 'text-align': 'right' },
+                         cellRenderer: function (params) {
                             return params.data.cpf
                                 .replace(/(\d{3})(\d)/, "$1.$2")
                                 .replace(/(\d{3})(\d)/, "$1.$2")
@@ -42,20 +44,20 @@ angular.module('dog-system')
                     { headerName: "Name", field: "name", width: 300 },
                     { headerName: "Email", field: "email", width: 200 },
                     {
-                        headerName: "Telefone", field: "phone", suppressFilter: true, width: 200, cellRenderer: function (params) {
+                        headerName: "Telefone", field: "phone", cellStyle: { 'text-align': 'right' },  suppressFilter: true, width: 200, cellRenderer: function (params) {
                             return params.data.phone
                                 .replace(/(\d{2})(\d)/, "($1) $2")
                                 .replace(/(\d{3})(\d{1,4})$/, "$1-$2");
                         }
                     },
                     {
-                        headerName: "CEP", field: "address.zipcode", width: 150, cellRenderer: function (params) {
+                        headerName: "CEP", field: "address.zipcode", cellStyle: { 'text-align': 'right' },  width: 150, cellRenderer: function (params) {
                             return params.data.address.zipcode
                                 .replace(/(\d{3})(\d{1,3})$/, "$1-$2");
                         }
                     },
                     { headerName: "Rua", field: "address.name", width: 200 },
-                    { headerName: "Número", field: "number", width: 100, suppressFilter: true },
+                    { headerName: "Número", field: "number", width: 150, suppressFilter: true, cellStyle: { 'text-align': 'right' }},
                     { headerName: "Bairro", field: "address.neighborhood.name", width: 200 },
                     { headerName: "Cidade", field: "address.neighborhood.city.name", width: 200 },
                     { headerName: "Estado", field: "address.neighborhood.city.uf.sigla", width: 100 },
@@ -93,6 +95,7 @@ angular.module('dog-system')
             function add() {
                 self.user = {};
                 modifyTela(true);
+                self.showBoxPassword = true;
             }
 
             function modifyTela(condicao) {
@@ -112,18 +115,19 @@ angular.module('dog-system')
                     if (!condicao) {
                         throw "Formulário está inválido, favor verfique.";
                     }
-
                     if (angular.isUndefined(self.user.id)) {
-                        ServiceProxy.add(_userUrl, self.user).then(function (response) {
+                        ServiceProxy.add(_userUrl, self.user, function (response) {
                             self.gridOptions.api.updateRowData({ add: [response.data] });
                         });
                     } else {
-                        ServiceProxy.edit(_userUrl, self.user).then(function (response) {
+                        ServiceProxy.edit(_userUrl, self.user, function (response) {
                             self.gridOptions.api.refreshCells();
                         });
                     }
                 } catch (error) {
                     MessageUtils.error(error);
+                } finally {
+                    self.showBoxPassword = false;
                 }
             }
 
@@ -131,10 +135,8 @@ angular.module('dog-system')
                 var selected = self.gridOptions.api.getSelectedRows();
                 self.user = selected[0];
 
-                if ($rootScope.authDetails.id == self.user.id) {
-                    self.isEditFields = false;
-                }
-
+                self.showBoxPassword = $rootScope.authDetails.id != self.user.id;
+                self.isEditFields = !self.showBoxPassword;
                 self.facePanel = 1;
             }
 

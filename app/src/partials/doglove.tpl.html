@@ -5,7 +5,7 @@
         <form name="form" ng-submit="ctrl.buscarAnimais()" novalidate>
 
             <div layout="row" layout-align="space-between center" flex>
-                <div>
+                <div style="padding-left: 5px;">
                     <i class="fa fa-chevron-left sair-filtro" ng-click="ctrl.showFilter = !ctrl.showFilter" uib-tooltip="Esconder filtro" tooltip-placement="right"
                         aria-hidden="true"></i>
                 </div>
@@ -38,28 +38,10 @@
     </div>
 
 
-    <section class="nav-grid" layout="row" layout-sm="column" layout-wrap>
-
+    <section class="nav-grid" layout="row" layout="column" layout-wrap>
         <md-button class="md-icon-button" ng-click="ctrl.showFilter = !ctrl.showFilter" tooltip-placement="right-botto" uib-tooltip="Mostrar filtro">
             <i class="fa fa-filter" aria-label="Filtro"></i>
         </md-button>
-
-        <md-button class="md-icon-button" ng-click="ctrl.add()" tooltip-placement="bottom" uib-tooltip="Adicionar">
-            <i class="fa fa-plus" aria-label="Modo formulário"></i>
-        </md-button>
-
-        <md-button class="md-icon-button" ng-click="ctrl.edit()" tooltip-placement="bottom" uib-tooltip="Editar">
-            <i class="fa fa-pencil" aria-label="Editar"></i>
-        </md-button>
-
-        <md-button class="md-icon-button" ng-click="ctrl.remover()" tooltip-placement="bottom" uib-tooltip="Remover">
-            <i class="fa fa-trash-o" aria-label="Remover"></i>
-        </md-button>
-
-        <md-button class="md-icon-button" ng-click="ctrl.recarregar()" tooltip-placement="bottom" uib-tooltip="Recarregar">
-            <i class="fa fa-refresh" aria-label="Recarregar"></i>
-        </md-button>
-
     </section>
 
     <ag-grid grid-options="ctrl.gridOptions" flex></ag-grid>

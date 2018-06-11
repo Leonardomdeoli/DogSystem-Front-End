@@ -143,7 +143,7 @@ angular.module('dog-system')
             function getColumnDefs(tipo) {
                 if (tipo == 'user') {
                     return [
-                        { headerName: "#", field: "id", width: 90, valueGetter: 'node.id', hide: true },
+                        { headerName: "Código", field: "id", width: 100, cellStyle: { 'text-align': 'right' }},
                         { headerName: "Name", field: "name", width: 250 },
                         { headerName: "Email", field: "email", suppressFilter: true, width: 200 },
                         {
@@ -160,7 +160,7 @@ angular.module('dog-system')
                 } else if (tipo == 'breed') {
 
                     return [
-                        { headerName: "#", field: "id", valueGetter: 'node.id', hide: true },
+                        { headerName: "Código", field: "id", width: 100, cellStyle: { 'text-align': 'right' }},
                         { headerName: "Nome", field: "name", width: 300 },
                         { headerName: "Vida", suppressFilter: true, field: "life", width: 150 },
                         { headerName: "Peso", suppressFilter: true, field: "weight", width: 160 },
@@ -169,7 +169,7 @@ angular.module('dog-system')
 
                 } else if (tipo == 'pet') {
                     return [
-                        { headerName: "#", field: "id", width: 90, hide: true },
+                        { headerName: "Código", field: "id", width: 100, cellStyle: { 'text-align': 'right' }},
                         { headerName: "Nome propriétario", field: "user.name", width: 265 },
                         { headerName: "Nome pet", field: "name" },
                         {

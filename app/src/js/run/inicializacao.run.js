@@ -10,14 +10,11 @@ angular.module('dog-system')
     }).run(function ($rootScope, $route, $routeParams, $location, ServiceApplication) {
 
         $rootScope.$on('$routeChangeStart', function (evt, next, current) {
-
             if (!$rootScope.authDetails.authenticated) {
                 $location.path("/login");
+            }else if (current && !ServiceApplication.hasAnyPathPermission(next.$$route.originalPath)) {
+                $location.path(current.$$route.originalPath);
             }
-
-            // if (current && !ServiceApplication.hasAnyPathPermission(next.$$route.originalPath)) {
-            //     $location.path(current.$$route.originalPath);
-            // }
         });
 
         $rootScope.$route = $route;

@@ -5,7 +5,7 @@ angular.module('dog-system')
             init();
             function init() {
                 $scope.gridOptions.animateRows = true;
-                
+
                 $scope.gridOptions.suppressMovableColumns = true;
 
                 $scope.gridOptions.enableRangeSelection = true;
@@ -53,10 +53,10 @@ angular.module('dog-system')
 
                 $scope.gridOptions.defaultColDef = {
                     enableValue: true,
-                    width: 230,
+                    width: 250,
                     filter: 'agTextColumnFilter',
                     unSortIcon: true,
-                    suppressMenu:true
+                    suppressMenu: true
                 }
 
                 if (angular.isFunction($scope.rowSelected)) {

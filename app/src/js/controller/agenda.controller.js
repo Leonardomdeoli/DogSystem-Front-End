@@ -2,7 +2,6 @@ angular.module('dog-system')
   .controller('AgendaCtrl', ['$timeout', 'base64', '$scope', 'ServiceProxy', 'ServicePathConstants', 'MessageUtils', '$uibModal', '$rootScope', '$location', 'AngularUtils', '$routeParams',
     function ($timeout, base64, $scope, ServiceProxy, ServicePathConstants, MessageUtils, $uibModal, $rootScope, $location, AngularUtils, $routeParams) {
       var self = this;
-      var _msg = 'Verifique o formulário pois pode conter erros';
 
       self.agenda = {};
       self.agendas = [];
@@ -91,7 +90,7 @@ angular.module('dog-system')
 
       function buscar() {
         try {
-          if(self.inicial == null){
+          if (self.inicial == null) {
             throw 'Data inicial é obrigatoria, favor verifique.';
           }
 
@@ -132,9 +131,14 @@ angular.module('dog-system')
       function buscarHoras() {
 
         if (self.agenda.schedulingDate) {
-          ServiceProxy.find(_agendaUrl + '/data/' + self.agenda.schedulingDate, function (data) {
+          ServiceProxy.find(_agendaUrl + '/getTime?data=' + self.agenda.schedulingDate, function (data) {
+            var options = AngularUtils.toArray(data);
+
+            if (options.length == 0) {
+              MessageUtils.info('Não existe horário disponível para esse dia, selecione outro dia');
+            }
             self.horas = {
-              options: data
+              options: options
             };
           });
         } else {
@@ -223,7 +227,7 @@ angular.module('dog-system')
       function getColumnDefs(tipo) {
         if (tipo == 'pet') {
           return [
-            { headerName: "#", field: "id", width: 90, hide: true },
+            { headerName: "Código", field: "id", width: 100, cellStyle: { 'text-align': 'right' }},
             { headerName: "Nome pet", field: "name" },
             {
               headerName: "Data Nascimento", field: "dateBirth", valueGetter: function chainValueGetter(params) {
@@ -254,26 +258,27 @@ angular.module('dog-system')
 
         if (tipo == 'agenda') {
           return [
-            { headerName: "#", field: "id", width: 90, hide: true },
-            { headerName: "Serviço", field: "service.name", width: 300 },
+            { headerName: "Código", field: "id", width: 100, cellStyle: { 'text-align': 'right' }},
+            { headerName: "Serviço", field: "service.name"},
             {
-              headerName: "Data do agendamento", field: "schedulingDate", valueGetter: function chainValueGetter(params) {
+              headerName: "Data do agendamento", field: "schedulingDate", cellStyle: { 'text-align': 'right' },
+              valueGetter: function chainValueGetter(params) {
                 return AngularUtils.formatDate(params.data.schedulingDate);
               }
             },
-            { headerName: "Hora", field: "time" },
+            { headerName: "Hora", field: "time", cellStyle: { 'text-align': 'right' }, width: 100},
             { headerName: "Observações", field: "note", width: 265 },
 
             { headerName: "Animal", field: "pet.name" },
-            { headerName: "Sexo", field: "pet.sex" },
-            { headerName: "Porte", field: "pet.breed.porte" },
-            { headerName: "Raça", field: "pet.breed.name" }
+            { headerName: "Sexo", field: "pet.sex", width: 100 },
+            { headerName: "Porte", field: "pet.breed.porte" , width: 100},
+            { headerName: "Raça", field: "pet.breed.name", width: 150 }
           ];
         }
 
         if (tipo == 'service') {
           return [
-            { headerName: "Código", field: "id", width: 150, cellClass: 'number-cell' },
+            { headerName: "Código", field: "id", width: 100, cellStyle: { 'text-align': 'right' }},
             { headerName: "Name", field: "name", width: 300 },
             { headerName: "Preço", field: "price", width: 200, cellClass: 'number-cell', valueFormatter: currencyFormatter },
             { headerName: "Porte", field: "size", width: 200 }
@@ -285,39 +290,48 @@ angular.module('dog-system')
         return 'R$ ' + AngularUtils.formatNumber(params.value);
       }
 
-      function enviar(condicao) {
-
+      function enviar() {
         try {
 
-          if (!condicao) {
-            throw _msg;
-          }
-
-          if (self.agenda.pet == undefined) {
+          if (self.agenda.pet.id == undefined) {
             self.isPetInvalido = true;
-            throw _msg;
+            throw 'Animal';
           }
+          self.isPetInvalido = false;
 
           if (self.agenda.service == undefined) {
             self.isServiInvalido = true;
-            throw _msg;
+            throw 'Serviço';
           }
+          self.isServiInvalido = false;
+
+          if (self.agenda.schedulingDate == undefined) {
+            self.isSchedulingDate = true;
+            throw 'Data';
+          }
+          self.isSchedulingDate = false;
+
+          if (self.agenda.time == undefined) {
+            self.isTime = true;
+            throw 'Hora';
+          }
+          self.isTime = false;
 
           if (angular.isUndefined(self.agenda.id)) {
             ServiceProxy.add(_agendaUrl, self.agenda, function (response) {
               self.gridOptions.api.updateRowData({ add: [response.data] });
-              setFacePanel(0);
+              MessageUtils.info(response.mensagem);
             });
 
           } else {
             ServiceProxy.edit(_agendaUrl, self.agenda, function (response) {
               self.gridOptions.api.refreshCells();
-              setFacePanel(0);
+              MessageUtils.info(response.mensagem);
             });
           }
 
         } catch (error) {
-          MessageUtils.error(error);
+          MessageUtils.error('Campo ' + error + ' é obrigatório');
         }
 
       }

@@ -1,6 +1,6 @@
 <div layout="row" flex>
     <div layout="column" ng-show="ctrl.facePanel == 1" layout-align="space-between stretch" flex>
-        <section class="nav-grid" layout="row" layout-sm="column" layout-wrap>
+        <section class="nav-grid" layout="row" layout="column" layout-wrap>
             <md-button class="md-icon-button" ng-click="ctrl.setFacePanel(0)" tooltip-placement="right-bottom" uib-tooltip="Modo Grade">
                 <i class="fa fa-th" aria-label="Modo Grade"></i>
             </md-button>
@@ -39,7 +39,7 @@
                             </div>
                         </div>
 
-                        <div class="col-md-6 col-sm-5 col-xs-12">
+                        <div class="col-md-3 col-sm-6 col-xs-12">
                             <div class="form-group" ng-class="{ 'has-error': form.cpf.$touched && form.cpf.$invalid}">
                                 <label for="cpf" class="control-label">CPF
                                     <span class="text-danger">*</span>
@@ -48,7 +48,7 @@
                                     <span class="input-group-addon">
                                         <i class="fa fa-id-card-o"></i>
                                     </span>
-                                    <input ng-disabled="!ctrl.isEditFields" class="form-control" placeholder="Insira o CPF" name="cpf" ng-model="ctrl.user.cpf"
+                                    <input class="form-control" placeholder="Insira o CPF" name="cpf" ng-model="ctrl.user.cpf"
                                         required ui-br-cpf-mask>
                                 </div>
                                 <div class="help-block" ng-messages="form.cpf.$error" ng-if="form.cpf.$touched">
@@ -57,28 +57,7 @@
                                 </div>
                             </div>
                         </div>
-                    </div>
-                    <div class="row">
-                        <div class="col-md-6 col-sm-6 col-xs-12">
-                            <div class="form-group" ng-class="{ 'has-error': form.email.$touched  && form.email.$invalid}">
-                                <label for="inputemail" class="control-label">E-mail
-                                    <span class="text-danger">*</span>
-                                </label>
-                                <div class="input-group margin-bottom-sm">
-                                    <span class="input-group-addon">
-                                        <i class="fa fa-envelope-o fa-fw"></i>
-                                    </span>
-                                    <input autocomplete="nope" class="form-control" type="text" placeholder="email@email.com" ng-model="ctrl.user.email" name="email" ng-pattern="rgxEmail"
-                                        required>
-                                </div>
-                                <div class="help-block" ng-messages="form.email.$error" ng-if="form.email.$touched">
-                                    <div ng-messages-include="src/include/messages.html"></div>
-                                    <span ng-message="pattern">Insira um e-mail válido</span>
-                                </div>
-                            </div>
-                        </div>
-
-                        <div class="col-md-6 col-sm-6 col-xs-12">
+                        <div class="col-md-3 col-sm-6 col-xs-12">
                             <div class="form-group" ng-class="{ 'has-error': form.phone.$touched && form.phone.$invalid}">
                                 <label for="phone" class="control-label">Telefone
                                     <span class="text-danger">*</span>
@@ -97,7 +76,25 @@
                         </div>
                     </div>
                     <div class="row">
-                        <div class="col-md-6 col-sm-6 col-xs-12">
+                        <div class="col-md-6 col-sm-12 col-xs-12">
+                            <div class="form-group" ng-class="{ 'has-error': form.email.$touched  && form.email.$invalid}">
+                                <label for="inputemail" class="control-label">E-mail
+                                    <span class="text-danger">*</span>
+                                </label>
+                                <div class="input-group margin-bottom-sm">
+                                    <span class="input-group-addon">
+                                        <i class="fa fa-envelope-o fa-fw"></i>
+                                    </span>
+                                    <input autocomplete="nope" class="form-control" type="text" placeholder="email@email.com" ng-model="ctrl.user.email" name="email" ng-pattern="rgxEmail"
+                                        required>
+                                </div>
+                                <div class="help-block" ng-messages="form.email.$error" ng-if="form.email.$touched">
+                                    <div ng-messages-include="src/include/messages.html"></div>
+                                    <span ng-message="pattern">Insira um e-mail válido</span>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-3 col-sm-6 col-xs-12">
                             <div class="form-group" ng-class="{ 'has-error': form.password.$touched && form.password.$invalid}">
                                 <label for="inputPassword" class="control-label">Senha
                                     <span class="text-danger">*</span>
@@ -115,7 +112,7 @@
                             </div>
                         </div>
 
-                        <div class="col-md-6 col-sm-6 col-xs-12" ng-if="ctrl.isEditFields">
+                        <div class="col-md-3 col-sm-6 col-xs-12" ng-if="!ctrl.isEditFields">
                             <div class="form-group">
                                 <p>
                                     <label>Permissões</label>
@@ -238,7 +235,7 @@
     </div>
 
     <div ng-show="ctrl.facePanel == 0" layout="column" layout-align="space-between stretch" flex>
-        <section class="nav-grid" layout="row" layout-sm="column" layout-wrap>
+        <section class="nav-grid" layout="row" layout="column" layout-wrap>
             <md-button class="md-icon-button" ng-click="ctrl.edit()" tooltip-placement="right-bottom" uib-tooltip="Modo Formulário">
                 <i class="fa fa-table" aria-label="Modo formulário"></i>
             </md-button>

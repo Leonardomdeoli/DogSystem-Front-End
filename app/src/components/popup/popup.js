@@ -13,7 +13,10 @@ angular.module('dog-system')
 
                 self.gridOptions = {
                     columnDefs: data.columnDefs,
-                    paginationPageSize: 10
+                    paginationPageSize: 10,
+                    onCellDoubleClicked: function (event) {
+                        $uibModalInstance.close(event.data);
+                    }
                 };
 
                 $timeout(recarregar, 300);

@@ -1,5 +1,5 @@
 angular.module('dog-system')
-  .factory('AngularUtils', ['DateUtisConstants','$compile','$rootScope',
+  .factory('AngularUtils', ['DateUtisConstants', '$compile', '$rootScope',
     function (DateUtisConstants, $compile, $rootScope) {
 
       var service = {
@@ -13,9 +13,22 @@ angular.module('dog-system')
 
         emptyAsUndefined: emptyAsUndefined,
         getProperty: getProperty,
-        compile:compile
+        compile: compile,
+
+        toArray: toArray
       };
 
+      function toArray(arr) {
+        if (angular.isUndefined(arr)){
+            return [];
+        } else if (angular.isArray(arr)) {
+            return arr;
+        } else if (angular.isString(arr)) {
+            return arr.split(',');
+        } else {
+            return [arr];
+        }
+    }
 
       function compile(element, scope) {
         return $compile(element)(scope || $rootScope.$new());

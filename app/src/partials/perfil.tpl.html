@@ -1,19 +1,16 @@
 <div layout="row" flex>
     <div layout="column" layout-align="space-between stretch" flex>
 
-        <section class="nav-grid" layout="row" layout-sm="column" layout-wrap>
+        <section class="nav-grid" layout="row" layout="column" layout-wrap>
             <md-button class="md-icon-button" form="userForm" type="submit" tooltip-placement="right-bottom" uib-tooltip="Salvar">
                 <i class="fa fa-floppy-o" aria-label="Salvar"></i>
             </md-button>
         </section>
 
         <div class="panel panel-default" flex>
-            
+
             <div class="panel-body">
-                <h3 class="thin">
-                    <i class="fa fa-address-card-o" aria-hidden="true"></i> Dados do Usuário</h3>
-                <hr>
-                <form name="userForm" ng-submit="ctrl.enviar(userForm.$valid)" novalidate autocomplete="off">
+                <form id="userForm" name="userForm" ng-submit="ctrl.enviar(userForm.$valid)" novalidate autocomplete="off">
                     <div class="row">
                         <div class="col-md-6 col-sm-12 col-xs-12">
                             <div class="form-group" ng-class="{ 'has-error': userForm.name.$touched && userForm.name.$invalid}">
@@ -34,7 +31,7 @@
                             </div>
                         </div>
 
-                        <div class="col-md-6 col-sm-12 col-xs-12">
+                        <div class="col-md-3 col-sm-12 col-xs-12">
                             <div class="form-group" ng-class="{ 'has-error': userForm.cpf.$touched && userForm.cpf.$invalid}">
                                 <label for="cpf" class="control-label">CPF
                                     <span class="text-danger">*</span>
@@ -43,7 +40,7 @@
                                     <span class="input-group-addon">
                                         <i class="fa fa-id-card-o"></i>
                                     </span>
-                                    <input ng-disabled="true" class="form-control" placeholder="Insira o CPF" name="cpf" ng-model="ctrl.user.cpf" ui-br-cpf-mask
+                                    <input class="form-control" placeholder="Insira o CPF" name="cpf" ng-model="ctrl.user.cpf" ui-br-cpf-mask
                                         required>
                                 </div>
                                 <div class="help-block" ng-messages="userForm.cpf.$error" ng-if="userForm.cpf.$touched">
@@ -52,28 +49,7 @@
                                 </div>
                             </div>
                         </div>
-                    </div>
-                    <div class="row">
-                        <div class="col-md-6 col-sm-6 col-xs-12">
-                            <div class="form-group" ng-class="{ 'has-error': userForm.email.$touched  && userForm.email.$invalid}">
-                                <label for="inputemail" class="control-label">E-mail
-                                    <span class="text-danger">*</span>
-                                </label>
-                                <div class="input-group margin-bottom-sm">
-                                    <span class="input-group-addon">
-                                        <i class="fa fa-envelope-o fa-fw"></i>
-                                    </span>
-                                    <input autocomplete="nope" class="form-control" type="text" placeholder="email@email.com" ng-model="ctrl.user.email" name="email" ng-pattern="rgxEmail"
-                                        required>
-                                </div>
-                                <div class="help-block" ng-messages="userForm.email.$error" ng-if="userForm.email.$touched">
-                                    <div ng-messages-include="src/include/messages.html"></div>
-                                    <span ng-message="pattern">Insira um e-mail válido</span>
-                                </div>
-                            </div>
-                        </div>
-
-                        <div class="col-md-6 col-sm-6 col-xs-12">
+                        <div class="col-md-3 col-sm-6 col-xs-12">
                             <div class="form-group" ng-class="{ 'has-error': userForm.phone.$touched && userForm.phone.$invalid}">
                                 <label for="phone" class="control-label">Telefone
                                     <span class="text-danger">*</span>
@@ -93,6 +69,24 @@
                     </div>
                     <div class="row">
                         <div class="col-md-6 col-sm-6 col-xs-12">
+                            <div class="form-group" ng-class="{ 'has-error': userForm.email.$touched  && userForm.email.$invalid}">
+                                <label for="inputemail" class="control-label">E-mail
+                                    <span class="text-danger">*</span>
+                                </label>
+                                <div class="input-group margin-bottom-sm">
+                                    <span class="input-group-addon">
+                                        <i class="fa fa-envelope-o fa-fw"></i>
+                                    </span>
+                                    <input autocomplete="nope" class="form-control" type="text" placeholder="email@email.com" ng-model="ctrl.user.email" name="email"
+                                        ng-pattern="rgxEmail" required>
+                                </div>
+                                <div class="help-block" ng-messages="userForm.email.$error" ng-if="userForm.email.$touched">
+                                    <div ng-messages-include="src/include/messages.html"></div>
+                                    <span ng-message="pattern">Insira um e-mail válido</span>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-6 col-sm-6 col-xs-12">
                             <div class="form-group" ng-class="{ 'has-error': userForm.password.$touched && userForm.password.$invalid}">
                                 <label for="inputPassword" class="control-label">Senha
                                     <span class="text-danger">*</span>
@@ -101,24 +95,10 @@
                                     <span class="input-group-addon">
                                         <i class="fa fa-key fa-fw"></i>
                                     </span>
-                                    <input autocomplete="new-password" class="form-control" type="password" ng-minlength="6" class="form-control" name="password" placeholder="Digite sua Senha..."
-                                        ng-model="ctrl.user.password" required>
+                                    <input autocomplete="new-password" class="form-control" type="password" ng-minlength="6" class="form-control" name="password"
+                                        placeholder="Digite sua Senha..." ng-model="ctrl.user.password" required>
                                 </div>
                                 <div class="help-block" ng-messages="userForm.password.$error" ng-if="userForm.password.$touched">
-                                    <div ng-messages-include="src/include/messages.html"></div>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="col-md-6 col-sm-6 col-xs-12">
-                            <div class="form-group" ng-class="{ 'has-error': userForm.number.$touched && userForm.number.$invalid}">
-                                <label for="input-number" class="control-label">Número
-                                    <span class="text-danger">*</span>
-                                </label>
-                                <input type="text" class="form-control" name="number" id="input-number" ng-model="ctrl.user.number" ng-maxlength="10" ng-minlength="2"
-                                    ng-pattern="/^[0-9]{1,}$/" required>
-
-                                <div class="help-block" ng-messages="userForm.number.$error" ng-if="userForm.number.$touched">
-                                    <span ng-message="pattern">Insira somente números</span>
                                     <div ng-messages-include="src/include/messages.html"></div>
                                 </div>
                             </div>
@@ -146,6 +126,21 @@
                         </div>
 
                         <div class="col-md-4 col-sm-4 col-xs-12">
+                            <div class="form-group" ng-class="{ 'has-error': userForm.number.$touched && userForm.number.$invalid}">
+                                <label for="input-number" class="control-label">Número
+                                    <span class="text-danger">*</span>
+                                </label>
+                                <input type="text" class="form-control" name="number" id="input-number" ng-model="ctrl.user.number" ng-maxlength="10" ng-minlength="2"
+                                    ng-pattern="/^[0-9]{1,}$/" required>
+
+                                <div class="help-block" ng-messages="userForm.number.$error" ng-if="userForm.number.$touched">
+                                    <span ng-message="pattern">Insira somente números</span>
+                                    <div ng-messages-include="src/include/messages.html"></div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="col-md-4 col-sm-4 col-xs-12">
                             <div class="form-group" ng-class="{ 'has-error': userForm.street.$touched && userForm.street.$invalid}">
                                 <label for="street" class="control-label">Logradouro
                                     <span class="text-danger">*</span>
@@ -156,12 +151,6 @@
                                 <div class="help-block" ng-messages="userForm.street.$error" ng-if="userForm.street.$touched">
                                     <div ng-messages-include="src/include/messages.html"></div>
                                 </div>
-                            </div>
-                        </div>
-                        <div class="col-md-4 col-sm-4 col-xs-12">
-                            <div class="form-group">
-                                <label for="input-complement">Complemento</label>
-                                <input type="text" class="form-control" id="input-complement" ng-model="ctrl.user.complement">
                             </div>
                         </div>
                     </div>
@@ -205,6 +194,14 @@
                                 <div class="help-block" ng-messages="userForm.uf.$error" ng-if="userForm.uf.$touched">
                                     <div ng-messages-include="src/include/messages.html"></div>
                                 </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-12 col-sm-12 col-xs-12">
+                            <div class="form-group">
+                                <label for="input-complement">Complemento</label>
+                                <input type="text" class="form-control" id="input-complement" ng-model="ctrl.user.complement">
                             </div>
                         </div>
                     </div>

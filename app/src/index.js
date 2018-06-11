@@ -9,6 +9,7 @@ angular.module('dog-system', [
   'agGrid',
   'ngCookies',
   'ngAnimate',
+  'textAngular',
   'ngStorage',
   'angular.viacep',
   'ui.utils.masks',

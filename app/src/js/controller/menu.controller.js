@@ -1,8 +1,8 @@
 'user strict';
 
 angular.module('dog-system').
-  controller('headerSrv',
-    function ($scope, $rootScope, $location, LoginLogoutSrv, ServicePathConstants, $uibModal, MessageUtils, $http, reportUtils) {
+  controller('headerSrv', ['$scope', '$rootScope', 'LoginLogoutSrv', 'reportUtils',
+    function ($scope, $rootScope, LoginLogoutSrv, reportUtils) {
 
       $scope.hasAnyPermission = function (authorities) {
         var hasPermission = false;
@@ -25,13 +25,4 @@ angular.module('dog-system').
       $scope.logout = function () {
         LoginLogoutSrv.logout();
       };
-
-
-      $scope.reportBreed = function () {
-        reportUtils.buildReport(null, 'Raças dos animais', '/report-racas');
-      }
-
-      $scope.reportClientePet = function () {
-        reportUtils.buildReport(null, 'Clientes e pets', '/report-clientes-pet');
-      }
-    });
+    }]);

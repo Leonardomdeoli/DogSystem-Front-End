@@ -51,13 +51,13 @@ angular.module('dog-system')
                 templateUrl: path + 'pet.tpl.html',
                 controller: 'PetCtrl as ctrl'
             })
-            .when('/contato', {
-                templateUrl: path + 'contact.tpl.html',
-                controller: 'ContactCtrl as ctrl'
-            })
             .when('/raca', {
                 templateUrl: path + 'breed.tpl.html',
                 controller: 'BreedCtrl as ctrl'
+            })
+            .when('/relatorio', {
+                templateUrl: path + 'relatorio.tpl.html',
+                controller: 'RelatorioCtrl as ctrl'
             })
             .when('/404', {
                 templateUrl: path + '404.html'
