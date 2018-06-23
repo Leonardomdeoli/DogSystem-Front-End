@@ -66,7 +66,7 @@
                                     <span class="input-group-addon">
                                         <i class="fa fa-phone"></i>
                                     </span>
-                                    <input class="form-control" name="phone" ng-model="ctrl.user.phone" required ui-br-phone-number placeholder="Informe o número telefone">
+                                    <input class="form-control" name="phone" type="text" name="field" ng-model="ctrl.user.phone" ui-br-phone-number-mask>
                                 </div>
                                 <div class="help-block" ng-messages="form.phone.$error" ng-if="form.phone.$touched">
                                     <div ng-messages-include="src/include/messages.html"></div>
@@ -111,11 +111,12 @@
                                 </div>
                             </div>
                         </div>
-
                         <div class="col-md-3 col-sm-6 col-xs-12" ng-if="!ctrl.isEditFields">
-                            <div class="form-group">
+                            <div class="form-group" ng-class="{ 'has-error': ctrl.permissionInvalid}">
                                 <p>
-                                    <label>Permissões</label>
+                                <label for="idPermission" class="control-label">Permissões
+                                    <span class="text-danger">*</span>
+                                </label>
                                 </p>
                                 <div class="checkbox-inline" ng-repeat="permission in ctrl.permissions">
                                     <input id="{{permission.role}}" type="checkbox" checklist-model="ctrl.user.permissions" checklist-value="permission">

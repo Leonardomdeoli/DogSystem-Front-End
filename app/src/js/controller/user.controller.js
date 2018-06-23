@@ -93,14 +93,18 @@ angular.module('dog-system')
             }
 
             function add() {
-                self.user = {};
+                self.user = {
+                    permissions: 1
+                };
                 modifyTela(true);
                 self.showBoxPassword = true;
+                self.isEditFields = false;
             }
 
             function modifyTela(condicao) {
                 self.facePanel = condicao;
                 self.showList = !condicao;
+                self.permissionInvalid = false;
             };
 
             function buscarUser() {
@@ -115,6 +119,13 @@ angular.module('dog-system')
                     if (!condicao) {
                         throw "Formulário está inválido, favor verfique.";
                     }
+                    
+                    if(!self.isEditFields && self.user.permissions[0] == undefined){
+                        self.permissionInvalid = true;
+                        throw "Selecione uma permissão antes de continuar.";
+                    }
+                    self.permissionInvalid = false;
+
                     if (angular.isUndefined(self.user.id)) {
                         ServiceProxy.add(_userUrl, self.user, function (response) {
                             self.gridOptions.api.updateRowData({ add: [response.data] });
