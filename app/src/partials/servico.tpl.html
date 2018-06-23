@@ -23,18 +23,18 @@
                 <form id="form" name="form" ng-submit="ctrl.enviar(form.$valid)" novalidate>
                     <div class="row">
                         <div class="col-md-8 col-sm-7 col-xs-12">
-                            <div class="form-group" ng-class="{ 'has-error': form.description.$touched && form.description.$invalid}">
-                                <label for="description" class="control-label">Descrição
+                            <div class="form-group" ng-class="{ 'has-error': form.name.$touched && form.name.$invalid}">
+                                <label for="name" class="control-label">Nome
                                     <span class="text-danger">*</span>
                                 </label>
                                 <div class="input-group">
                                     <span class="input-group-addon">
                                         <i class="fa fa-user"></i>
                                     </span>
-                                    <input type="text" name="description" class="form-control" ng-model="ctrl.service.name" ng-minlength="3" placeholder="Informe a descrição do serviço"
+                                    <input type="text" name="name" class="form-control" ng-model="ctrl.service.name" ng-minlength="3" placeholder="Informe a descrição do serviço"
                                         ng-maxlength="100" ng-pattern="ctrl.rgxLetras" required>
                                 </div>
-                                <div class="help-block" ng-messages="form.description.$error" ng-if="form.description.$touched">
+                                <div class="help-block" ng-messages="form.name.$error" ng-if="form.name.$touched">
                                     <div ng-messages-include="src/include/messages.html"></div>
                                     <span ng-message="pattern">O campo nome não pode conter números</span>
                                 </div>
@@ -67,6 +67,12 @@
                                         ui-money-mask>
                                 </div>
                             </div>
+                        </div>
+                        <div class="col-md-8 col-sm-7 col-xs-12">
+                            <div class="form-group">
+                                <label for="exampleFormControlTextarea1">Descrição</label>
+                                <textarea class="form-control" rows="6" ng-model="ctrl.service.description"></textarea>
+                              </div>
                         </div>
                     </div>
                     <input type="text" ng-model="ctrl.service.id" ng-hide="true">

@@ -15,9 +15,10 @@ angular.module('dog-system')
       self.gridOptions = {
         columnDefs: [
           { headerName: "Código", field: "id", width: 150, cellClass: 'number-cell' },
-          { headerName: "Name", field: "name", width: 300 },
+          { headerName: "Nome", field: "name", width: 300 },
           { headerName: "Preço", field: "price", width: 200, cellClass: 'number-cell', valueFormatter: currencyFormatter },
-          { headerName: "Porte", field: "size", width: 200 }
+          { headerName: "Porte", field: "size", width: 150 },
+          { headerName: "Descrição", field: "description", width: 300, tooltipField:"description"}
         ]
       };
 

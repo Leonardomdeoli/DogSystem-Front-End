@@ -166,7 +166,6 @@ angular.module('dog-system')
         }
         return undefined;
       }
-
       return service;
     }]);
 
