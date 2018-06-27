@@ -1,6 +1,6 @@
 angular.module('dog-system')
-  .controller('AgendaCtrl', ['$timeout', 'base64', '$scope', 'ServiceProxy', 'ServicePathConstants', 'MessageUtils', '$uibModal', '$rootScope', '$location', 'AngularUtils', '$routeParams',
-    function ($timeout, base64, $scope, ServiceProxy, ServicePathConstants, MessageUtils, $uibModal, $rootScope, $location, AngularUtils, $routeParams) {
+  .controller('AgendaCtrl', ['ServiceApplication', '$timeout', 'base64', '$scope', 'ServiceProxy', 'ServicePathConstants', 'MessageUtils', '$uibModal', '$rootScope', '$location', 'AngularUtils', '$routeParams',
+    function (ServiceApplication, $timeout, base64, $scope, ServiceProxy, ServicePathConstants, MessageUtils, $uibModal, $rootScope, $location, AngularUtils, $routeParams) {
       var self = this;
 
       self.agenda = {};
@@ -109,6 +109,10 @@ angular.module('dog-system')
             _url = _url.concat('&service=').concat(self.agenda.service.id);
           }
 
+          if (ServiceApplication.hasPermissionUser()) {
+            _url = _url + '&user=' + Number(ServiceApplication.getIdLogado());
+        }
+
           ServiceProxy.find(_url, function (data) {
             self.gridOptions.api.setRowData(data);
             var rowData = self.gridOptions.api.getRowNode(0);
@@ -169,7 +173,6 @@ angular.module('dog-system')
       };
 
       function buscaragenda() {
-        self.nameagenda
         ServiceProxy.find(_agendaUrl + '/' + self.nameagenda, function (data) {
           self.agendas = data;
           modifyTela(false);
@@ -188,15 +191,19 @@ angular.module('dog-system')
           header = 'Animais';
           title = ' o animal';
           url = '/pet';
+
+          if (ServiceApplication.hasPermissionUser()) {
+            url = url + '?user=' + Number(ServiceApplication.getIdLogado());
+          }
         }
 
-        if (criteria) {
-          url = url.concat('/criteria/').concat(criteria);
-        }
+        // if (criteria) {
+        //   url = url.concat('/criteria/').concat(criteria);
+        // }
 
-        if (param) {
-          url = url.concat('/param/').concat(param);
-        }
+        // if (param) {
+        //   url = url.concat('/param/').concat(param);
+        // }
 
         var modalInstance = $uibModal.open({
           animation: true,
@@ -227,7 +234,7 @@ angular.module('dog-system')
       function getColumnDefs(tipo) {
         if (tipo == 'pet') {
           return [
-            { headerName: "Código", field: "id", width: 100, cellStyle: { 'text-align': 'right' }},
+            { headerName: "Código", field: "id", width: 100, cellStyle: { 'text-align': 'right' } },
             { headerName: "Nome pet", field: "name" },
             {
               headerName: "Data Nascimento", field: "dateBirth", valueGetter: function chainValueGetter(params) {
@@ -258,27 +265,27 @@ angular.module('dog-system')
 
         if (tipo == 'agenda') {
           return [
-            { headerName: "Código", field: "id", width: 100, cellStyle: { 'text-align': 'right' }},
-            { headerName: "Serviço", field: "service.name"},
+            { headerName: "Código", field: "id", width: 100, cellStyle: { 'text-align': 'right' } },
+            { headerName: "Serviço", field: "service.name" },
             {
               headerName: "Data do agendamento", field: "schedulingDate", cellStyle: { 'text-align': 'right' },
               valueGetter: function chainValueGetter(params) {
                 return AngularUtils.formatDate(params.data.schedulingDate);
               }
             },
-            { headerName: "Hora", field: "time", cellStyle: { 'text-align': 'right' }, width: 100},
+            { headerName: "Hora", field: "time", cellStyle: { 'text-align': 'right' }, width: 100 },
             { headerName: "Observações", field: "note", width: 265 },
 
             { headerName: "Animal", field: "pet.name" },
             { headerName: "Sexo", field: "pet.sex", width: 100 },
-            { headerName: "Porte", field: "pet.breed.porte" , width: 100},
+            { headerName: "Porte", field: "pet.breed.porte", width: 100 },
             { headerName: "Raça", field: "pet.breed.name", width: 150 }
           ];
         }
 
         if (tipo == 'service') {
           return [
-            { headerName: "Código", field: "id", width: 100, cellStyle: { 'text-align': 'right' }},
+            { headerName: "Código", field: "id", width: 100, cellStyle: { 'text-align': 'right' } },
             { headerName: "Name", field: "name", width: 300 },
             { headerName: "Preço", field: "price", width: 200, cellClass: 'number-cell', valueFormatter: currencyFormatter },
             { headerName: "Porte", field: "size", width: 200 }
@@ -320,13 +327,14 @@ angular.module('dog-system')
           if (angular.isUndefined(self.agenda.id)) {
             ServiceProxy.add(_agendaUrl, self.agenda, function (response) {
               self.gridOptions.api.updateRowData({ add: [response.data] });
-              MessageUtils.info(response.mensagem);
+              self.agenda = response.data;
+              MessageUtils.info(response.atributeMessage.mensagem);
             });
-
+            
           } else {
             ServiceProxy.edit(_agendaUrl, self.agenda, function (response) {
               self.gridOptions.api.refreshCells();
-              MessageUtils.info(response.mensagem);
+              MessageUtils.info(response.atributeMessage.mensagem);
             });
           }
 

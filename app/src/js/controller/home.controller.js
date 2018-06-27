@@ -9,7 +9,7 @@ angular.module('dog-system')
                 rowData: null,
                 columnDefs: [
                     { headerName: "#", field: "id", width: 90, hide: true },
-                    { headerName: "Hora", field: "time", cellStyle:{'text-align': 'right'}},
+                    { headerName: "Hora", field: "time", cellStyle: { 'text-align': 'right' } },
                     { headerName: "Serviço", field: "service.name", width: 300 },
                     { headerName: "Animal", field: "pet.name" },
                     { headerName: "Porte", field: "pet.breed.porte" },
@@ -25,12 +25,14 @@ angular.module('dog-system')
                     return;
                 }
                 var today = AngularUtils.getToday();
-                
+
                 self.titulo = 'Lista de agendamento do dia ' + AngularUtils.formatDate(today);
 
-                var _url = ServicePathConstants.PRIVATE_PATH + '/agenda';
+                var _url = ServicePathConstants.PRIVATE_PATH + '/agenda/getAgendamentos?datainicial='+ today + '&datafinal=' + today;
 
-                _url = _url + '/getAgendamentos?datainicial=' + today + '&datafinal=' + today;
+                if (ServiceApplication.hasPermissionUser()) {
+                    _url = _url + '&user=' + Number(ServiceApplication.getIdLogado());
+                }
 
                 ServiceProxy.find(_url, function (data) {
                     self.gridOptions.api.setRowData(data);

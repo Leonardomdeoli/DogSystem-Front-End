@@ -3,14 +3,14 @@ angular.module('dog-system')
         function ($rootScope) {
 
             var ROLE_USER = ['/login', '/usuario', '/perfil', '/dogLove', '/agenda', '/animal', '/404', '/'];
-            var ROLE_ADMIN = ['/raca', '/servico'];
 
             var service = {
                 isAuthenticated: isAuthenticated,
                 hasAnyPermission: hasAnyPermission,
                 getNameUsuLogado: getNameUsuLogado,
                 hasAnyPathPermission: hasAnyPathPermission,
-                getIdLogado: getIdLogado
+                getIdLogado: getIdLogado,
+                hasPermissionUser: hasPermissionUser
             };
 
             function isAuthenticated() {
@@ -18,22 +18,25 @@ angular.module('dog-system')
             }
 
             function hasAnyPathPermission(path) {
-                return((ROLE_USER.indexOf(path) > -1 && hasAnyPermission('ROLE_USER')) || hasAnyPermission('ROLE_ADMIN'));
+                return ((ROLE_USER.indexOf(path) > -1 && hasAnyPermission('ROLE_USER')) || hasAnyPermission('ROLE_ADMIN'));
             }
 
             function hasAnyPermission(authority) {
                 var hasPermission = false;
 
-                var permissions = ["ROLE_ADMIN", "ROLE_EMPLOYEE", "ROLE_USER"];
-                    
-                    for (var i = 0; i < permissions.length; i++) {
-                        if(permissions[i].toUpperCase() == authority.toUpperCase()){
-                            hasPermission = true;
-                            break;
-                        }
+                var permissions = $rootScope.authDetails.permissions ? $rootScope.authDetails.permissions : [];
+                for (var i = 0; i < permissions.length; i++) {
+                    if (permissions[i].authority.toUpperCase() == authority.toUpperCase()) {
+                        hasPermission = true;
+                        break;
                     }
-                
+                }
+
                 return hasPermission;
+            }
+
+            function hasPermissionUser() {
+                return !(hasAnyPermission('ROLE_ADMIN') || hasAnyPermission('ROLE_EMPLOYEE'));
             }
 
             function getNameUsuLogado() {

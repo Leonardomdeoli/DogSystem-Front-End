@@ -1,9 +1,8 @@
 angular.module('dog-system')
-    .controller('UserCtrl', ['$document', 'ServiceApplication', 'ServiceProxy', 'ServicePathConstants', 'MessageUtils', '$uibModal', '$rootScope', '$location',
-        function ($document, ServiceApplication, ServiceProxy, ServicePathConstants, MessageUtils, $uibModal, $rootScope, $location) {
+    .controller('UserCtrl', ['ServiceApplication', 'ServiceProxy', 'ServicePathConstants', 'MessageUtils', '$uibModal', '$rootScope', '$location',
+        function (ServiceApplication, ServiceProxy, ServicePathConstants, MessageUtils, $uibModal, $rootScope, $location) {
             var self = this;
 
-            var _permissionUrl = ServicePathConstants.PRIVATE_PATH + '/permission';
             var _userUrl = ServicePathConstants.PRIVATE_PATH + '/user';
 
             self.user = {};

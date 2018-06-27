@@ -7,7 +7,7 @@ angular.module('dog-system')
 
             var _msg = 'Verifique o formulário pois pode conter erros';
             var page = 0;
-            var ehPermissionUser = false;
+            self.ehPermissionUser = false;
             var _petUrl = ServicePathConstants.PRIVATE_PATH + '/pet';
 
             self.sexs = ["macho", "femea"];
@@ -36,7 +36,7 @@ angular.module('dog-system')
             init();
             function init() {
                 self.facePanel = 0;
-                ehPermissionUser = ServiceApplication.hasAnyPermission('ROLE_USER');
+                self.ehPermissionUser = ServiceApplication.hasPermissionUser();
                 getPet();
             }
 
@@ -55,8 +55,8 @@ angular.module('dog-system')
 
             function getPet() {
                 var user = '';
-                if (ehPermissionUser) {
-                    user = '?user=' + ServiceApplication.getIdLogado();
+                if (self.ehPermissionUser) {
+                    user = '?user=' + Number(ServiceApplication.getIdLogado());
                 }
 
                 self.pets = [];
@@ -173,7 +173,7 @@ angular.module('dog-system')
                         { headerName: "Nome propriétario", field: "user.name", width: 265 },
                         { headerName: "Nome pet", field: "name" },
                         {
-                            headerName: "Data Nascimento", field: "dateBirth", valueGetter: function chainValueGetter(params) {
+                            headerName: "Data Nascimento", field: "dateBirth", cellStyle: { 'text-align': 'right' }, valueGetter: function chainValueGetter(params) {
                                 return AngularUtils.formatDate(params.data.dateBirth);
                             }
                         },
@@ -276,7 +276,7 @@ angular.module('dog-system')
                         throw _msg;
                     }
 
-                    if (AngularUtils.getProperty(self.pet, 'user.id') == undefined) {
+                    if (!self.ehPermissionUser && AngularUtils.getProperty(self.pet, 'user.id') == undefined) {
                         self.isProInvalido = true;
                         throw _msg;
                     }
@@ -292,7 +292,12 @@ angular.module('dog-system')
                             setFacePanel(0);
                         });
                     } else {
-                        ServiceProxy.add(_petUrl, self.pet, function (response) {
+                        var user = '';
+                        if (self.ehPermissionUser) {
+                            user = '?user=' + Number(ServiceApplication.getIdLogado());
+                        }
+
+                        ServiceProxy.add(_petUrl + user, self.pet, function (response) {
                             self.gridOptions.api.updateRowData({ add: [response.data] });
                             setFacePanel(0);
                         });
