@@ -70,13 +70,13 @@ angular.module('dog-system')
                 self.facePanel = face;
             }
 
-            function edit() {
+            function edit(param) {
                 var selected = self.gridOptions.api.getSelectedRows();
                 self.breed = selected[0];
                 if (self.breed) {
                     setFacePanel(1);
-                } else {
-                    add();
+                } else if(angular.isUndefined(param)){
+                    MessageUtils.error('Selecione uma raça para editar');
                 }
             }
 
@@ -121,6 +121,8 @@ angular.module('dog-system')
                             });
                         });
 
-                };
+                }else{
+                    MessageUtils.error('Selecione uma raça para remover');
+                }
             }
         }]);

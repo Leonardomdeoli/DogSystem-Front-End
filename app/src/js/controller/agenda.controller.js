@@ -111,7 +111,7 @@ angular.module('dog-system')
 
           if (ServiceApplication.hasPermissionUser()) {
             _url = _url + '&user=' + Number(ServiceApplication.getIdLogado());
-        }
+          }
 
           ServiceProxy.find(_url, function (data) {
             self.gridOptions.api.setRowData(data);
@@ -320,32 +320,33 @@ angular.module('dog-system')
             ServiceProxy.add(_agendaUrl, self.agenda, function (response) {
               self.gridOptions.api.updateRowData({ add: [response.data] });
               self.agenda = response.data;
+
+              var rowData = self.gridOptions.api.getRowNode(0);
+              if (rowData) {
+                rowData.setSelected(true);
+              }
+
               MessageUtils.info(response.atributeMessage.mensagem);
             });
-            
+
           } else {
             ServiceProxy.edit(_agendaUrl, self.agenda, function (response) {
               self.gridOptions.api.refreshCells();
               MessageUtils.info(response.atributeMessage.mensagem);
             });
           }
-
         } catch (error) {
           MessageUtils.error('Campo ' + error + ' é obrigatório');
         }
-
       }
 
-      function edit() {
+      function edit(param) {
         var selected = self.gridOptions.api.getSelectedRows();
         self.agenda = selected[0];
         if (self.agenda) {
-          //var schedulingDate = new Date(self.agenda.schedulingDate);
-          //schedulingDate.setDate(schedulingDate.getDate() + 1);
-          //self.agenda.schedulingDate = schedulingDate;
           setFacePanel(1);
-        } else {
-          add();
+        } else if (angular.isUndefined(param)) {
+          MessageUtils.error('Selecione uma agenda para editar');
         }
       }
 
@@ -364,6 +365,8 @@ angular.module('dog-system')
                 }
               });
             });
+        } else {
+          MessageUtils.error('Selecione uma agenda para remover');
         }
       }
 

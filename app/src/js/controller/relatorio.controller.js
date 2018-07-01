@@ -19,11 +19,12 @@ angular.module('dog-system')
                 {
                     codigo: 4,
                     descricao: 'Serviços'
-                },
-                {
-                    codigo: 5,
-                    descricao: 'Agendamentos'
                 }
+                // ,
+                // {
+                //     codigo: 5,
+                //     descricao: 'Agendamentos'
+                // }
             ];
 
             self.openRelatorio = openRelatorio;
@@ -42,9 +43,9 @@ angular.module('dog-system')
                     case 4:
                         reportUtils.buildReport(null, 'Relátorios de Serviços ', '?descrRel=servicos');
                         break;
-                    case 5:
-                        reportUtils.buildReport(null, 'Relátorios de Agendamentos ', '?descrRel=agendamentos&data=' + new Date());
-                        break;
+                    // case 5:
+                    //     reportUtils.buildReport(null, 'Relátorios de Agendamentos ', '?descrRel=agendamentos&data=' + new Date());
+                    //     break;
                 }
             }
         }]);
