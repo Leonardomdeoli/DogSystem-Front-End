@@ -157,7 +157,7 @@ angular.module('dog-system')
                 if (ServiceApplication.getIdLogado() == self.user.id) {
                     MessageUtils.error('Somente outro usuário com acesso a exclusão pode remover seu usuário');
                 } else {
-                    MessageUtils.confirmeDialog('Deseja realmente apagar o ' + self.user.name + ' usuário')
+                    MessageUtils.confirmeDialog('Deseja realmente apagar o usuário ' + self.user.name)
                         .then(function () {
                             ServiceProxy.remove(_userUrl + '/id/' + self.user.id, function () {
 

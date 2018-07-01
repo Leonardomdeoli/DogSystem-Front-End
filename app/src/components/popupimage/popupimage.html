@@ -9,8 +9,8 @@
             <div class="panel-heading">
                 <h3 class="modal-title text-center" ng-bind="ctrl.descricao"></h3>
             </div>
-            <div class="panel-body">
-                <img class="img-thumbnail" style="width: 380px; height: 249px;" ng-src="{{'data:' + ctrl.pet.image.filetype + ';base64,' + ctrl.pet.image.base64}}"
+            <div class="panel-body" layout="row"  layout-align="center center">
+                <img class="img-thumbnail" style="height: 269px;" ng-src="{{'data:' + ctrl.pet.image.filetype + ';base64,' + ctrl.pet.image.base64}}"
                     alt="Imagem do animal" />
             </div>
         </div>

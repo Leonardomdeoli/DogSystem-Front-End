@@ -197,14 +197,6 @@ angular.module('dog-system')
           }
         }
 
-        // if (criteria) {
-        //   url = url.concat('/criteria/').concat(criteria);
-        // }
-
-        // if (param) {
-        //   url = url.concat('/param/').concat(param);
-        // }
-
         var modalInstance = $uibModal.open({
           animation: true,
           ariaLabelledBy: 'modal-title',

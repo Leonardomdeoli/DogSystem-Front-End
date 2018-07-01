@@ -19,7 +19,7 @@ angular.module('dog-system')
                     title = 'Confirmação';
                 }
 
-                return openPopup(title, msg, 'btn-primary');
+                return openPopup(title, msg, 'btn-primary', true);
             }
 
             message.alert = function (title, msg) {
@@ -38,18 +38,18 @@ angular.module('dog-system')
                 return openPopup(title, msg, 'btn-info');
             }
 
-            function openPopup(title, messagem, tipo) {
+            function openPopup(title, messagem, tipo, isConfirme) {
                 var template = '<div class="modal-content text-center\">'
                     + '<div class="modal-header" ng-class="tipo\">'
                     + '<h4 class="modal-title" ng-bind="title\"></h4></div>'
                     + '<div class="modal-body" style="height: 120px\">'
                     + '<h4 class="text-center" ng-bind="message\"></h4></div>';
 
-                if (tipo == 'btn-primary') {
-                    template += '<div><button type="button" class="btn btn-sm btn-primary" style="width: 50%" ng-click="ok()\">'
-                        + 'SIM</button><button type="button" class="btn btn-sm" style="width: 50%" ng-click="cancel()\">'
-                        + 'NÃO</button></div>';
-                } else {
+                if (isConfirme) {
+                    template+= '<div><button type="button" class="btn btn-sm  btn-danger" style="width: 50%" ng-click="ok()\">'
+                    + 'SIM</button><button type="button" class="btn btn-sm" style="width: 50%" ng-click="cancel()\">'
+                    + 'NÃO</button></div>';
+                }else{
                     template += '<div><button type="button" class="btn btn-sm"ng-click="ok()" style="width: 100%;">OK</button></div>';
                 }
 
