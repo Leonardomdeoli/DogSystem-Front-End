@@ -16,7 +16,7 @@
                 </button>
 
                 <!-- Título Direita do menu target="_blank"-->
-                <a class="navbar-brand" href="#/">Home
+                <a class="navbar-brand" href="#/" ng-class="{ 'menu-select': selectCode == 'home'}" ng-click="setType('home')">Home
                     <i class="fa fa-home" aria-hidden="true"></i>
                 </a>
             </div>
@@ -26,43 +26,43 @@
 
                 <!-- Links Inicio -->
                 <ul class="nav navbar-nav navbar-left navbar-header-style">
-                    <li>
+                    <li ng-class="{ 'menu-select': selectCode == 'agenda'}" ng-click="setType('agenda')">
                         <a href="#/agenda" id="example">Agendamento
                             <i class="fa fa-calendar-plus-o" aria-hidden="true"></i>
                         </a>
                     </li>
                     
-                    <li ng-show="hasAnyPermission(['ROLE_ADMIN'])">
+                    <li ng-show="hasAnyPermission(['ROLE_ADMIN'])"  ng-class="{ 'menu-select': selectCode == 'user'}" ng-click="setType('user')">
                         <a href="#/usuario">Usuários 
                             <i class="fa fa-users" aria-hidden="true"></i>
                         </a>
                     </li>
 
-                    <li>
+                    <li ng-class="{ 'menu-select': selectCode == 'pet'}" ng-click="setType('pet')">
                         <a href="#/animal">Animais
                             <i class="fa fa-paw" aria-hidden="true"></i>
                         </a>
                     </li>
 
-                    <li>
+                    <li ng-class="{ 'menu-select': selectCode == 'doglove'}" ng-click="setType('doglove')">
                         <a href="#/dogLove">DogLove
                             <i class="fa fa-heart" aria-hidden="true"></i>
                         </a>
                     </li>
 
-                    <li ng-show="hasAnyPermission(['ROLE_ADMIN'])">
+                    <li ng-show="hasAnyPermission(['ROLE_ADMIN'])" ng-class="{ 'menu-select': selectCode == 'servico'}" ng-click="setType('servico')">
                         <a href="#/servico">Serviços
                             <i class="fa fa-hashtag" aria-hidden="true"></i>
                         </a>
                     </li>
 
-                    <li ng-show="hasAnyPermission(['ROLE_ADMIN'])">
+                    <li ng-show="hasAnyPermission(['ROLE_ADMIN'])" ng-class="{ 'menu-select': selectCode == 'raca'}" ng-click="setType('raca')">
                         <a href="#/raca">Raças
                             <i class="fa fa-puzzle-piece" aria-hidden="true"></i>
                         </a>
                     </li>
 
-                    <li ng-show="hasAnyPermission(['ROLE_ADMIN'])">
+                    <li ng-show="hasAnyPermission(['ROLE_ADMIN'])" ng-class="{ 'menu-select': selectCode == 'relatorio'}" ng-click="setType('relatorio')">
                         <a href="#/relatorio">Relatorios
                             <i class="fa fa-file-pdf-o" style="color:white;" aria-hidden="true"></i>
                         </a>
@@ -88,13 +88,13 @@
                 </ul>
 
                 <ul class="nav navbar-nav navbar-right navbar-header-style">
-                    <li>
+                    <li ng-class="{ 'menu-select': selectCode == 'perfil'}" ng-click="setType('prefil')">
                         <a href="#/perfil">
                             <i class="fa fa-user" aria-hidden="true"></i> Meu Perfil
                         </a>
                     </li>
 
-                    <li ng-show="authDetails.authenticated">
+                    <li ng-show="authDetails.authenticated" ng-click="setType('none')">
                         <a ng-click="logout()" style="cursor: pointer">
                             <i class="fa fa-sign-out" aria-hidden="true"></i> Sair
                         </a>

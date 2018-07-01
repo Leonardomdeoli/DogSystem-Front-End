@@ -25,4 +25,9 @@ angular.module('dog-system').
       $scope.logout = function () {
         LoginLogoutSrv.logout();
       };
+
+      $scope.setType = function (tipo) {
+        $scope.selectCode = tipo;
+      };
+
     }]);

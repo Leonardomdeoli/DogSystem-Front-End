@@ -17,9 +17,9 @@ angular.module('dog-system')
             self.facePanel = 0;
             self.gridOptions = {
                 columnDefs: [
-                    { headerName: "#", field: "id", width: 90, valueGetter: 'node.id', hide: true },
+                    { headerName: "#", field: "id", width: 90, valueGetter: 'node.id', hide: true,cellStyle: { 'text-align': 'right' } },
                     {
-                        headerName: "Especie", field: "tipoAnimal", width: 129, suppressFilter: true,
+                        headerName: "Especie", field: "tipoAnimal", width: 129, suppressFilter: true,cellStyle: { 'text-align': 'center' },
                         cellRenderer: function (params) {
                             var icon = params.data.tipoAnimal == 'Cão' ? 'dog.svg' : 'cat.svg';
                             return '<img src="img/' + icon + '" style="width: 24px;"></i>';
@@ -27,9 +27,9 @@ angular.module('dog-system')
                     },
                     { headerName: "Nome", field: "name", width: 300 },
                     { headerName: "Porte", field: "porte", width: 200 },
-                    { headerName: "Vida", field: "life" },
-                    { headerName: "Peso", field: "weight" },
-                    { headerName: "Altura", field: "height" }
+                    { headerName: "Vida", field: "life", cellStyle: { 'text-align': 'right' } },
+                    { headerName: "Peso", field: "weight", cellStyle: { 'text-align': 'right' } },
+                    { headerName: "Altura", field: "height",cellStyle: { 'text-align': 'right' } }
                 ],
 
             };
