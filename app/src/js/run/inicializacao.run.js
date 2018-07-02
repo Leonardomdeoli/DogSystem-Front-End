@@ -7,12 +7,12 @@ angular.module('dog-system')
         $rootScope.authDetails = { name: '', authenticated: false, permissions: [] };
         LoginLogoutSrv.verifyAuth();
 
-    }).run(function ($rootScope, $route, $routeParams, $location, ServiceApplication) {
+    }).run(function ($rootScope, $route, $routeParams, $location, ServiceApplication, ngNotify) {
 
         $rootScope.$on('$routeChangeStart', function (evt, next, current) {
             if (!$rootScope.authDetails.authenticated) {
                 $location.path("/login");
-            }else if (current && !ServiceApplication.hasAnyPathPermission(next.$$route.originalPath)) {
+            } else if (current && !ServiceApplication.hasAnyPathPermission(next.$$route.originalPath)) {
                 $location.path(current.$$route.originalPath);
             }
         });
@@ -20,4 +20,14 @@ angular.module('dog-system')
         $rootScope.$route = $route;
         $rootScope.$location = $location;
         $rootScope.$routeParams = $routeParams;
+
+        ngNotify.config({
+            theme: 'pure',
+            position: 'bottom',
+            duration: 3000,
+            type: 'info',
+            sticky: false,
+            button: true,
+            html: false
+        });
     });

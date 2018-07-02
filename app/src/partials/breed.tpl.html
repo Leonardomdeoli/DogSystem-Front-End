@@ -6,6 +6,10 @@
                 <i class="fa fa-th" aria-label="Modo Grade"></i>
             </md-button>
 
+            <md-button class="md-icon-button" ng-click="ctrl.add()" tooltip-placement="right-bottom" uib-tooltip="Adicionar">
+                <i class="fa fa-plus" aria-label="Modo formulário"></i>
+            </md-button>
+
             <md-button class="md-icon-button" form="form" tooltip-placement="right-bottom" uib-tooltip="Limpar" type="reset">
                 <i class="fa fa-eraser" aria-label="Limpar"></i>
             </md-button>
@@ -96,27 +100,23 @@
             <md-button class="md-icon-button" ng-click="ctrl.edit('form')" tooltip-placement="right-bottom" uib-tooltip="Modo Formulário">
                 <i class="fa fa-table" aria-label="Modo formulário"></i>
             </md-button>
+
             <md-button class="md-icon-button" ng-click="ctrl.add()" tooltip-placement="right-bottom" uib-tooltip="Adicionar">
                 <i class="fa fa-plus" aria-label="Modo formulário"></i>
             </md-button>
+
             <md-button class="md-icon-button" ng-click="ctrl.edit()" tooltip-placement="right-bottom" uib-tooltip="Editar">
                 <i class="fa fa-pencil" aria-label="Editar"></i>
             </md-button>
+
             <md-button class="md-icon-button" ng-click="ctrl.remover()" tooltip-placement="right-bottom" uib-tooltip="Remover">
                 <i class="fa fa-trash-o" aria-label="Remover"></i>
             </md-button>
+
             <md-button class="md-icon-button" ng-click="ctrl.recarregar()" tooltip-placement="right-bottom" uib-tooltip="Recarregar">
                 <i class="fa fa-refresh" aria-label="Recarregar"></i>
             </md-button>
-
-            <!-- <div class="btn-rows-counter rows-counter">
-                <div class="rows-counter-div" uib-tooltip="{{::countRow}} registros" tooltip-placement="left-bottom">
-                    <span ng-bind="ctrl.countRow"></span>
-                </div>
-            </div> -->
         </section>
-
-        <ag-grid grid-options="ctrl.gridOptions" flex>
-        </ag-grid>
+        <ag-grid grid-options="ctrl.gridOptions" flex></ag-grid>
     </div>
 </div>

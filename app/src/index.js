@@ -21,5 +21,6 @@ angular.module('dog-system', [
   'ngMaterial',
   'ngAria',
   'ngCrypto',
-  'toggle-switch'
+  'toggle-switch',
+  'ngNotify'
 ]);

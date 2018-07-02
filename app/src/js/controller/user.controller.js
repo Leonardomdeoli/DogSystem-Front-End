@@ -1,6 +1,6 @@
 angular.module('dog-system')
-    .controller('UserCtrl', ['ServiceApplication', 'ServiceProxy', 'ServicePathConstants', 'MessageUtils', '$uibModal', '$rootScope', '$location',
-        function (ServiceApplication, ServiceProxy, ServicePathConstants, MessageUtils, $uibModal, $rootScope, $location) {
+    .controller('UserCtrl', ['ngNotify', 'ServiceApplication', 'ServiceProxy', 'ServicePathConstants', 'MessageUtils', '$uibModal', '$rootScope', '$location',
+        function (ngNotify, ServiceApplication, ServiceProxy, ServicePathConstants, MessageUtils, $uibModal, $rootScope, $location) {
             var self = this;
 
             var _userUrl = ServicePathConstants.PRIVATE_PATH + '/user';
@@ -128,10 +128,12 @@ angular.module('dog-system')
                     if (angular.isUndefined(self.user.id)) {
                         ServiceProxy.add(_userUrl, self.user, function (response) {
                             self.gridOptions.api.updateRowData({ add: [response.data] });
+                            ngNotify.set('Usuário foi inserido com sucesso');
                         });
                     } else {
                         ServiceProxy.edit(_userUrl, self.user, function (response) {
                             self.gridOptions.api.refreshCells();
+                            ngNotify.set('Usuário foi alterado com sucesso');
                         });
                     }
                 } catch (error) {
@@ -149,7 +151,7 @@ angular.module('dog-system')
                     self.showBoxPassword = $rootScope.authDetails.id != self.user.id;
                     self.isEditFields = !self.showBoxPassword;
                     self.facePanel = 1;
-                }else if(angular.isUndefined(param)){
+                } else if (angular.isUndefined(param)) {
                     MessageUtils.error('Selecione um usuário para editar');
                 }
             }
