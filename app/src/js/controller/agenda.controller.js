@@ -126,7 +126,9 @@ angular.module('dog-system')
               rowData.setSelected(true);
             }
             modifyTela(false);
+            
             self.showFilter = false;
+
           });
 
         } catch (error) {
