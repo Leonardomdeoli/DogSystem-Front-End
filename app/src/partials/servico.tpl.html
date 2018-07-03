@@ -27,7 +27,7 @@
                 <form id="form" name="form" ng-submit="ctrl.enviar(form.$valid)" novalidate>
                     <div class="row">
                         <div class="col-md-8 col-sm-7 col-xs-12">
-                            <div class="form-group" ng-class="{ 'has-error': form.name.$touched && form.name.$invalid}">
+                            <div class="form-group" ng-class="{ 'has-error': form.name.$touched && form.name.$invalid && ctrl.enableValid}">
                                 <label for="name" class="control-label">Nome
                                     <span class="text-danger">*</span>
                                 </label>
@@ -38,14 +38,14 @@
                                     <input type="text" name="name" class="form-control" ng-model="ctrl.service.name" ng-minlength="3" placeholder="Informe a descrição do serviço"
                                         ng-maxlength="100" ng-pattern="ctrl.rgxLetras" required>
                                 </div>
-                                <div class="help-block" ng-messages="form.name.$error" ng-if="form.name.$touched">
+                                <div class="help-block" ng-messages="form.name.$error" ng-if="form.name.$touched && ctrl.enableValid">
                                     <div ng-messages-include="src/include/messages.html"></div>
                                     <span ng-message="pattern">O campo nome não pode conter números</span>
                                 </div>
                             </div>
                         </div>
                         <div class="col-md-8 col-sm-7 col-xs-12">
-                            <div class="form-group" ng-class="{ 'has-error': (form.$submitted || form.porte.$touched) && form.porte.$invalid}">
+                            <div class="form-group" ng-class="{ 'has-error': (form.$submitted || form.porte.$touched) && form.porte.$invalid && ctrl.enableValid}">
                                 <label for="porte" class="control-label">Porte
                                     <span class="text-danger">*</span>
                                 </label>
@@ -55,7 +55,7 @@
                                     </span>
                                     <select class="form-control" name="porte" ng-model="ctrl.service.size" ng-options="o as o for o in ctrl.sizes.options" required></select>
                                 </div>
-                                <div class="help-block" ng-messages="form.porte.$error" ng-if="form.$submitted || form.porte.$touched">
+                                <div class="help-block" ng-messages="form.porte.$error" ng-if="form.$submitted || form.porte.$touched && ctrl.enableValid">
                                     <div ng-messages-include="src/include/messages.html"></div>
                                 </div>
                             </div>

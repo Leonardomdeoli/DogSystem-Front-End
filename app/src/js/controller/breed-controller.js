@@ -14,6 +14,7 @@ angular.module('dog-system')
             self.add = add;
 
             self.breed = {};
+            self.enableValid = true;
             self.facePanel = 0;
             self.gridOptions = {
                 columnDefs: [
@@ -39,7 +40,7 @@ angular.module('dog-system')
             };
 
             self.portes = {
-                options: ['Pequeno', 'Medio', 'Grande', 'Gigante']
+                options: ['Pequeno', 'Médio', 'Grande', 'Gigante']
             };
 
             init();
@@ -99,7 +100,9 @@ angular.module('dog-system')
                             setFacePanel(0);
                         });
                     }
+
                 }
+                self.enableValid = condicao;
             }
 
             function recarregar() {

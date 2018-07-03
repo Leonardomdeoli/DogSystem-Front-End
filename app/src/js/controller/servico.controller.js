@@ -9,7 +9,7 @@ angular.module('dog-system')
       self.services = [];
       self.facePanel = 0;
       self.sizes = {
-        options: ['Pequeno', 'Medio', 'Grande', 'Gigante']
+        options: ['Pequeno', 'Médio', 'Grande', 'Gigante']
       };
 
       self.gridOptions = {
@@ -60,6 +60,9 @@ angular.module('dog-system')
       }
 
       self.enviar = function (condicao) {
+        
+        self.enableValid = condicao;
+
         if (condicao) {
           if (angular.isUndefined(self.service.id)) {
             ServiceProxy.add(_serviceUrl, self.service, function (response) {

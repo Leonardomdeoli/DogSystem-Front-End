@@ -20,12 +20,11 @@
         </section>
 
         <div class="panel panel-default" flex>
-
             <div class="panel-body">
                 <form id="form" name="form" ng-submit="ctrl.enviar(form.$valid)" novalidate  autocomplete="off">
                     <div class="row">
                         <div class="col-md-6 col-sm-7 col-xs-12">
-                            <div class="form-group" ng-class="{ 'has-error': form.name.$touched && form.name.$invalid}">
+                            <div class="form-group" ng-class="{ 'has-error': (form.$submitted || form.name.$touched) && form.name.$invalid  && ctrl.enableValid}">
                                 <label for="name" class="control-label">Nome
                                     <span class="text-danger">*</span>
                                 </label>
@@ -36,7 +35,7 @@
                                     <input type="text" name="name" class="form-control" ng-model="ctrl.user.name" ng-minlength="3" placeholder="Informe o nome complemento"
                                         ng-maxlength="100" ng-pattern="ctrl.rgxLetras" required>
                                 </div>
-                                <div class="help-block" ng-messages="form.name.$error" ng-if="form.name.$touched">
+                                <div class="help-block" ng-messages="form.name.$error" ng-if="(form.$submitted || form.name.$touched) && form.name.$invalid  && ctrl.enableValid">
                                     <div ng-messages-include="src/include/messages.html"></div>
                                     <span ng-message="pattern">O campo nome não pode conter números</span>
                                 </div>
@@ -44,7 +43,7 @@
                         </div>
 
                         <div class="col-md-3 col-sm-6 col-xs-12">
-                            <div class="form-group" ng-class="{ 'has-error': form.cpf.$touched && form.cpf.$invalid}">
+                            <div class="form-group" ng-class="{ 'has-error': (form.$submitted || form.cpf.$touched) && form.cpf.$invalid  && ctrl.enableValid}">
                                 <label for="cpf" class="control-label">CPF
                                     <span class="text-danger">*</span>
                                 </label>
@@ -55,14 +54,14 @@
                                     <input class="form-control" placeholder="Insira o CPF" name="cpf" ng-model="ctrl.user.cpf"
                                         required ui-br-cpf-mask>
                                 </div>
-                                <div class="help-block" ng-messages="form.cpf.$error" ng-if="form.cpf.$touched">
+                                <div class="help-block" ng-messages="form.cpf.$error" ng-if="(form.$submitted || form.cpf.$touched ) && form.cpf.$invalid && ctrl.enableValid">
                                     <div ng-messages-include="src/include/messages.html"></div>
                                     <span ng-message="cpf">CPF inválido</span>
                                 </div>
                             </div>
                         </div>
                         <div class="col-md-3 col-sm-6 col-xs-12">
-                            <div class="form-group" ng-class="{ 'has-error': form.phone.$touched && form.phone.$invalid}">
+                            <div class="form-group" ng-class="{ 'has-error': (form.$submitted || form.phone.$touched) && form.phone.$invalid  && ctrl.enableValid}">
                                 <label for="phone" class="control-label">Telefone
                                     <span class="text-danger">*</span>
                                 </label>
@@ -72,7 +71,7 @@
                                     </span>
                                     <input class="form-control" name="phone" type="text" name="field" ng-model="ctrl.user.phone" ui-br-phone-number-mask>
                                 </div>
-                                <div class="help-block" ng-messages="form.phone.$error" ng-if="form.phone.$touched">
+                                <div class="help-block" ng-messages="form.phone.$error" ng-if="(form.$submitted || form.phone.$touched) && form.phone.$invalid && ctrl.enableValid">
                                     <div ng-messages-include="src/include/messages.html"></div>
                                     <span ng-message="brPhoneNumber">Número de telefone inválido</span>
                                 </div>
@@ -81,7 +80,7 @@
                     </div>
                     <div class="row">
                         <div class="col-md-6 col-sm-12 col-xs-12">
-                            <div class="form-group" ng-class="{ 'has-error': form.email.$touched  && form.email.$invalid}">
+                            <div class="form-group" ng-class="{ 'has-error': (form.$submitted || form.email.$touched)  && form.email.$invalid  && ctrl.enableValid}">
                                 <label for="inputemail" class="control-label">E-mail
                                     <span class="text-danger">*</span>
                                 </label>
@@ -92,14 +91,14 @@
                                     <input autocomplete="nope" class="form-control" type="text" placeholder="email@email.com" ng-model="ctrl.user.email" name="email" ng-pattern="rgxEmail"
                                         required>
                                 </div>
-                                <div class="help-block" ng-messages="form.email.$error" ng-if="form.email.$touched">
+                                <div class="help-block" ng-messages="form.email.$error" ng-if="(form.$submitted || form.email.$touched)  && form.email.$invalid && ctrl.enableValid">
                                     <div ng-messages-include="src/include/messages.html"></div>
                                     <span ng-message="pattern">Insira um e-mail válido</span>
                                 </div>
                             </div>
                         </div>
                         <div class="col-md-3 col-sm-6 col-xs-12">
-                            <div class="form-group" ng-class="{ 'has-error': form.password.$touched && form.password.$invalid}">
+                            <div class="form-group" ng-class="{ 'has-error': (form.$submitted || form.password.$touched) && form.password.$invalid  && ctrl.enableValid}">
                                 <label for="inputPassword" class="control-label">Senha
                                     <span class="text-danger">*</span>
                                 </label>
@@ -110,7 +109,7 @@
                                     <input autocomplete="new-password" class="form-control" type="password" ng-minlength="6" class="form-control" name="password" placeholder="Digite sua Senha..."
                                         ng-model="ctrl.user.password" required>
                                 </div>
-                                <div class="help-block" ng-messages="form.password.$error" ng-if="form.password.$touched">
+                                <div class="help-block" ng-messages="form.password.$error" ng-if="(form.$submitted || form.password.$touched) && form.password.$invalid && ctrl.enableValid">
                                     <div ng-messages-include="src/include/messages.html"></div>
                                 </div>
                             </div>
@@ -131,7 +130,7 @@
                     </div>
                     <div class="row">
                         <div class="col-md-4 col-sm-4 col-xs-12">
-                            <div class="form-group" ng-class="{ 'has-error': form.zipcode.$touched && form.zipcode.$invalid}">
+                            <div class="form-group" ng-class="{ 'has-error': (form.$submitted || form.zipcode.$touched) && form.zipcode.$invalid  && ctrl.enableValid}">
                                 <label for="zipcode" class="control-label">CEP
                                     <span class="text-danger">*</span>
                                 </label>
@@ -142,7 +141,7 @@
                                     <input type="text" class="form-control" name="zipcode" ng-model="ctrl.user.address.zipcode" via-cep="cep" ng-minlength="9"
                                         ui-br-cep-mask required>
                                 </div>
-                                <div class="help-block" ng-messages="form.zipcode.$error" ng-if="form.zipcode.$touched">
+                                <div class="help-block" ng-messages="form.zipcode.$error" ng-if="form.zipcode.$touched && form.zipcode.$invalid && ctrl.enableValid">
                                     <div ng-messages-include="src/include/messages.html"></div>
                                     <span ng-message="cep">Cep inválido</span>
                                 </div>
@@ -150,28 +149,28 @@
                         </div>
 
                         <div class="col-md-4 col-sm-4 col-xs-12">
-                            <div class="form-group" ng-class="{ 'has-error': form.street.$touched && form.street.$invalid}">
+                            <div class="form-group" ng-class="{ 'has-error': form.street.$touched && form.street.$invalid  && ctrl.enableValid}">
                                 <label for="street" class="control-label">Logradouro
                                     <span class="text-danger">*</span>
                                 </label>
                                 <input type="text" class="form-control" name="street" ng-model="ctrl.user.address.name" via-cep="logradouro" ng-disabled="true"
                                     required>
 
-                                <div class="help-block" ng-messages="form.street.$error" ng-if="form.street.$touched">
+                                <div class="help-block" ng-messages="form.street.$error" ng-if="form.street.$touched && form.street.$invalid && ctrl.enableValid">
                                     <div ng-messages-include="src/include/messages.html"></div>
                                 </div>
                             </div>
                         </div>
 
                         <div class="col-md-4 col-sm-4 col-xs-12">
-                            <div class="form-group" ng-class="{ 'has-error': form.number.$touched && form.number.$invalid}">
+                            <div class="form-group" ng-class="{ 'has-error': form.number.$touched && form.number.$invalid  && ctrl.enableValid}">
                                 <label for="input-number" class="control-label">Número
                                     <span class="text-danger">*</span>
                                 </label>
                                 <input type="text" class="form-control" name="number" id="input-number" ng-model="ctrl.user.number" ng-maxlength="10" ng-minlength="2"
                                     ng-pattern="/^[0-9]{1,}$/" required>
 
-                                <div class="help-block" ng-messages="form.number.$error" ng-if="form.number.$touched">
+                                <div class="help-block" ng-messages="form.number.$error" ng-if="form.number.$touched && form.number.$invalid && ctrl.enableValid">
                                     <span ng-message="pattern">Insira somente números</span>
                                     <div ng-messages-include="src/include/messages.html"></div>
                                 </div>
@@ -180,42 +179,42 @@
                     </div>
                     <div class="row">
                         <div class="col-md-4 col-sm-4 col-xs-12">
-                            <div class="form-group" ng-class="{ 'has-error': form.neighborhood.$touched && form.neighborhood.$invalid}">
+                            <div class="form-group" ng-class="{ 'has-error': form.neighborhood.$touched && form.neighborhood.$invalid  && ctrl.enableValid}">
                                 <label for="neighborhood" class="control-label">Bairro
                                     <span class="text-danger">*</span>
                                 </label>
                                 <input type="text" class="form-control" name="neighborhood" ng-model="ctrl.user.address.neighborhood.name" via-cep="bairro"
                                     ng-disabled="true" required>
 
-                                <div class="help-block" ng-messages="form.neighborhood.$error" ng-if="form.neighborhood.$touched">
+                                <div class="help-block" ng-messages="form.neighborhood.$error" ng-if="form.neighborhood.$touched && form.neighborhood.$invalid && ctrl.enableValid">
                                     <div ng-messages-include="src/include/messages.html"></div>
                                 </div>
                             </div>
                         </div>
 
                         <div class="col-md-4 col-sm-4 col-xs-12">
-                            <div class="form-group" ng-class="{ 'has-error': form.city.$touched && form.city.$invalid}">
+                            <div class="form-group" ng-class="{ 'has-error': form.city.$touched && form.city.$invalid  && ctrl.enableValid}">
                                 <label for="input-city" class="control-label">Cidade
                                     <span class="text-danger">*</span>
                                 </label>
                                 <input type="text" class="form-control" name="city" ng-model="ctrl.user.address.neighborhood.city.name" ng-disabled="true"
                                     via-cep="localidade" required>
 
-                                <div class="help-block" ng-messages="form.city.$error" ng-if="form.city.$touched">
+                                <div class="help-block" ng-messages="form.city.$error" ng-if="form.city.$touched && form.city.$invalid && ctrl.enableValid">
                                     <div ng-messages-include="src/include/messages.html"></div>
                                 </div>
                             </div>
                         </div>
 
                         <div class="col-md-4 col-sm-4 col-xs-12">
-                            <div class="form-group" ng-class="{ 'has-error': form.uf.$touched && form.uf.$invalid}">
+                            <div class="form-group" ng-class="{ 'has-error': form.uf.$touched && form.uf.$invalid  && ctrl.enableValid}">
                                 <label for="uf" class="control-label">Estado
                                     <span class="text-danger">*</span>
                                 </label>
                                 <input type="text" class="form-control" name="uf" ng-model="ctrl.user.address.neighborhood.city.uf.sigla" ng-disabled="true"
                                     via-cep="uf" required>
 
-                                <div class="help-block" ng-messages="form.uf.$error" ng-if="form.uf.$touched">
+                                <div class="help-block" ng-messages="form.uf.$error" ng-if="form.uf.$touched && form.uf.$invalid && ctrl.enableValid">
                                     <div ng-messages-include="src/include/messages.html"></div>
                                 </div>
                             </div>

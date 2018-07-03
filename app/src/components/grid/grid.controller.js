@@ -25,7 +25,7 @@ angular.module('dog-system')
                 }
 
                 if (angular.isUndefined($scope.gridOptions.paginationPageSize)) {
-                    $scope.gridOptions.paginationPageSize = 28;
+                    $scope.gridOptions.paginationPageSize = 18;
                 }
 
                 if (angular.isUndefined($scope.gridOptions.floatingFilter)) {

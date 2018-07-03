@@ -10,6 +10,7 @@ angular.module('dog-system')
             self.permissions = [{ id: 1, role: "ROLE_ADMIN" }, { id: 2, role: "ROLE_EMPLOYEE" }, { id: 3, role: "ROLE_USER" }];
             self.facePanel = 0;
             self.showList = false;
+            self.enableValid = true;
             self.isEditFields = true;
             self.showBoxPassword = false;
             self.btnSalvar = 'Salvar';
@@ -41,7 +42,7 @@ angular.module('dog-system')
                         }
                     },
                     { headerName: "Name", field: "name", width: 300 },
-                    { headerName: "Email", field: "email", width: 200 },
+                    { headerName: "Email", field: "email", width: 250 },
                     {
                         headerName: "Telefone", field: "phone", cellStyle: { 'text-align': 'right' }, suppressFilter: true, width: 200, cellRenderer: function (params) {
                             return params.data.phone
@@ -136,7 +137,9 @@ angular.module('dog-system')
                             ngNotify.set('Usuário foi alterado com sucesso');
                         });
                     }
+                    self.enableValid = false;
                 } catch (error) {
+                    self.enableValid = true;
                     MessageUtils.error(error);
                 } finally {
                     self.showBoxPassword = false;

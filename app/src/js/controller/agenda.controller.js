@@ -1,6 +1,6 @@
 angular.module('dog-system')
-  .controller('AgendaCtrl', ['ServiceApplication', '$timeout', 'base64', '$scope', 'ServiceProxy', 'ServicePathConstants', 'MessageUtils', '$uibModal', '$rootScope', '$location', 'AngularUtils', '$routeParams',
-    function (ServiceApplication, $timeout, base64, $scope, ServiceProxy, ServicePathConstants, MessageUtils, $uibModal, $rootScope, $location, AngularUtils, $routeParams) {
+  .controller('AgendaCtrl', ['ngNotify', 'formatSexFilter', 'ServiceApplication', '$timeout', 'base64', '$scope', 'ServiceProxy', 'ServicePathConstants', 'MessageUtils', '$uibModal', '$rootScope', '$location', 'AngularUtils', '$routeParams',
+    function (ngNotify, formatSexFilter, ServiceApplication, $timeout, base64, $scope, ServiceProxy, ServicePathConstants, MessageUtils, $uibModal, $rootScope, $location, AngularUtils, $routeParams) {
       var self = this;
 
       self.agenda = {};
@@ -12,6 +12,7 @@ angular.module('dog-system')
 
       self.buscar = buscar;
       self.buscaragenda = buscaragenda;
+      self.recarregar = recarregar;
       self.limpar = limpar;
       self.buscarHoras = buscarHoras;
       self.podeCancelar = podeCancelar;
@@ -88,7 +89,12 @@ angular.module('dog-system')
         }
       }
 
-      function buscar() {
+
+      function recarregar() {
+        buscar();
+      }
+
+      function buscar(ignore) {
         try {
           if (self.inicial == null) {
             throw 'Data inicial é obrigatoria, favor verifique.';
@@ -120,7 +126,7 @@ angular.module('dog-system')
               rowData.setSelected(true);
             }
             modifyTela(false);
-            self.showFilter = !self.showFilter;
+            self.showFilter = false;
           });
 
         } catch (error) {
@@ -258,7 +264,6 @@ angular.module('dog-system')
         if (tipo == 'agenda') {
           return [
             { headerName: "Código", field: "id", width: 100, cellStyle: { 'text-align': 'right' } },
-            { headerName: "Serviço", field: "service.name" },
             {
               headerName: "Data do agendamento", field: "schedulingDate", cellStyle: { 'text-align': 'right' },
               valueGetter: function chainValueGetter(params) {
@@ -266,12 +271,16 @@ angular.module('dog-system')
               }
             },
             { headerName: "Hora", field: "time", cellStyle: { 'text-align': 'right' }, width: 100 },
-            { headerName: "Observações", field: "note", width: 265 },
-
-            { headerName: "Animal", field: "pet.name" },
-            { headerName: "Sexo", field: "pet.sex", width: 100 },
+            { headerName: "Serviço", field: "service.name" },
+            { headerName: "Nome animal", field: "pet.name" },
+            { headerName: "Raça", field: "pet.breed.name", width: 150 },
+            {
+              headerName: "Sexo", field: "pet.sex", width: 100, valueGetter: function (params) {
+                return formatSexFilter(params.data.pet.sex);
+              }
+            },
             { headerName: "Porte", field: "pet.breed.porte", width: 100 },
-            { headerName: "Raça", field: "pet.breed.name", width: 150 }
+            { headerName: "Observações", field: "note", width: 265 },
           ];
         }
 
@@ -326,13 +335,13 @@ angular.module('dog-system')
                 rowData.setSelected(true);
               }
 
-              MessageUtils.info(response.atributeMessage.mensagem);
+              ngNotify.set(response.atributeMessage.mensagem);
             });
 
           } else {
             ServiceProxy.edit(_agendaUrl, self.agenda, function (response) {
               self.gridOptions.api.refreshCells();
-              MessageUtils.info(response.atributeMessage.mensagem);
+              ngNotify.set(response.atributeMessage.mensagem);
             });
           }
         } catch (error) {

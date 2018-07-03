@@ -1,18 +1,17 @@
 'use strict';
 
 angular.module('dog-system')
-    .controller('PetCtrl', ['ServiceApplication', 'base64', '$uibModal', 'ServicePathConstants', 'ServiceProxy', '$q', '$scope', 'MessageUtils', '$rootScope', '$location', 'AngularUtils',
-        function (ServiceApplication, base64, $uibModal, ServicePathConstants, ServiceProxy, $q, $scope, MessageUtils, $rootScope, $location, AngularUtils) {
+    .controller('PetCtrl', ['formatSexFilter', 'ngNotify', 'ServiceApplication', 'base64', '$uibModal', 'ServicePathConstants', 'ServiceProxy', '$q', '$scope', 'MessageUtils', '$rootScope', '$location', 'AngularUtils',
+        function (formatSexFilter, ngNotify, ServiceApplication, base64, $uibModal, ServicePathConstants, ServiceProxy, $q, $scope, MessageUtils, $rootScope, $location, AngularUtils) {
             var self = this;
 
             var _msg = 'Verifique o formulário pois pode conter erros';
-            var page = 0;
-            self.ehPermissionUser = false;
             var _petUrl = ServicePathConstants.PRIVATE_PATH + '/pet';
 
+            self.enableValid = true;
+            self.ehPermissionUser = false;
             self.sexs = ["macho", "femea"];
             self.pets = [];
-
             self.gridOptions = {
                 columnDefs: getColumnDefs('pet')
             };
@@ -80,6 +79,9 @@ angular.module('dog-system')
             }
 
             function add() {
+
+                angular.element(document.querySelector('#imagem')).val(null);
+
                 self.pet = {
                     image: {
                         filetype: 'image/svg+xml;utf8',
@@ -98,7 +100,7 @@ angular.module('dog-system')
                 self.pet = selected[0];
                 if (self.pet) {
                     setFacePanel(1);
-                } else if(angular.isUndefined(param)){
+                } else if (angular.isUndefined(param)) {
                     MessageUtils.error('Selecione um animal para editar');
                 }
             }
@@ -143,7 +145,7 @@ angular.module('dog-system')
             function getColumnDefs(tipo) {
                 if (tipo == 'user') {
                     return [
-                        { headerName: "Código", field: "id", width: 100, cellStyle: { 'text-align': 'right' }},
+                        { headerName: "Código", field: "id", width: 100, cellStyle: { 'text-align': 'right' } },
                         { headerName: "Name", field: "name", width: 250 },
                         { headerName: "Email", field: "email", suppressFilter: true, width: 200 },
                         {
@@ -160,7 +162,7 @@ angular.module('dog-system')
                 } else if (tipo == 'breed') {
 
                     return [
-                        { headerName: "Código", field: "id", width: 100, cellStyle: { 'text-align': 'right' }},
+                        { headerName: "Código", field: "id", width: 100, cellStyle: { 'text-align': 'right' } },
                         { headerName: "Nome", field: "name", width: 300 },
                         { headerName: "Vida", suppressFilter: true, field: "life", width: 150 },
                         { headerName: "Peso", suppressFilter: true, field: "weight", width: 160 },
@@ -169,17 +171,21 @@ angular.module('dog-system')
 
                 } else if (tipo == 'pet') {
                     return [
-                        { headerName: "Código", field: "id", width: 100, cellStyle: { 'text-align': 'right' }},
+                        { headerName: "Código", field: "id", width: 100, cellStyle: { 'text-align': 'right' } },
                         { headerName: "Nome propriétario", field: "user.name", width: 265 },
                         { headerName: "Nome pet", field: "name" },
                         {
-                            headerName: "Data Nascimento", field: "dateBirth", cellStyle: { 'text-align': 'right' }, valueGetter: function chainValueGetter(params) {
+                            headerName: "Data Nascimento", field: "dateBirth", cellStyle: { 'text-align': 'right' }, valueGetter: function (params) {
                                 return AngularUtils.formatDate(params.data.dateBirth);
                             }
                         },
-                        { headerName: "Sexo", field: "sex" },
                         {
-                            headerName: "Usa DogLove", width: 150, suppressFilter: true, field: "usaDogLove",
+                            headerName: "Sexo", field: "sex", valueGetter: function (params) {
+                                return formatSexFilter(params.data.sex);
+                            }
+                        },
+                        {
+                            headerName: "Usa DogLove", width: 150, suppressFilter: true, cellStyle: { 'text-align': 'center' }, field: "usaDogLove",
                             cellRenderer: function (params) {
                                 var icon = params.data.usaDogLove ? 'fa-toggle-on' : 'fa-toggle-off';
                                 return '<i class="fa ' + icon + '" aria-hidden="true" style="font-size: 26px;" ></i>';
@@ -188,7 +194,7 @@ angular.module('dog-system')
                         },
                         { headerName: "Porte", field: "breed.porte" },
                         {
-                            headerName: "Especie", field: "tipoAnimal", width: 129, suppressFilter: true,
+                            headerName: "Especie", field: "tipoAnimal", width: 129, cellStyle: { 'text-align': 'center' }, suppressFilter: true,
                             cellRenderer: function (params) {
                                 var icon = params.data.breed.tipoAnimal == 'Cão' ? 'dog.svg' : 'cat.svg';
                                 return '<img src="img/' + icon + '" style="width: 24px;"></i>';
@@ -289,7 +295,7 @@ angular.module('dog-system')
                     if (self.pet.id) {
                         ServiceProxy.edit(_petUrl, self.pet, function (response) {
                             self.gridOptions.api.refreshCells();
-                            setFacePanel(0);
+                            ngNotify.set('O Animal foi atualizado com sucesso');
                         });
                     } else {
                         var user = '';
@@ -299,11 +305,13 @@ angular.module('dog-system')
 
                         ServiceProxy.add(_petUrl + user, self.pet, function (response) {
                             self.gridOptions.api.updateRowData({ add: [response.data] });
-                            setFacePanel(0);
+                            ngNotify.set('O Animal foi inserido com sucesso');
                         });
                     }
 
+                    self.enableValid = false;
                 } catch (error) {
+                    self.enableValid = true;
                     MessageUtils.error(error);
                 }
             }
@@ -322,7 +330,7 @@ angular.module('dog-system')
                                 }
                             });
                         });
-                }else{
+                } else {
                     MessageUtils.error('Selecione um animal para remover');
                 }
             };
