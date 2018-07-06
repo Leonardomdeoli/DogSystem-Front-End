@@ -1,65 +1,69 @@
 {
-  "name": "dog-system",
-  "version": "1.0.0",
-  "description": "Projeto de conclusão de curso TCC - Una Uberlândia",
-  "main": "app.js",
-  "dependencies": {
-    "ag-grid": "17.0.0",
-    "angular": "1.6.9",
-    "angular-animate": "1.6.9",
-    "angular-aria": "1.6.9",
-    "angular-base64-upload": "0.1.23",
-    "angular-cookies": "1.5.3",
-    "angular-crypto": "0.0.3",
-    "angular-input-masks": "4.1.0",
-    "angular-material": "1.1.7",
-    "angular-messages": "1.4.0",
-    "angular-route": "1.5.3",
-    "angular-sanitize": "1.5.0",
-    "angular-ui-bootstrap": "2.5.6",
-    "bootstrap": "3.3.7",
-    "browser-sync": "2.23.6",
-    "checklist-model": "0.11.0",
-    "crypto-js": "3.1.9-1",
-    "csslint-stylish": "0.0.6",
-    "font-awesome": "4.7.0",
-    "gulp": "3.9.1",
-    "gulp-build": "0.5.3",
-    "gulp-clean": "0.4.0",
-    "gulp-concat": "2.6.1",
-    "gulp-connect": "5.5.0",
-    "gulp-csslint": "1.0.1",
-    "gulp-html-replace": "1.6.2",
-    "gulp-imagemin": "4.1.0",
-    "gulp-inject": "4.3.1",
-    "gulp-jshint": "1.11.2",
-    "gulp-less": "4.0.0",
-    "gulp-ngdocs": "0.3.0",
-    "gulp-uglify": "3.0.0",
-    "jimp": "0.2.28",
-    "jquery": "3.2.1",
-    "jshint-stylish": "2.2.1",
-    "less": "3.0.1",
-    "moment": "2.21.0",
-    "ng-notify": "0.7.1",
-    "ngstorage": "0.3.10"
+  "name":"dog-system",
+  "version":"1.0.0",
+  "description":"Projeto de conclusão de curso TCC - Una Uberlândia",
+  "main":"app.js",
+  "dependencies":{
+     "ag-grid":"^17.0.0",
+     "angular":"1.6.9",
+     "angular-animate":"^1.6.9",
+     "angular-aria":"^1.6.9",
+     "angular-base64-upload":"^0.1.23",
+     "angular-cookies":"1.5.3",
+     "angular-crypto":"0.0.3",
+     "angular-input-masks":"4.1.0",
+     "angular-material":"^1.1.7",
+     "angular-messages":"1.4.0",
+     "angular-route":"1.5.3",
+     "angular-sanitize":"1.5.0",
+     "angular-ui-bootstrap":"2.5.6",
+     "bootstrap":"3.3.7",
+     "browser-sync":"^2.23.6",
+     "checklist-model":"0.11.0",
+     "crypto-js":"^3.1.9-1",
+     "csslint-stylish":"0.0.6",
+     "font-awesome":"4.7.0",
+     "gulp":"3.9.1",
+     "gulp-build":"0.5.3",
+     "gulp-clean":"0.4.0",
+     "gulp-concat":"2.6.1",
+     "gulp-connect":"^5.5.0",
+     "gulp-csslint":"^1.0.1",
+     "gulp-html-replace":"1.6.2",
+     "gulp-imagemin":"4.1.0",
+     "gulp-inject":"4.3.1",
+     "gulp-jshint":"^1.11.2",
+     "gulp-less":"^4.0.0",
+     "gulp-ngdocs":"^0.3.0",
+     "gulp-uglify":"3.0.0",
+     "jimp":"^0.2.28",
+     "jquery":"3.2.1",
+     "jshint-stylish":"^2.2.1",
+     "less":"^3.0.1",
+     "moment":"2.21.0",
+     "ng-notify":"^0.7.1",
+     "ngstorage":"0.3.10"
   },
-  "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+  "scripts":{
+     "test":"echo \"Error: no test specified\" && exit 1"
   },
-  "repository": {
-    "type": "git",
-    "url": "https://gitlab.com/Leoosaid/projeto-faculdade.git"
+  "repository":{
+     "type":"git",
+     "url":"https://gitlab.com/Leoosaid/projeto-faculdade.git"
   },
-  "keywords": [
-    "add"
+  "keywords":[
+     "add"
   ],
-  "author": "Leonardo Mendes",
-  "email": "leonardomdeoli@gmail.com",
-  "url": "https://www.linkedin.com/in/leonardomdeoli/",
-  "license": "MIT",
-  "bugs": {
-    "url": "https://gitlab.com/Leoosaid/projeto-faculdade/issues"
+  "author":"Leonardo Mendes",
+  "email":"leonardomdeoli@gmail.com",
+  "url":"https://www.linkedin.com/in/leonardomdeoli/",
+  "license":"MIT",
+  "engines":{
+     "node":">= 0.10",
+     "npm":"5.7.1"
   },
-  "homepage": "https://gitlab.com/Leoosaid/projeto-faculdade#README"
+  "bugs":{
+     "url":"https://gitlab.com/Leoosaid/projeto-faculdade/issues"
+  },
+  "homepage":"https://gitlab.com/Leoosaid/projeto-faculdade#README"
 }
