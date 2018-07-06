@@ -126,7 +126,7 @@ angular.module('dog-system')
               rowData.setSelected(true);
             }
             modifyTela(false);
-            
+
             self.showFilter = false;
 
           });
@@ -355,6 +355,9 @@ angular.module('dog-system')
         var selected = self.gridOptions.api.getSelectedRows();
         self.agenda = selected[0];
         if (self.agenda) {
+          var schedulingDate = new Date(self.agenda.schedulingDate);
+          schedulingDate.setDate(schedulingDate.getDate() + 1);
+          self.agenda.schedulingDate = schedulingDate;
           setFacePanel(1);
         } else if (angular.isUndefined(param)) {
           MessageUtils.error('Selecione uma agenda para editar');

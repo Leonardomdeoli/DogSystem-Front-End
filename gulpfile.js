@@ -26,6 +26,9 @@ gulp.task('default', ['gulp-inject', 'browser-sync', 'watch']);
 // Importa as dependencias para o projeto apos npm install
 gulp.task('gulp-import', ['lib-js', 'lib-css', 'lib-font']);
 
+
+gulp.task('deploy', ['clean', 'copy', 'gulp-image-min', 'gulp-concat-js', 'gulp-concat-css', 'gulp-html-replace']);
+
 //Gerando documentação
 gulp.task('doc', function () {
   var gulpDocs = require('gulp-ngdocs');
@@ -120,7 +123,6 @@ gulp.task('watch', function () {
     })).pipe(gulp.dest('app/src/css'));
   });
 });
-
 
 gulp.task('gulp-less', function () {
   var stream = gulp.src('app/src/less/*.less').pipe(less().on('error', function (erro) {
